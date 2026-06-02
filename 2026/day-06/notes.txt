@@ -1,4 +1,4 @@
-1. Hi, I am Jaishree Chaure
-2. This is my Day 06 of Learning Linux
-3. I am Cloud Certified Practitioner
-4. Learning file read and write operations using Linux commands
+Hi, I am Jaishree Chaure
+This is my Day 06 of Learning Linux
+I am Cloud Certified Practitioner
+Learning file read and write operations using Linux commands
