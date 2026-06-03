@@ -327,17 +327,5 @@ Verify that the execute permission has been successfully added.
 **Why:**
 Execute the script after correcting its permissions.
 
-### What I Learned
 
-Linux file permissions determine who can read, write, and execute files. Proper permissions are required before running scripts.
----
-
-# Key Takeaways
-
-- Linux follows a structured file system hierarchy.
-- `/etc` stores configuration files.
-- `/var/log` is essential for troubleshooting.
-- `systemctl` is used to manage services.
-- `journalctl` helps investigate service logs.
-- File permissions are important for security and script execution.
 
