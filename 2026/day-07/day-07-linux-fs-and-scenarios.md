@@ -139,51 +139,53 @@ I want to check manually installed software.
 
 # Scenario-Based Practice
 
-## Scenario 1: Service Not Starting
+## Scenario 1: Checking if Nginx Service is Running
 
-### Problem
+### Question
 
-A service named `myapp` failed to start after a server reboot.
+How do you check if the `nginx` service is running?
 
-### Step 1
+### My Solution (Step by Step)
 
-```bash
-systemctl status myapp
-```
-
-**Why:**
-Check whether the service is active, inactive, or failed.
-
-### Step 2
+#### Step 1: Check service status
 
 ```bash
-journalctl -u myapp -n 50
+systemctl status nginx
 ```
 
-**Why:**
-Review recent logs to identify the cause of failure.
+**Why this command?**
+It shows whether the Nginx service is active, inactive, or failed.
 
-### Step 3
+#### Step 2: Check if Nginx is enabled on boot
 
 ```bash
-systemctl is-enabled myapp
+systemctl is-enabled nginx
 ```
 
-**Why:**
-Verify whether the service is configured to start automatically during boot.
+**Why this command?**
+It verifies whether Nginx will start automatically after a server reboot.
 
-### Step 4
+#### Step 3: View recent Nginx logs
 
 ```bash
-systemctl restart myapp
+journalctl -u nginx -n 20
 ```
 
-**Why:**
-Attempt to restart the service after reviewing logs.
+**Why this command?**
+It displays recent logs and helps identify startup issues.
+
+#### Step 4: Check if Nginx is listening on a port
+
+```bash
+sudo ss -tulpn | grep nginx
+```
+
+**Why this command?**
+It confirms that Nginx is running and accepting connections.
 
 ### What I Learned
 
-Always check service status first, then investigate logs before making changes.
+Always check the service status first, then review logs and verify that the service is listening on the expected port.
 
 ---
 
@@ -247,17 +249,11 @@ A developer wants to check Docker service logs.
 systemctl status docker
 ```
 
-**Why:**
-Verify the current status of the Docker service.
-
 ### Step 2
 
 ```bash
 journalctl -u docker -n 50
 ```
-
-**Why:**
-View the latest Docker service logs.
 
 ### Step 3
 
@@ -265,17 +261,11 @@ View the latest Docker service logs.
 journalctl -u docker -f
 ```
 
-**Why:**
-Follow Docker logs in real time.
-
 ### Step 4
 
 ```bash
 docker logs <container_id>
 ```
-
-**Why:**
-View logs of a specific running container.
 
 ### What I Learned
 
@@ -295,17 +285,11 @@ A script named `backup.sh` shows "Permission denied" when executed.
 ls -l backup.sh
 ```
 
-**Why:**
-Check the current file permissions.
-
 ### Step 2
 
 ```bash
 chmod +x backup.sh
 ```
-
-**Why:**
-Add execute permission to the script.
 
 ### Step 3
 
@@ -313,17 +297,11 @@ Add execute permission to the script.
 ls -l backup.sh
 ```
 
-**Why:**
-Verify that execute permission has been added.
-
 ### Step 4
 
 ```bash
 ./backup.sh
 ```
-
-**Why:**
-Run the script after correcting permissions.
 
 ### What I Learned
 
@@ -339,3 +317,4 @@ Linux permissions control who can read, write, and execute files.
 - `systemctl` is used to manage services.
 - `journalctl` helps investigate service logs.
 - File permissions are important for security and script execution.
+
