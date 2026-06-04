@@ -7,11 +7,6 @@
 - Create script.sh
 - Verify files using ls -l
 
-```bash
-touch devops.txt notes.txt
-echo "Notes for 90daysofdevops" > notes.txt
-echo "Hello DevOps" > script.sh
-ls -l
 ```
 
 ![create_files](images/02-file-created.png)
@@ -22,32 +17,24 @@ ls -l
 
 - Read notes.txt using cat
 
-```bash
-cat notes.txt
 ```
 
 ![notes_file](images/03-cat-note-file.png)
 
 - View script.sh in vim read-only mode
 
-```bash
-vim -R script.sh
 ```
 
 ![vim](images/001.png)
 
 - Display first 5 lines of /etc/passwd using head
 
-```bash
-head -n 5 /etc/passwd
 ```
 
 ![head](images/04-head.png)
 
 - Display last 5 lines of /etc/passwd using tail
 
-```bash
-tail -n 5 /etc/passwd
 ```
 
 ![tail](images/05-tail.png)
@@ -58,8 +45,6 @@ tail -n 5 /etc/passwd
 
 ## Understand Permissions
 
-```bash
-ls -l
 ```
 
 ![permissions](images/06-permissions.png)
@@ -86,10 +71,6 @@ ls -l
 
 ## Make script.sh executable → run it with ./script.sh
 
-```bash
-chmod +x script.sh
-ls -l script.sh
-./script.sh
 ```
 
 ![script](images/07-modify-permmission.png)
@@ -100,9 +81,6 @@ ls -l script.sh
 - Initially script contained only text, so Linux tried to execute `Hello` as a command.
 - After adding:
 
-```bash
-#!/bin/bash
-echo "Hello DevOps"
 ```
 
 the script executed successfully.
@@ -117,9 +95,6 @@ Hello DevOps
 
 ## Set devops.txt to read-only
 
-```bash
-chmod -w devops.txt
-ls -l
 ```
 
 ![readonly](images/08-readonly.png)
@@ -133,9 +108,6 @@ ls -l
 
 ## Set notes.txt to 640
 
-```bash
-chmod 640 notes.txt
-ls -l
 ```
 
 ![notes_permission](images/09-notes-file.png)
@@ -152,9 +124,6 @@ Permission 640 means:
 
 ## Create directory project/ with permissions 755
 
-```bash
-mkdir -m 755 project
-ls -ld project
 ```
 
 ![project](images/10-project-dir.png)
@@ -177,10 +146,6 @@ Permission 755 means:
 
 Writing to a read-only file gives **Permission denied** because write permission is removed.
 
-```bash
-echo "Hello" > readonly.txt
-chmod 444 readonly.txt
-echo "New Text" > readonly.txt
 ```
 
 Output:
@@ -199,10 +164,6 @@ bash: readonly.txt: Permission denied
 
 Executing a file without execute permission gives **Permission denied** because Linux requires execute (`x`) permission.
 
-```bash
-echo 'echo "Hello DevOps"' > test.sh
-chmod 644 test.sh
-./test.sh
 ```
 
 Output:
@@ -213,9 +174,6 @@ bash: ./test.sh: Permission denied
 
 After adding execute permission:
 
-```bash
-chmod +x test.sh
-./test.sh
 ```
 
 Output:
