@@ -260,8 +260,3 @@ By completing this challenge, I learned:
 - SSH key-based authentication
 - Multi-user collaboration in Linux
 
----
-
-# Conclusion
-
-Day 09 focused on Linux User & Group Management. I practiced creating users and groups, managing permissions, configuring shared workspaces, and enabling SSH access for custom users. These are fundamental Linux administration skills required in real-world DevOps environments.
