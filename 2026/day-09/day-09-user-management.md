@@ -1,124 +1,61 @@
 # Day 09 - Linux User & Group Management Challenge
 
-## Overview
+## Task
 
-Today I practiced Linux user and group management by creating users, assigning groups, managing permissions, creating shared directories, and configuring SSH login for a custom user.
+Practice Linux user and group management by completing the following tasks:
+
+- Create users and set passwords
+- Create groups and assign users
+- Configure shared directories
+- Manage permissions
+- Configure SSH login for custom users
 
 ---
 
-## Users Created
+# Task 1: Create Users
 
-Created the following users with home directories and passwords:
+Created the following users:
 
 - tokyo
 - berlin
 - professor
-- nairobi
-
-### Commands Used
-
-```bash
-sudo useradd -m tokyo
-sudo passwd tokyo
-
-sudo useradd -m berlin
-sudo passwd berlin
-
-sudo useradd -m professor
-sudo passwd professor
-
-sudo useradd -m nairobi
-sudo passwd nairobi
-```
 
 ### Verification
 
 ```bash
-grep -E "tokyo|berlin|professor|nairobi" /etc/passwd
+cat /etc/passwd | grep -E "tokyo|berlin|professor"
 ```
 
-```bash
-ls /home
-```
+### Screenshot
+
+![Users Created](images/02-users-groups.png)
 
 ---
 
-## Groups Created
+# Task 2: Create Groups
 
 Created the following groups:
 
 - developers
 - admins
-- project-team
-
-### Commands Used
-
-```bash
-sudo groupadd developers
-sudo groupadd admins
-sudo groupadd project-team
-```
 
 ### Verification
 
 ```bash
-grep -E "developers|admins|project-team" /etc/group
+cat /etc/group | grep -E "developers|admins"
 ```
+
+### Screenshot
+
+![Groups Created](images/02-users-groups.png)
 
 ---
 
-## Group Assignments
+# Task 3: Change Default Shell
 
-### developers
+Changed login shell from `/bin/sh` to `/bin/bash`.
 
-- tokyo
-- berlin
-
-### admins
-
-- berlin
-- professor
-
-### project-team
-
-- tokyo
-- nairobi
-
-### Commands Used
-
-```bash
-sudo gpasswd -a tokyo developers
-sudo gpasswd -a berlin developers
-
-sudo usermod -aG admins berlin
-sudo gpasswd -a professor admins
-
-sudo gpasswd -a tokyo project-team
-sudo gpasswd -a nairobi project-team
-```
-
-### Verification
-
-```bash
-id tokyo
-id berlin
-id professor
-id nairobi
-```
-
-```bash
-getent group developers
-getent group admins
-getent group project-team
-```
-
----
-
-## Changed Default Shell
-
-Changed the default login shell from `/bin/sh` to `/bin/bash`.
-
-### Commands Used
+### Commands
 
 ```bash
 sudo usermod -s /bin/bash tokyo
@@ -129,36 +66,50 @@ sudo usermod -s /bin/bash professor
 ### Verification
 
 ```bash
-grep -E "tokyo|berlin|professor" /etc/passwd
+cat /etc/passwd | grep -E "tokyo|berlin|professor"
 ```
 
-Expected output:
+### Screenshot
 
-```text
-/home/tokyo:/bin/bash
-/home/berlin:/bin/bash
-/home/professor:/bin/bash
-```
+![Bash Shell](images/03-bin-bash-shell.png)
 
 ---
 
-## Shared Directory - Developers
+# Task 4: Assign Users to Groups
 
-Created a shared project directory for developers.
+### Group Memberships
 
-### Directory
+| Group | Members |
+|---------|---------|
+| developers | tokyo, berlin |
+| admins | berlin, professor |
+| project-team | nairobi, tokyo |
+
+### Verification
+
+```bash
+cat /etc/group | tail
+```
+
+### Screenshot
+
+![Group Assignment](images/04-total-group-assigned.png)
+
+---
+
+# Task 5: Create Shared Directory
+
+Created a shared project directory:
 
 ```text
 /opt/dev-project
 ```
 
-### Commands Used
+### Configuration
 
 ```bash
 sudo mkdir -p /opt/dev-project
-
 sudo chgrp developers /opt/dev-project
-
 sudo chmod 775 /opt/dev-project
 ```
 
@@ -168,199 +119,149 @@ sudo chmod 775 /opt/dev-project
 ls -ld /opt/dev-project
 ```
 
-Expected:
+### Screenshot
 
-```text
-drwxrwxr-x
-```
+![Directory Created](images/05-directories.png)
 
 ---
 
-## Testing Access as Tokyo
+# Task 6: Verify Home Directories
 
-Logged in as tokyo and created files.
-
-### Commands Used
+### Command
 
 ```bash
-su - tokyo
-
-cd /opt/dev-project
-
-touch test.txt
-
-echo "Hi, this is tokyo" > text.txt
-
-cat text.txt
+ls /home
 ```
 
-### Output
+### Screenshot
 
-```text
-Hi, this is tokyo
-```
+![Home Directories](images/06-home-dir.png)
 
 ---
 
-## Testing Access as Berlin
+# Task 7: Test Shared Directory Access
 
-Logged in as berlin and verified access.
+Logged in as:
 
-### Commands Used
+- tokyo
+- berlin
 
-```bash
-su - berlin
+Created files inside the shared directory.
 
-cd /opt/dev-project
+### Screenshot
 
-cat text.txt
-
-touch berlin.txt
-
-echo "Hello, I am berlin" > berlin.txt
-
-cat berlin.txt
-```
-
-### Output
-
-```text
-Hello, I am berlin
-```
+![Shared Directory](images/07-shared-dir.png)
 
 ---
 
-## Team Workspace
+# Task 8: Create Team Workspace
 
-Created a team workspace for project-team members.
+Created:
 
-### Directory
+- User: nairobi
+- Group: project-team
+- Workspace: /opt/team-workspace
 
-```text
-/opt/team-workspace
-```
-
-### Commands Used
+### Commands
 
 ```bash
+sudo useradd -m nairobi
+sudo passwd nairobi
+
+sudo groupadd project-team
+
+sudo gpasswd -a nairobi project-team
+sudo gpasswd -a tokyo project-team
+
 sudo mkdir -p /opt/team-workspace
-
 sudo chgrp project-team /opt/team-workspace
-
 sudo chmod 775 /opt/team-workspace
 ```
 
-### Verification
+### Screenshot
 
-```bash
-ls -ld /opt/team-workspace
-```
-
-Expected:
-
-```text
-drwxrwxr-x
-```
+![Nairobi Workspace](images/08-nairobi.png)
 
 ---
 
-## Testing Access as Nairobi
+# Task 9: Configure SSH Access for Berlin User
 
-Created a file as nairobi.
-
-### Commands Used
-
-```bash
-sudo -u nairobi touch nairobi_test.txt
-
-echo "hi, this file is created by nairobi" | sudo -u nairobi tee nairobi_test.txt
-```
-
-### Verification
-
-```bash
-ls -l
-```
-
-Expected:
-
-```text
--rw-r--r-- 1 nairobi nairobi
-```
-
----
-
-## SSH Login as Berlin
-
-Configured SSH access for berlin using the same EC2 key pair.
-
-### Commands Used
+### Commands
 
 ```bash
 sudo mkdir -p /home/berlin/.ssh
 
-sudo cp /home/ubuntu/.ssh/authorized_keys /home/berlin/.ssh/
+sudo cp /home/ubuntu/.ssh/authorized_keys \
+/home/berlin/.ssh/
 
-sudo chown -R berlin:berlin /home/berlin/.ssh
+sudo chown -R berlin:berlin \
+/home/berlin/.ssh
 
 sudo chmod 700 /home/berlin/.ssh
 
-sudo chmod 600 /home/berlin/.ssh/authorized_keys
+sudo chmod 600 \
+/home/berlin/.ssh/authorized_keys
+```
+
+### Screenshot
+
+![SSH Setup](images/09-ssh-berlin.png)
+
+---
+
+# Task 10: Login as Berlin User
+
+### Command
+
+```bash
+ssh -i "miya.pem" berlin@<public-ip>
 ```
 
 ### Verification
-
-```bash
-sudo ls -ld /home/berlin/.ssh
-
-sudo ls -l /home/berlin/.ssh
-```
-
-SSH login:
-
-```bash
-ssh -i "miya.pem" berlin@ec2-44-244-230-112.us-west-2.compute.amazonaws.com
-```
-
-Verify:
 
 ```bash
 whoami
 pwd
 ```
 
-Output:
+### Screenshot
 
-```text
-berlin
-/home/berlin
-```
+![Berlin Login](images/10-ssh-berlin-login.png)
 
 ---
 
-## Key Learnings
+# Commands Used
 
-1. Created and managed Linux users and groups.
-2. Assigned users to multiple groups using `gpasswd` and `usermod -aG`.
-3. Configured shared directories using group ownership and permissions.
-4. Changed default login shells using `usermod -s`.
-5. Used `sudo -u` to execute commands as another user.
-6. Configured SSH access for a custom Linux user.
-7. Learned the difference between file ownership, group ownership, and permissions.
+| Command | Purpose |
+|----------|----------|
+| useradd -m username | Create user |
+| passwd username | Set password |
+| groupadd groupname | Create group |
+| usermod -s /bin/bash username | Change shell |
+| gpasswd -a user group | Add user to group |
+| mkdir -p directory | Create directory |
+| chgrp group directory | Change group ownership |
+| chmod 775 directory | Set permissions |
+| ssh -i key.pem user@host | SSH login |
+| cat /etc/passwd | Verify users |
+| cat /etc/group | Verify groups |
+
+---
+
+# Learning Outcome
+
+By completing this challenge, I learned:
+
+- Linux user management
+- Linux group management
+- Group permissions
+- Shared directory access
+- Home directory management
+- SSH key-based authentication
+- Multi-user collaboration in Linux
 
 ---
 
-## Screenshots
+# Conclusion
 
-Screenshots of all command outputs are available in the `images/` directory.
-
-- User creation
-- Group creation
-- Group assignment
-- Shell modification
-- Shared directory permissions
-- Nairobi file creation
-- SSH login as berlin
-
----
-#90DaysOfDevOps #Linux #DevOps #AWS #UserManagement
+Day 09 focused on Linux User & Group Management. I practiced creating users and groups, managing permissions, configuring shared workspaces, and enabling SSH access for custom users. These are fundamental Linux administration skills required in real-world DevOps environments.
