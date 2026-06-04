@@ -7,8 +7,6 @@
 - Create script.sh
 - Verify files using ls -l
 
-```
-
 ![create_files](images/02-file-created.png)
 
 ---
@@ -17,25 +15,20 @@
 
 - Read notes.txt using cat
 
-```
-
 ![notes_file](images/03-cat-note-file.png)
 
 - View script.sh in vim read-only mode
 
-```
 
 ![vim](images/001.png)
 
 - Display first 5 lines of /etc/passwd using head
 
-```
 
 ![head](images/04-head.png)
 
 - Display last 5 lines of /etc/passwd using tail
 
-```
 
 ![tail](images/05-tail.png)
 
@@ -45,7 +38,6 @@
 
 ## Understand Permissions
 
-```
 
 ![permissions](images/06-permissions.png)
 
@@ -71,7 +63,6 @@
 
 ## Make script.sh executable → run it with ./script.sh
 
-```
 
 ![script](images/07-modify-permmission.png)
 
@@ -81,10 +72,11 @@
 - Initially script contained only text, so Linux tried to execute `Hello` as a command.
 - After adding:
 
-```
 
 the script executed successfully.
 
+
+```
 Output:
 
 ```text
@@ -95,7 +87,6 @@ Hello DevOps
 
 ## Set devops.txt to read-only
 
-```
 
 ![readonly](images/08-readonly.png)
 
@@ -108,7 +99,6 @@ Hello DevOps
 
 ## Set notes.txt to 640
 
-```
 
 ![notes_permission](images/09-notes-file.png)
 
@@ -124,7 +114,6 @@ Permission 640 means:
 
 ## Create directory project/ with permissions 755
 
-```
 
 ![project](images/10-project-dir.png)
 
