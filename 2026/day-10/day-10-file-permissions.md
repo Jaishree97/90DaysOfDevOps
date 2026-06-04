@@ -1,14 +1,11 @@
-# Day 10 - Linux File Permissions & File Operations
+# File Permissions & File Operations Challenge
 
 ## Files Created
 
-Created the following files:
-
-- `devops.txt`
-- `notes.txt`
-- `script.sh`
-
-### Commands Used
+- Create empty file devops.txt using touch
+- Create notes.txt with content using echo
+- Create script.sh
+- Verify files using ls -l
 
 ```bash
 touch devops.txt notes.txt
@@ -17,111 +14,98 @@ echo "Hello DevOps" > script.sh
 ls -l
 ```
 
-### Screenshot
-
-![Files Created](images/02-file-created.png)
+![create_files](images/02-file-created.png)
 
 ---
 
-## Read File Content
+## Read Files
 
-Displayed the contents of `notes.txt`.
+- Read notes.txt using cat
 
 ```bash
 cat notes.txt
 ```
 
-### Output
+![notes_file](images/03-cat-note-file.png)
 
-```text
-Notes for 90daysofdevops
-```
-
-### Screenshot
-
-![Notes File](images/03-cat-note-file.png)
-
----
-
-## View Script in Read-Only Mode
-
-Opened the script file in Vim read-only mode.
+- View script.sh in vim read-only mode
 
 ```bash
 vim -R script.sh
 ```
 
-### Screenshot
+![vim](images/001.png)
 
-![Vim Read Only](images/001.png)
-
----
-
-## Display First 5 Lines of /etc/passwd
+- Display first 5 lines of /etc/passwd using head
 
 ```bash
 head -n 5 /etc/passwd
 ```
 
-### Screenshot
+![head](images/04-head.png)
 
-![Head Command](images/04-head.png)
-
----
-
-## Display Last 5 Lines of /etc/passwd
+- Display last 5 lines of /etc/passwd using tail
 
 ```bash
 tail -n 5 /etc/passwd
 ```
 
-### Screenshot
-
-![Tail Command](images/05-tail.png)
+![tail](images/05-tail.png)
 
 ---
 
-# Understanding File Permissions
+# Permission Changes
 
-Checked file permissions using:
+## Understand Permissions
 
 ```bash
 ls -l
 ```
 
-### Screenshot
+![permissions](images/06-permissions.png)
 
-![Permissions](images/06-permissions.png)
+### Current permissions
 
-### Observations
+**devops.txt : -rw-rw-r--**
 
-| File | Permissions |
-|--------|------------|
-| devops.txt | rw-r--r-- |
-| notes.txt | rw-r--r-- |
-| script.sh | rw-r--r-- |
+- `-` → Regular file
+- `rw-` → Owner can read and write
+- `rw-` → Group can read and write
+- `r--` → Others can only read
+
+**notes.txt : -rw-rw-r--**
+
+- Same permissions as devops.txt
+
+**script.sh : -rw-rw-r--**
+
+- Read and write permissions available
+- Execute permission not available
 
 ---
 
-# Modify Permissions
+## Make script.sh executable → run it with ./script.sh
 
-## Make script.sh Executable
+```bash
+chmod +x script.sh
+ls -l script.sh
+./script.sh
+```
 
-Initially, running the script produced an error because it contained plain text instead of a command.
+![script](images/07-modify-permmission.png)
 
-After updating the file with:
+### Explanation
+
+- `chmod +x` adds execute permission.
+- Initially script contained only text, so Linux tried to execute `Hello` as a command.
+- After adding:
 
 ```bash
 #!/bin/bash
 echo "Hello DevOps"
 ```
 
-and granting execute permission:
-
-```bash
-chmod +x script.sh
-./script.sh
-```
+the script executed successfully.
 
 Output:
 
@@ -129,76 +113,91 @@ Output:
 Hello DevOps
 ```
 
-### Screenshot
-
-![Script Permission](images/07-modify-permmission.png)
-
 ---
 
-## Make devops.txt Read-Only
-
-Removed write permission.
+## Set devops.txt to read-only
 
 ```bash
 chmod -w devops.txt
 ls -l
 ```
 
-### Screenshot
+![readonly](images/08-readonly.png)
 
-![Read Only File](images/08-readonly.png)
+### Explanation
+
+- `-w` removes write permission.
+- File becomes read-only.
 
 ---
 
-## Change notes.txt Permission to 640
+## Set notes.txt to 640
 
 ```bash
 chmod 640 notes.txt
 ls -l
 ```
 
-### Screenshot
+![notes_permission](images/09-notes-file.png)
 
-![Notes Permission](images/09-notes-file.png)
+### Explanation
+
+Permission 640 means:
+
+- Owner → read + write
+- Group → read only
+- Others → no permission
 
 ---
 
-## Create Project Directory with Permission 755
+## Create directory project/ with permissions 755
 
 ```bash
 mkdir -m 755 project
 ls -ld project
 ```
 
-### Screenshot
+![project](images/10-project-dir.png)
 
-![Project Directory](images/10-project-dir.png)
+### Explanation
+
+Permission 755 means:
+
+- Owner → rwx
+- Group → r-x
+- Others → r-x
 
 ---
 
-# Permission Testing
+# Test Permissions
 
-## Test 1: Write to a Read-Only File
+## Try writing to a read-only file
+
+### Answer
+
+Writing to a read-only file gives **Permission denied** because write permission is removed.
 
 ```bash
-echo "New Text" > readonly.txt
+echo "Hello" > readonly.txt
 chmod 444 readonly.txt
 echo "New Text" > readonly.txt
 ```
 
-### Result
+Output:
 
 ```text
-Permission denied
+bash: readonly.txt: Permission denied
 ```
 
-### Screenshot
-
-![Read Only Test](images/11-testing-file.png)
+![readonly_test](images/11-testing-file.png)
 
 ---
 
-## Test 2: Execute File Without Execute Permission
+## Try executing a file without execute permission
+
+### Answer
+
+Executing a file without execute permission gives **Permission denied** because Linux requires execute (`x`) permission.
 
 ```bash
 echo 'echo "Hello DevOps"' > test.sh
@@ -206,10 +205,10 @@ chmod 644 test.sh
 ./test.sh
 ```
 
-### Result
+Output:
 
 ```text
-Permission denied
+bash: ./test.sh: Permission denied
 ```
 
 After adding execute permission:
@@ -225,17 +224,28 @@ Output:
 Hello DevOps
 ```
 
-### Screenshot
-
-![Execute Permission Test](images/12-tesing.png)
+![execute_test](images/12-tesing.png)
 
 ---
 
+# Commands Used
+
+- `touch` → Create empty file
+- `echo` → Write content to file
+- `cat` → Display file content
+- `vim -R` → Open file in read-only mode
+- `head -n 5` → Show first 5 lines
+- `tail -n 5` → Show last 5 lines
+- `chmod +x` → Add execute permission
+- `chmod -w` → Remove write permission
+- `chmod 640` → Set custom permission
+- `mkdir -m 755` → Create directory with permission 755
+- `ls -l` → View permissions
+
 # What I Learned
 
-- Linux permissions are controlled using `chmod`.
-- Execute permission (`x`) is required to run shell scripts directly.
-- Read-only files prevent modifications by normal users.
-- `head` and `tail` help inspect large files quickly.
-- Directory permissions can be assigned during creation using `mkdir -m`.
-- `vim -R` opens files safely in read-only mode.
+- Linux permissions control access to files and directories.
+- Execute permission is required to run scripts directly.
+- Read-only files cannot be modified.
+- Numeric permissions like 640 and 755 provide fine-grained access control.
+- `chmod` can modify permissions using symbolic and numeric methods.
