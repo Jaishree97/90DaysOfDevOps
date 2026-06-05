@@ -1,6 +1,6 @@
 # Revision (Days 01–11)
 
-- My goal for 2026 is to become a DevOps Engineer, and I'm confidently progressing in the right direction. With consistent learning, hands-on practice, and a clear focus on mastering Linux, automation, and cloud technologies.
+- In the first 11 days of my #90DaysOfDevOps journey, I focused on building strong Linux fundamentals through hands-on practice. From managing users and permissions to troubleshooting services, every task has helped me understand how real systems work.
 
 ## Processes & services
 
