@@ -37,11 +37,14 @@ cat /etc/group | grep -E "heist-team|planners|vault-team|tech-team"
 ## Files & Directories Created
 
 - devops-file.txt
-- team-notes.txt
-- project-config.yaml
 - app-logs/
-- heist-project/
-- bank-heist/
+- bank-heist/access-codes.txt
+- bank-heist/blueprints.pdf
+- bank-heist/escape-plan.txt
+- heist-project/plans/strategy.conf
+- heist-project/vault/gold.txt
+- project-config.yml
+- team-notes.txt
 
 ---
 
