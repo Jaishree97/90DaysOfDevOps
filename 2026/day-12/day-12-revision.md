@@ -7,8 +7,11 @@
 When my system hangs or slows down, I use the following commands to troubleshoot and check service health:
 
 `ps aux` → Lists all running processes on the system.
+
 `top` → Display sorted information about processes.
+
 `systemctl status <service>` → Displays the status of a specific service (whether it's active, failed, or inactive).
+
 `journalctl -u <service>` → Displays logs for a specific service, useful for debugging issues.
 
 ## File skills
