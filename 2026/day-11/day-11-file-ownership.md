@@ -6,18 +6,17 @@
 - berlin
 - professor
 - nairobi
-
 ![Users Created](images/01-user-created.png)
+
 ---
 
 ## Groups Created
-
 - heist-team
 - planners
 - vault-team
 - tech-team
-
 ![Groups Created](images/02-groups-created.png)
+
 ---
 
 ## Files & Directories Created
@@ -40,7 +39,6 @@
 - The first username is the **Owner**.
 - The second name is the **Group**.
 - Ownership controls who can manage files and directories.
-
 ![Ownership](images/03-devops-file-created.png)
 
 ### Notes
@@ -56,8 +54,8 @@
 - Check current owner: ls -l devops-file.txt
 - Change owner to tokyo
 - Verify the changes
-
 ![chown Operation](images/04-chown-devops-file.png)
+
 ---
 
 ## Basic chgrp Operations
@@ -67,8 +65,8 @@
 - Create group: sudo groupadd heist-team
 - Change file group to heist-team
 - Verify the change
-
 ![Basic chgrp Operations](images/05-team-notes-created.png)
+
 ---
 
 ## Combined Owner & Group Change
@@ -79,8 +77,8 @@ Using `chown`, we can change both owner and group in a single command.
 - Change owner to professor AND group to heist-team (one command)
 - Create directory app-logs/
 - Change its owner to berlin and group to heist-team
-
 ![owner_grp](images/06-project-config-yaml.png)
+
 ---
 
 ## Recursive Ownership
@@ -103,8 +101,8 @@ touch heist-project/plans/strategy.conf
    - Use recursive flag (`-R`)
 
 4. Verify all files and subdirectories changed: `ls -lR heist-project/`
-
 ![Recursive Ownership](images/07-heist-project-dir.png)
+
 ---
 ## Task 6: Practice Challenge
 
@@ -126,8 +124,8 @@ touch bank-heist/escape-plan.txt
    - `escape-plan.txt` → owner: `nairobi`, group: `vault-team`
 
 Verify: `ls -l bank-heist/`
-
 ![Practice Challenge](images/08-bank-heist-dir.png)
+
 ---
 
 ## Commands Used
