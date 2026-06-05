@@ -7,12 +7,6 @@
 - professor
 - nairobi
 
-### Verification
-
-```bash
-cat /etc/passwd | grep -E "berlin|professor|tokyo|nairobi"
-```
-
 ![Users Created](images/01-user-created.png)
 
 ---
@@ -23,12 +17,6 @@ cat /etc/passwd | grep -E "berlin|professor|tokyo|nairobi"
 - planners
 - vault-team
 - tech-team
-
-### Verification
-
-```bash
-cat /etc/group | grep -E "heist-team|planners|vault-team|tech-team"
-```
 
 ![Groups Created](images/02-groups-created.png)
 
@@ -55,13 +43,6 @@ cat /etc/group | grep -E "heist-team|planners|vault-team|tech-team"
 - The second name is the **Group**.
 - Ownership controls who can manage files and directories.
 
-### Example
-
-```bash
-touch devops-file.txt
-ls -l devops-file.txt
-```
-
 ![Ownership](images/03-devops-file-created.png)
 
 ### Notes
@@ -73,29 +54,13 @@ ls -l devops-file.txt
 
 ## Basic chown Operations
 
-### Create File
+- Create file devops-file.txt
 
-```bash
-touch devops-file.txt
-```
+- Check current owner: ls -l devops-file.txt
 
-### Check Current Owner
+- Change owner to tokyo
 
-```bash
-ls -l devops-file.txt
-```
-
-### Change Owner to tokyo
-
-```bash
-sudo chown tokyo devops-file.txt
-```
-
-### Verify
-
-```bash
-ls -l
-```
+- Verify the changes
 
 ![chown Operation](images/04-chown-devops-file.png)
 
@@ -103,35 +68,15 @@ ls -l
 
 ## Basic chgrp Operations
 
-### Create File
+- Create file team-notes.txt
 
-```bash
-touch team-notes.txt
-```
+- Check current group: ls -l team-notes.txt
 
-### Check Current Group
+- Create group: sudo groupadd heist-team
 
-```bash
-ls -l team-notes.txt
-```
+- Change file group to heist-team
 
-### Create Group
-
-```bash
-sudo groupadd heist-team
-```
-
-### Change Group
-
-```bash
-sudo chgrp heist-team team-notes.txt
-```
-
-### Verify
-
-```bash
-ls -l
-```
+- Verify the change
 
 ![chgrp Operation](images/05-team-notes-created.png)
 
@@ -141,70 +86,38 @@ ls -l
 
 Using `chown`, we can change both owner and group in a single command.
 
-### Create File
+- Create file project-config.yml
 
-```bash
-touch project-config.yaml
-```
+- Change owner to professor AND group to heist-team (one command)
 
-### Change Owner & Group
+- Create directory app-logs/
 
-```bash
-sudo chown professor:heist-team project-config.yaml
-```
+- Change its owner to berlin and group to heist-team
 
-### Create Directory
-
-```bash
-mkdir app-logs
-```
-
-### Change Directory Ownership
-
-```bash
-sudo chown berlin:heist-team app-logs/
-```
-
-### Verify
-
-```bash
-ls -l project-config.yaml
-ls -ld app-logs
-```
-
-![Combined Ownership](images/06-project-config-yaml.png)
+![owner_grp](images/06-project-config-yaml.png)
 
 ---
 
 ## Recursive Ownership
 
-### 1. Create Directory Structure
+1. Create directory structure:
 
 ```bash
 mkdir -p heist-project/vault
 mkdir -p heist-project/plans
-
 touch heist-project/vault/gold.txt
 touch heist-project/plans/strategy.conf
 ```
 
-### 2. Create Group
+2. Create group `planners`: `sudo groupadd planners`
 
-```bash
-sudo groupadd planners
-```
+3. Change ownership of entire `heist-project/` directory:
 
-### 3. Change Ownership Recursively
+   - Owner: `professor`
+   - Group: `planners`
+   - Use recursive flag (`-R`)
 
-Owner: professor
-
-Group: planners
-
-```bash
-sudo chown -R professor:planners heist-project/
-```
-
-### 4. Verify
+4. Verify all files and subdirectories changed:
 
 ```bash
 ls -lR heist-project/
@@ -213,27 +126,15 @@ ls -lR heist-project/
 ![Recursive Ownership](images/07-heist-project-dir.png)
 
 ---
-
 ## Task 6: Practice Challenge
 
-### Create Users
+1. Create users: `tokyo`, `berlin`, `nairobi` (if not already created)
 
-- tokyo
-- berlin
-- nairobi
+2. Create groups: `vault-team`, `tech-team`
 
-### Create Groups
+3. Create directory: `bank-heist/`
 
-- vault-team
-- tech-team
-
-### Create Directory
-
-```bash
-mkdir bank-heist/
-```
-
-### Create Files
+4. Create 3 files inside:
 
 ```bash
 touch bank-heist/access-codes.txt
@@ -241,43 +142,15 @@ touch bank-heist/blueprints.pdf
 touch bank-heist/escape-plan.txt
 ```
 
-### Set Different Ownership
+5. Set different ownership:
 
-#### access-codes.txt
+   - `access-codes.txt` → owner: `tokyo`, group: `vault-team`
 
-Owner: tokyo
+   - `blueprints.pdf` → owner: `berlin`, group: `tech-team`
 
-Group: vault-team
+   - `escape-plan.txt` → owner: `nairobi`, group: `vault-team`
 
-```bash
-sudo chown tokyo:vault-team bank-heist/access-codes.txt
-```
-
-#### blueprints.pdf
-
-Owner: berlin
-
-Group: tech-team
-
-```bash
-sudo chown berlin:tech-team bank-heist/blueprints.pdf
-```
-
-#### escape-plan.txt
-
-Owner: nairobi
-
-Group: vault-team
-
-```bash
-sudo chown nairobi:vault-team bank-heist/escape-plan.txt
-```
-
-### Verification
-
-```bash
-ls -l bank-heist/
-```
+Verify: `ls -l bank-heist/`
 
 ![Practice Challenge](images/08-bank-heist-dir.png)
 
@@ -285,41 +158,17 @@ ls -l bank-heist/
 
 ## Commands Used
 
-### View Ownership
+- View ownership : `ls -l filename`
 
-```bash
-ls -l filename
-```
+- Change owner only : `sudo chown newowner filename`
 
-### Change Owner Only
+- Change group only : `sudo chgrp newgroup filename`
 
-```bash
-sudo chown username filename
-```
+- Change both owner and group : `sudo chown owner:group filename`
 
-### Change Group Only
+- Recursive change (directories) : `sudo chown -R owner:group directory/`
 
-```bash
-sudo chgrp groupname filename
-```
-
-### Change Owner & Group
-
-```bash
-sudo chown owner:group filename
-```
-
-### Recursive Ownership Change
-
-```bash
-sudo chown -R owner:group directory/
-```
-
-### Change Only Group Using chown
-
-```bash
-sudo chown :groupname filename
-```
+- Change only group with chown : `sudo chown :groupname filename`
 
 ---
 
