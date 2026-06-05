@@ -2,96 +2,212 @@
 
 ## Users Created
 
-![Users Created](images/user-created.png)
+- tokyo
+- berlin
+- professor
+- nairobi
+
+### Verification
+
+```bash
+cat /etc/passwd | grep -E "berlin|professor|tokyo|nairobi"
+```
+
+![Users Created](images/01-user-created.png)
+
+---
 
 ## Groups Created
 
-![Groups Created](images/groups-created.png)
+- heist-team
+- planners
+- vault-team
+- tech-team
+
+### Verification
+
+```bash
+cat /etc/group | grep -E "heist-team|planners|vault-team|tech-team"
+```
+
+![Groups Created](images/02-groups-created.png)
+
+---
 
 ## Files & Directories Created
 
 - devops-file.txt
-- app-logs/
-- bank-heist/access-codes.txt
-- bank-heist/blueprints.pdf
-- bank-heist/escape-plan.txt
-- heist-project/plans/strategy.conf
-- heist-project/vault/gold.txt
 - team-notes.txt
 - project-config.yaml
-  
+- app-logs/
+- heist-project/
+- bank-heist/
+
 ---
 
 ## Understanding Ownership
 
-- Run `ls -l` in your home directory
-- Identify owner and group columns
-- Check who owns your files
+- Run `ls -l` in your working directory.
+- The first username is the **Owner**.
+- The second name is the **Group**.
+- Ownership controls who can manage files and directories.
 
-![Ownership](images/devops-file-created.png)
+### Example
 
-- **Owner**: The user who created the file or directory. The owner can modify permissions and ownership.
-- **Group**: A collection of users who share access to the file.
+```bash
+touch devops-file.txt
+ls -l devops-file.txt
+```
+
+![Ownership](images/03-devops-file-created.png)
+
+### Notes
+
+- **Owner:** Usually the user who created the file.
+- **Group:** Collection of users who share access to the file.
 
 ---
 
 ## Basic chown Operations
 
-- Create file `devops-file.txt`
-- Check current ownership using `ls -l`
-- Change owner to `tokyo`
-- Verify the ownership change
+### Create File
 
-![chown Operation](images/chown-devops-file.png)
+```bash
+touch devops-file.txt
+```
+
+### Check Current Owner
+
+```bash
+ls -l devops-file.txt
+```
+
+### Change Owner to tokyo
+
+```bash
+sudo chown tokyo devops-file.txt
+```
+
+### Verify
+
+```bash
+ls -l
+```
+
+![chown Operation](images/04-chown-devops-file.png)
 
 ---
 
 ## Basic chgrp Operations
 
-- Create file `team-notes.txt`
-- Create group `heist-team`
-- Change file group to `heist-team`
-- Verify group ownership
+### Create File
 
-![chgrp Operation](images/team-notes-created.png)
+```bash
+touch team-notes.txt
+```
+
+### Check Current Group
+
+```bash
+ls -l team-notes.txt
+```
+
+### Create Group
+
+```bash
+sudo groupadd heist-team
+```
+
+### Change Group
+
+```bash
+sudo chgrp heist-team team-notes.txt
+```
+
+### Verify
+
+```bash
+ls -l
+```
+
+![chgrp Operation](images/05-team-notes-created.png)
 
 ---
 
 ## Combined Owner & Group Change
 
-Using `chown`, owner and group can be modified together.
+Using `chown`, we can change both owner and group in a single command.
 
-- Create file `project-config.yaml`
-- Change owner to `professor`
-- Change group to `heist-team`
-- Create directory `app-logs/`
-- Change directory ownership
+### Create File
 
-![Combined Ownership](images/project-config-yaml.png)
+```bash
+touch project-config.yaml
+```
+
+### Change Owner & Group
+
+```bash
+sudo chown professor:heist-team project-config.yaml
+```
+
+### Create Directory
+
+```bash
+mkdir app-logs
+```
+
+### Change Directory Ownership
+
+```bash
+sudo chown berlin:heist-team app-logs/
+```
+
+### Verify
+
+```bash
+ls -l project-config.yaml
+ls -ld app-logs
+```
+
+![Combined Ownership](images/06-project-config-yaml.png)
 
 ---
 
 ## Recursive Ownership
 
-### Create directory structure
+### 1. Create Directory Structure
 
-- mkdir -p heist-project/vault
-- mkdir -p heist-project/plans
-- touch heist-project/vault/gold.txt
-- touch heist-project/plans/strategy.conf
+```bash
+mkdir -p heist-project/vault
+mkdir -p heist-project/plans
 
-### Create group
+touch heist-project/vault/gold.txt
+touch heist-project/plans/strategy.conf
+```
 
-- planners
+### 2. Create Group
 
-### Change ownership recursively
+```bash
+sudo groupadd planners
+```
 
-- Owner: professor
-- Group: planners
+### 3. Change Ownership Recursively
 
-### Verify all files and directories
+Owner: professor
 
-![Recursive Ownership](images/heist-project-dir.png)
+Group: planners
+
+```bash
+sudo chown -R professor:planners heist-project/
+```
+
+### 4. Verify
+
+```bash
+ls -lR heist-project/
+```
+
+![Recursive Ownership](images/07-heist-project-dir.png)
 
 ---
 
@@ -110,42 +226,107 @@ Using `chown`, owner and group can be modified together.
 
 ### Create Directory
 
-- bank-heist/
+```bash
+mkdir bank-heist/
+```
 
 ### Create Files
 
-- access-codes.txt
-- blueprints.pdf
-- escape-plan.txt
+```bash
+touch bank-heist/access-codes.txt
+touch bank-heist/blueprints.pdf
+touch bank-heist/escape-plan.txt
+```
 
-### Set Ownership
+### Set Different Ownership
 
-- access-codes.txt → Owner: tokyo, Group: vault-team
-- blueprints.pdf → Owner: berlin, Group: tech-team
-- escape-plan.txt → Owner: nairobi, Group: vault-team
+#### access-codes.txt
 
-### Verify
+Owner: tokyo
 
-![Bank Heist Challenge](images/bank-heist-dir.png)
+Group: vault-team
+
+```bash
+sudo chown tokyo:vault-team bank-heist/access-codes.txt
+```
+
+#### blueprints.pdf
+
+Owner: berlin
+
+Group: tech-team
+
+```bash
+sudo chown berlin:tech-team bank-heist/blueprints.pdf
+```
+
+#### escape-plan.txt
+
+Owner: nairobi
+
+Group: vault-team
+
+```bash
+sudo chown nairobi:vault-team bank-heist/escape-plan.txt
+```
+
+### Verification
+
+```bash
+ls -l bank-heist/
+```
+
+![Practice Challenge](images/08-bank-heist-dir.png)
 
 ---
 
 ## Commands Used
 
-- `ls -l` → View file owner and group
-- `chown user file` → Change owner
-- `chgrp group file` → Change group
-- `chown user:group file` → Change owner and group together
-- `chown -R user:group directory` → Change ownership recursively
-- `groupadd groupname` → Create a new group
+### View Ownership
+
+```bash
+ls -l filename
+```
+
+### Change Owner Only
+
+```bash
+sudo chown username filename
+```
+
+### Change Group Only
+
+```bash
+sudo chgrp groupname filename
+```
+
+### Change Owner & Group
+
+```bash
+sudo chown owner:group filename
+```
+
+### Recursive Ownership Change
+
+```bash
+sudo chown -R owner:group directory/
+```
+
+### Change Only Group Using chown
+
+```bash
+sudo chown :groupname filename
+```
 
 ---
 
 ## What I Learned
 
-- Understanding Linux file ownership
-- Difference between owner and group
-- Using chown to change ownership
-- Using chgrp to modify groups
-- Recursive ownership management
-- Managing permissions through users and groups
+- Managing Linux users and groups
+- Understanding file ownership concepts
+- Using `chown` to change owners
+- Using `chgrp` to change groups
+- Assigning owner and group together
+- Recursive ownership management using `-R`
+- Verifying ownership using `ls -l`
+- Managing directory ownership in Linux
