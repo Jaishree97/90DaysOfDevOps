@@ -8,7 +8,6 @@
 - nairobi
 
 ![Users Created](images/01-user-created.png)
-
 ---
 
 ## Groups Created
@@ -19,7 +18,6 @@
 - tech-team
 
 ![Groups Created](images/02-groups-created.png)
-
 ---
 
 ## Files & Directories Created
@@ -60,7 +58,6 @@
 - Verify the changes
 
 ![chown Operation](images/04-chown-devops-file.png)
-
 ---
 
 ## Basic chgrp Operations
@@ -72,7 +69,6 @@
 - Verify the change
 
 ![Basic chgrp Operations](images/05-team-notes-created.png)
-
 ---
 
 ## Combined Owner & Group Change
@@ -85,7 +81,6 @@ Using `chown`, we can change both owner and group in a single command.
 - Change its owner to berlin and group to heist-team
 
 ![owner_grp](images/06-project-config-yaml.png)
-
 ---
 
 ## Recursive Ownership
@@ -107,23 +102,15 @@ touch heist-project/plans/strategy.conf
    - Group: `planners`
    - Use recursive flag (`-R`)
 
-4. Verify all files and subdirectories changed:
-
-```bash
-ls -lR heist-project/
-```
+4. Verify all files and subdirectories changed: `ls -lR heist-project/`
 
 ![Recursive Ownership](images/07-heist-project-dir.png)
-
 ---
 ## Task 6: Practice Challenge
 
 1. Create users: `tokyo`, `berlin`, `nairobi` (if not already created)
-
 2. Create groups: `vault-team`, `tech-team`
-
 3. Create directory: `bank-heist/`
-
 4. Create 3 files inside:
 
 ```bash
@@ -135,29 +122,21 @@ touch bank-heist/escape-plan.txt
 5. Set different ownership:
 
    - `access-codes.txt` → owner: `tokyo`, group: `vault-team`
-
    - `blueprints.pdf` → owner: `berlin`, group: `tech-team`
-
    - `escape-plan.txt` → owner: `nairobi`, group: `vault-team`
 
 Verify: `ls -l bank-heist/`
 
 ![Practice Challenge](images/08-bank-heist-dir.png)
-
 ---
 
 ## Commands Used
 
 - View ownership : `ls -l filename`
-
 - Change owner only : `sudo chown newowner filename`
-
 - Change group only : `sudo chgrp newgroup filename`
-
 - Change both owner and group : `sudo chown owner:group filename`
-
 - Recursive change (directories) : `sudo chown -R owner:group directory/`
-
 - Change only group with chown : `sudo chown :groupname filename`
 
 ---
