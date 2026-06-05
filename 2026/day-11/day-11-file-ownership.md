@@ -55,11 +55,8 @@
 ## Basic chown Operations
 
 - Create file devops-file.txt
-
 - Check current owner: ls -l devops-file.txt
-
 - Change owner to tokyo
-
 - Verify the changes
 
 ![chown Operation](images/04-chown-devops-file.png)
@@ -69,16 +66,12 @@
 ## Basic chgrp Operations
 
 - Create file team-notes.txt
-
 - Check current group: ls -l team-notes.txt
-
 - Create group: sudo groupadd heist-team
-
 - Change file group to heist-team
-
 - Verify the change
 
-![chgrp Operation](images/05-team-notes-created.png)
+![Basic chgrp Operations](images/05-team-notes-created.png)
 
 ---
 
@@ -87,11 +80,8 @@
 Using `chown`, we can change both owner and group in a single command.
 
 - Create file project-config.yml
-
 - Change owner to professor AND group to heist-team (one command)
-
 - Create directory app-logs/
-
 - Change its owner to berlin and group to heist-team
 
 ![owner_grp](images/06-project-config-yaml.png)
