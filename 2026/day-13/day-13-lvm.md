@@ -50,7 +50,7 @@ Run: `lsblk`
 
 ---
 
-## Task 6: Format and Mount
+## Task 6: Mount and Format  
 
 ### Screenshot
 
