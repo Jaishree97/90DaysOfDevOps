@@ -28,15 +28,6 @@ Run: `lsblk`
 
 ## Task 3: Create Physical Volume
 
-Run:
-
-```
-pvcreate /dev/nvme1n1
-pvcreate /dev/nvme2n1
-pvcreate /dev/nvme3n1
-pvs
-```
-
 ### Screenshot
 
 ![PV Creation](images/03-pv-creation.png)
@@ -44,13 +35,6 @@ pvs
 ---
 
 ## Task 4: Create Volume Group
-
-Run:
-
-```
-vgcreate devops-vg /dev/nvme1n1 /dev/nvme2n1
-vgs
-```
 
 ### Screenshot
 
@@ -60,13 +44,6 @@ vgs
 
 ## Task 5: Create Logical Volume
 
-Run:
-
-```
-lvcreate -L 10G -n tws-lv devops-vg
-lvs
-```
-
 ### Screenshot
 
 ![LV Creation](images/05-lv-creation.png)
@@ -74,15 +51,6 @@ lvs
 ---
 
 ## Task 6: Format and Mount
-
-Run:
-
-```
-mkfs.ext4 /dev/devops-vg/tws-lv
-mkdir -p /mnt/tws-vg-mount
-mount /dev/devops-vg/tws-lv /mnt/tws-vg-mount
-df -h
-```
 
 ### Screenshot
 
@@ -92,14 +60,6 @@ df -h
 
 ## Task 7: Extend the Volume
 
-Run:
-
-```
-lvextend -L +5G /dev/devops-vg/tws-lv
-resize2fs /dev/devops-vg/tws-lv
-df -h /mnt/tws-vg-mount
-```
-
 ### Screenshot
 
 ![LV Extend](images/09-lv-extend.png)
@@ -107,15 +67,6 @@ df -h /mnt/tws-vg-mount
 ---
 
 ## Task 8: Mounting Disk Directly
-
-Run:
-
-```
-mkfs -t ext4 /dev/nvme3n1
-mkdir /mnt/tws-disk-mount
-mount /dev/nvme3n1 /mnt/tws-disk-mount
-df -h
-```
 
 ### Screenshot
 
@@ -125,14 +76,6 @@ df -h
 
 ## Task 9: Verify Data Persistence
 
-Run:
-
-```
-mkdir /mnt/tws-vg-mount/notes
-vim test.txt
-cat /mnt/tws-vg-mount/notes/test.txt
-```
-
 ### Screenshot
 
 ![Data Persistence](images/07-testing-umount-mount.png)
@@ -141,13 +84,7 @@ cat /mnt/tws-vg-mount/notes/test.txt
 
 ## Additional LVM Inspection Commands
 
-Run:
-
-```
-pvdisplay
-vgdisplay
-lvdisplay
-```
+Run: `pvdisplay`, `vgdisplay`, `lvdisplay`
 
 ### Purpose
 
@@ -161,31 +98,37 @@ These commands help verify LVM configuration, inspect storage allocation, and tr
 
 ## Commands Used
 
-- `lsblk` - List block devices and mount points
-- `df -h` - Display filesystem usage
-- `pvcreate` - Initialize disks as Physical Volumes
-- `pvs` - Display Physical Volumes
-- `pvdisplay` - Show detailed Physical Volume information
-- `vgcreate` - Create a Volume Group
-- `vgs` - Display Volume Groups
-- `vgdisplay` - Show detailed Volume Group information
-- `lvcreate` - Create a Logical Volume
-- `lvs` - Display Logical Volumes
-- `lvdisplay` - Show detailed Logical Volume information
-- `mkfs.ext4` - Create ext4 filesystem
-- `mount` - Mount filesystem
-- `lvextend` - Extend Logical Volume size
-- `resize2fs` - Resize ext filesystem
+- `lsblk` - List block devices and their mount points
+- `df -h` - Show filesystem disk usage in human-readable format
+- `pvcreate /dev/nvme1n1 /dev/nvme2n1 /dev/nvme3n1` - Initialize disks as Physical Volumes (PV)
+- `pvs` - List all Physical Volumes
+- `pvdisplay` - Display detailed Physical Volume information
+- `vgcreate devops-vg /dev/nvme1n1 /dev/nvme2n1` - Create a Volume Group from PVs
+- `vgs` - List all Volume Groups
+- `vgdisplay` - Display detailed Volume Group information
+- `lvcreate -L 10G -n tws-lv devops-vg` - Create a 10 GB Logical Volume
+- `lvs` - List all Logical Volumes
+- `lvdisplay` - Display detailed Logical Volume information
+- `mkfs.ext4 /dev/devops-vg/tws-lv` - Create ext4 filesystem on the Logical Volume
+- `mount /dev/devops-vg/tws-lv /mnt/tws-vg-mount` - Mount the Logical Volume
+- `umount /mnt/tws-vg-mount` - Unmount the Logical Volume
+- `lvextend -L +5G /dev/devops-vg/tws-lv` - Extend Logical Volume by 5 GB
+- `resize2fs /dev/devops-vg/tws-lv` - Resize the filesystem after extending the LV
+- `mkfs -t ext4 /dev/nvme3n1` - Create ext4 filesystem on a standalone disk
+- `mount /dev/nvme3n1 /mnt/tws-disk-mount` - Mount the standalone disk
 
 ---
 
 ## What I Learned
 
-- Understood the LVM hierarchy: Physical Volume (PV) → Volume Group (VG) → Logical Volume (LV).
-- Learned how to create and manage Physical Volumes, Volume Groups, and Logical Volumes.
-- Learned how to format and mount storage volumes in Linux.
-- Learned how to extend a Logical Volume dynamically without recreating storage.
-- Learned how to inspect detailed LVM metadata using `pvdisplay`, `vgdisplay`, and `lvdisplay`.
-- Learned the difference between using LVM-managed storage and mounting a disk directly.
-
+- Learned the LVM storage hierarchy: Physical Volume (PV) → Volume Group (VG) → Logical Volume (LV).
+- Learned how to convert raw disks into Physical Volumes using `pvcreate`.
+- Learned how to combine multiple Physical Volumes into a single Volume Group using `vgcreate`.
+- Learned how to create and manage Logical Volumes using `lvcreate`.
+- Learned how to format and mount Logical Volumes using the ext4 filesystem.
+- Learned the difference between mounting a Logical Volume and mounting a disk directly.
+- Learned how to verify storage configuration using `pvs`, `vgs`, `lvs`, and `lsblk`.
+- Learned how to inspect detailed LVM information using `pvdisplay`, `vgdisplay`, and `lvdisplay`.
+- Learned how to safely unmount storage using `umount`.
+- Learned how to extend a Logical Volume dynamically using `lvextend` and resize the filesystem using `resize2fs`.
 ---
