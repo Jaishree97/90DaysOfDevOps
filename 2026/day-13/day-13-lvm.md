@@ -87,7 +87,6 @@ Run: `lsblk`
 Run: `pvdisplay`, `vgdisplay`, `lvdisplay`
 
 ### Purpose
-
 - `pvdisplay` - Shows detailed information about Physical Volumes (PV)
 - `vgdisplay` - Shows detailed information about Volume Groups (VG)
 - `lvdisplay` - Shows detailed information about Logical Volumes (LV)
