@@ -2,7 +2,7 @@
 
 ## OSI and TCP/IP Model
 
-### OSI Model
+### OSI Model -
 
 The OSI model is a 7-layer framework used to understand how network communication works.
 
@@ -14,7 +14,7 @@ The OSI model is a 7-layer framework used to understand how network communicatio
 - **L2 Data Link** – Device-to-device communication.
 - **L1 Physical** – Cables, signals, and hardware.
 
-### TCP/IP Model
+### TCP/IP Model -
 
 TCP/IP is a 4-layer networking model used for communication across the internet.
 
@@ -23,7 +23,7 @@ TCP/IP is a 4-layer networking model used for communication across the internet.
 - **Internet Layer** – IP addressing and routing.
 - **Network Access Layer** – Physical network connectivity.
 
-### Protocol Placement
+### Protocol Placement -
 
 - **Application Layer** – HTTP, HTTPS, DNS, DHCP, SSH
 - **Transport Layer** – TCP, UDP
@@ -48,9 +48,9 @@ This command fetches the webpage content.
 
 - ## Identity: `hostname -I`
 
-### Observation:
+### Observation
 
-Local private IP address is **172.31.43.96**
+Successfully identified the EC2 instance's private IP address: **172.31.43.96**
 
 ![hostname](images/02-hostname.png)
 
@@ -58,9 +58,9 @@ Local private IP address is **172.31.43.96**
 
 - ## Reachability: `ping <target>`
 
-### Observation:
+### Observation
 
-0% packet loss with average latency of **9.056 ms** confirms good network connectivity.
+Successfully verified connectivity to Google. All packets were received with **0% packet loss** and an average latency of **9.056 ms**.
 
 ```bash
 ping -c 4 google.com
