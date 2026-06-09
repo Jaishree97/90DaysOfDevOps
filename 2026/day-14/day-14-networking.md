@@ -2,33 +2,33 @@
 
 ## OSI and TCP/IP Model
 
-### OSI Model
+### OSI Model -
 
-OSI is a conceptual model used to understand how network communication works. It consists of 7 layers.
+OSI is a conceptual model that defines network communication. It consists of 7 layers where each layer performs a specific function.
 
-- **Application (L7)** – User interaction (Browser, HTTP, DNS)
-- **Presentation (L6)** – Encryption, compression, format conversion
-- **Session (L5)** – Session establishment and management
-- **Transport (L4)** – Reliable communication using TCP/UDP
-- **Network (L3)** – IP addressing and routing
-- **Data Link (L2)** – Frame delivery between devices
-- **Physical (L1)** – Cables, signals, hardware
+- **Application L7** - User interaction (e.g., browser).
+- **Presentation L6** - Data encryption/decryption, format conversion.
+- **Session L5** - Establish/manage/terminate sessions.
+- **Transport L4** - Reliable delivery (TCP/UDP).
+- **Network L3** - IP addressing, routing.
+- **Data Link L2** - Error-free node-to-node delivery.
+- **Physical L1** - Hardware, cables, signals.
 
-### TCP/IP Model
+### TCP/IP Model -
 
-TCP/IP is the practical networking model used on the internet.
+TCP/IP is practically used for providing communication between computers over the internet.
 
-- **Application Layer** – HTTP, HTTPS, DNS, SSH
-- **Transport Layer** – TCP, UDP
-- **Internet Layer** – IP, ICMP
-- **Network Access Layer** – Ethernet, Wi-Fi
+- **Application L4** - Combines OSI's Application + Presentation + Session.
+- **Transport L3** - Same as OSI Transport.
+- **Internet L2** - Same as OSI Network.
+- **Network Access L1** - Physical + Data Link combined.
 
 ## Protocol Placement
 
-- HTTP, HTTPS, DNS, SSH → Application Layer
-- TCP, UDP → Transport Layer
-- IP, ICMP → Internet Layer
-- Ethernet, Wi-Fi → Network Access Layer
+- HTTP, HTTPS, FTP, SMTP, DNS, DHCP, SSH - Application Layer
+- TCP, UDP - Transport Layer
+- IP, ICMP, ARP - Internet Layer
+- Ethernet, Wi-Fi - Network Access Layer
 
 ## Real Example
 
@@ -36,38 +36,31 @@ TCP/IP is the practical networking model used on the internet.
 curl -L google.com
 ```
 
-This fetches a web page using:
+This command fetches the webpage content.
 
-**HTTP (Application) → TCP (Transport) → IP (Internet)**
+→ HTTP (Application) over TCP (Transport) over IP (Internet)
 
-![curl output](images/01-curl-l.png)
+![curl](images/01-curl-l.png)
 
 ---
 
 # Hands-on Checklist
 
-## Identity: `hostname -I`
+- ## Identity: `hostname -I`
 
-### Observation
+### Observation:
 
-The EC2 instance private IP address is:
-
-```text
-172.31.43.96
-```
+Local private IP address is **172.31.43.96**
 
 ![hostname](images/02-hostname.png)
 
 ---
 
-## Reachability: `ping google.com`
+- ## Reachability: `ping <target>`
 
-### Observation
+### Observation:
 
-- Google was reachable successfully.
-- 4 packets transmitted and 4 received.
-- 0% packet loss.
-- Average latency ≈ 9.056 ms.
+0% packet loss with average latency of **9.056 ms** confirms good network connectivity.
 
 ```bash
 ping -c 4 google.com
@@ -77,13 +70,11 @@ ping -c 4 google.com
 
 ---
 
-## Path: `traceroute google.com`
+- ## Path: `traceroute <target>`
 
-### Observation
+### Observation:
 
-- Traffic passed through multiple routers before reaching Google.
-- Destination reached successfully in 6 hops.
-- Average latency remained under 12 ms.
+Traffic reached Google successfully through multiple hops. Average latency remained below 12 ms.
 
 ```bash
 traceroute google.com
@@ -93,15 +84,11 @@ traceroute google.com
 
 ---
 
-## Ports: `ss -tulnp`
+- ## Ports: `ss -tulnp`
 
-### Observation
+### Observation:
 
-Listening services discovered:
-
-- SSH → Port 22
-- DNS Resolver → Port 53
-- DHCP Client → Port 68
+SSH service is listening on port 22.
 
 ```bash
 ss -tulnp
@@ -111,21 +98,11 @@ ss -tulnp
 
 ---
 
-## Name Resolution: `dig google.com`
+- ## Name resolution: `dig <domain>` or `nslookup <domain>`
 
-### Observation
+### Observation:
 
-DNS successfully resolved:
-
-```text
-google.com → 142.251.210.110
-```
-
-Query completed in:
-
-```text
-4 ms
-```
+Domain resolves to **142.251.210.110**
 
 ```bash
 dig google.com
@@ -135,39 +112,27 @@ dig google.com
 
 ---
 
-## HTTP Check: `curl -I google.com`
+- ## HTTP check: `curl -I <http/https-url>`
 
-### Observation
+### Observation:
 
-Received:
+Received response **HTTP/1.1 301 Moved Permanently**.
 
-```text
-HTTP/1.1 301 Moved Permanently
-```
-
-This means Google redirected the request to:
-
-```text
-http://www.google.com/
-```
-
-The web server responded successfully.
+Server successfully responded and redirected the request to www.google.com.
 
 ```bash
 curl -I google.com
 ```
 
-![curl -I](images/07-curl-i.png)
+![curl-i](images/07-curl-i.png)
 
 ---
 
-## Connection Snapshot: `ss -an | head`
+- ## Connections snapshot: `ss -an | head`
 
-### Observation
+### Observation:
 
-Active network socket information was displayed successfully.
-
-The command showed local and peer addresses currently maintained by the system.
+Active socket information displayed successfully.
 
 ```bash
 ss -an | head
@@ -179,102 +144,97 @@ ss -an | head
 
 # Mini Task: Port Probe & Interpret
 
-## SSH Service on Port 22
+- SSH service on port 22
 
 ```bash
 sudo ss -tulnp | grep :22
 ```
 
-### Observation
+### Observation:
 
-SSH daemon (`sshd`) is listening on:
-
-```text
-0.0.0.0:22
-[::]:22
-```
+SSH daemon (sshd) is listening on port 22.
 
 ![ssh-port](images/09-ssh-tulnp.png)
 
 ---
 
-## Port Reachability Test
+- Connection succeeded
 
 ```bash
 nc -zv localhost 22
 ```
 
-### Output
+Output:
 
 ```text
 Connection to localhost (127.0.0.1) 22 port [tcp/ssh] succeeded!
 ```
 
+![nc](images/10-nc-zvlocalhost.png)
+
 ### Interpretation
 
-Port 22 is reachable and the SSH service is functioning correctly.
-
-![nc-test](images/10-nc-zvlocalhost.png)
+Port 22 is reachable and SSH service is functioning properly.
 
 ---
 
-# Reflection
+## If not reachable :
 
-## Which command gives the fastest signal when something is broken?
-
-`ping`
-
-It quickly verifies whether a target host is reachable over the network.
-
----
-
-## What layer would you inspect next if DNS fails?
-
-**Application Layer**
-
-Because DNS operates at the Application Layer.
-
-Useful commands:
-
-```bash
-dig google.com
-nslookup google.com
-```
-
----
-
-## What layer would you inspect if HTTP 500 shows up?
-
-**Application Layer**
-
-HTTP 500 indicates a server-side application issue.
-
-Useful checks:
-
-```bash
-systemctl status <service>
-journalctl -u <service>
-```
-
----
-
-## Two follow-up checks in a real incident
-
-### Check service health
+- Check service status
 
 ```bash
 systemctl status ssh
 ```
 
-### Check connectivity
+- Check logs
 
 ```bash
-curl -I google.com
-nc -zv localhost 22
+journalctl -u ssh
 ```
 
-### Check firewall
+- Check firewall
 
 ```bash
 sudo ufw status
 ```
+
+---
+
+# Reflection
+
+- Ping command gives fastest signal if something is broken.
+
+- DNS fails :
+It runs on Application Layer. If DNS queries don't resolve, the next logical layer to inspect is the Transport Layer (L4) and Internet Layer (L3).
+
+-> dig, nslookup, ping, ss -tulnp
+
+- HTTP 500 :
+It is an Application Layer issue. Since you receive HTTP response codes, Internet and Transport layers are working.
+
+-> systemctl status service
+
+-> journalctl -u service
+
+-> tail -f /var/log/service/error.log
+
+- Follow up checks in real incident :
+
+  - Check firewall
+
+  ```bash
+  sudo ufw status
+  ```
+
+  - Service health check
+
+  ```bash
+  systemctl status <service>
+  ```
+
+  - Connectivity test
+
+  ```bash
+  curl -I google.com
+  nc -zv localhost 22
+  ```
