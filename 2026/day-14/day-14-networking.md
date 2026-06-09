@@ -2,33 +2,33 @@
 
 ## OSI and TCP/IP Model
 
-### OSI Model -
+### OSI Model
 
-OSI is a conceptual model that defines network communication. It consists of 7 layers where each layer performs a specific function.
+The OSI model is a 7-layer framework used to understand how network communication works.
 
-- **Application L7** - User interaction (e.g., browser).
-- **Presentation L6** - Data encryption/decryption, format conversion.
-- **Session L5** - Establish/manage/terminate sessions.
-- **Transport L4** - Reliable delivery (TCP/UDP).
-- **Network L3** - IP addressing, routing.
-- **Data Link L2** - Error-free node-to-node delivery.
-- **Physical L1** - Hardware, cables, signals.
+- **L7 Application** – User-facing network services.
+- **L6 Presentation** – Data format and encryption.
+- **L5 Session** – Connection management.
+- **L4 Transport** – TCP/UDP communication.
+- **L3 Network** – IP addressing and routing.
+- **L2 Data Link** – Device-to-device communication.
+- **L1 Physical** – Cables, signals, and hardware.
 
-### TCP/IP Model -
+### TCP/IP Model
 
-TCP/IP is practically used for providing communication between computers over the internet.
+TCP/IP is a 4-layer networking model used for communication across the internet.
 
-- **Application L4** - Combines OSI's Application + Presentation + Session.
-- **Transport L3** - Same as OSI Transport.
-- **Internet L2** - Same as OSI Network.
-- **Network Access L1** - Physical + Data Link combined.
+- **Application Layer** – User-facing network services.
+- **Transport Layer** – TCP/UDP communication.
+- **Internet Layer** – IP addressing and routing.
+- **Network Access Layer** – Physical network connectivity.
 
-## Protocol Placement
+### Protocol Placement
 
-- HTTP, HTTPS, FTP, SMTP, DNS, DHCP, SSH - Application Layer
-- TCP, UDP - Transport Layer
-- IP, ICMP, ARP - Internet Layer
-- Ethernet, Wi-Fi - Network Access Layer
+- **Application Layer** – HTTP, HTTPS, DNS, DHCP, SSH
+- **Transport Layer** – TCP, UDP
+- **Internet Layer** – IP, ICMP, ARP
+- **Network Access Layer** – Ethernet, Wi-Fi
 
 ## Real Example
 
