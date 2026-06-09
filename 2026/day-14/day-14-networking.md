@@ -146,6 +146,9 @@ If not reachable:
 - Follow up checks in real incident :
 
   ○ Check firewall (`sudo ufw status`)
+  
   ○ Service health check (`systemctl status <service>`)
+  
   ○ Review service logs (`journalctl -u <service>`)
+  
   ○ Connectivity test (`ping`, `traceroute`, `nc`)
