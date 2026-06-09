@@ -46,95 +46,57 @@ This command fetches the webpage content.
 
 # Hands-on Checklist
 
-- ## Identity: `hostname -I`
+- **Identity:** `hostname -I`
 
-### Observation
-
-Successfully identified the EC2 instance's private IP address: **172.31.43.96**
+**Observation:** Successfully identified the EC2 instance's private IP address: **172.31.43.96**
 
 ![hostname](images/02-hostname.png)
 
 ---
 
-- ## Reachability: `ping <target>`
+- **Reachability:** `ping <target>`
 
-### Observation
-
-Successfully verified connectivity to Google. All packets were received with **0% packet loss** and an average latency of **9.056 ms**.
-
-```bash
-ping -c 4 google.com
-```
+**Observation:** Successfully verified connectivity to Google. All packets were received with **0% packet loss** and an average latency of **9.056 ms**.
 
 ![ping](images/03-ping.png)
 
 ---
 
-- ## Path: `traceroute <target>`
+- **Path:** `traceroute <target>`
 
-### Observation:
-
-The route to Google was traced successfully through multiple network hops. Response times remained low, indicating a stable network path.
-
-```bash
-traceroute google.com
-```
+**Observation:** Traffic reached Google successfully through multiple hops with low latency.
 
 ![traceroute](images/04-traceroute.png)
 
 ---
 
-- ## Ports: `ss -tulnp`
+- **Ports:** `ss -tulnp`
 
-### Observation:
-
-Active listening ports and network services were displayed successfully. SSH service was found listening on port 22.
-
-```bash
-ss -tulnp
-```
+**Observation:** Active listening ports and services were displayed. SSH is listening on **port 22**.
 
 ![ports](images/05-ss-tulnp.png)
 
 ---
 
-- ## Name resolution: `dig <domain>` or `nslookup <domain>`
+- **Name resolution:** `dig <domain>` or `nslookup <domain>`
 
-### Observation:
-
-The DNS query resolved google.com successfully to the IP address 142.251.210.110, confirming proper DNS functionality.
-
-```bash
-dig google.com
-```
+**Observation:** Domain resolved successfully to **142.251.210.110**.
 
 ![dig](images/06-dig.png)
 
 ---
 
-- ## HTTP check: `curl -I <http/https-url>`
+- **HTTP check:** `curl -I <http/https-url>`
 
-### Observation:
-
-Received HTTP/1.1 301 Moved Permanently. The server responded successfully and redirected the request to www.google.com.
-
-```bash
-curl -I google.com
-```
+**Observation:** Received **HTTP/1.1 301 Moved Permanently**. The request was redirected to **www.google.com**.
 
 ![curl-i](images/07-curl-i.png)
 
 ---
 
-- ## Connections snapshot: `ss -an | head`
+- **Connections snapshot:** `ss -an | head`
 
-### Observation:
-
-Displayed active socket and network connection information, including local and peer addresses.
-
-```bash
-ss -an | head
-```
+**Observation:** Active socket and connection information displayed successfully.
 
 ![ss-an](images/08-ss-an.png)
 
@@ -148,19 +110,11 @@ ss -an | head
 
 SSH daemon (**sshd**) is listening on port **22**.
 
-```bash
-sudo ss -tulnp | grep :22
-```
-
 ![ssh-port](images/09-ssh-tulnp.png)
 
 ---
 
 - Connection succeeded
-
-```bash
-nc -zv localhost 22
-```
 
 ![nc](images/10-nc-zvlocalhost.png)
 
@@ -175,31 +129,23 @@ If not reachable:
 # Reflection
 
 - Ping command gives the fastest indication of network connectivity issues.
-
   -> `ping`
 
 - DNS resolution confirms whether a domain name is correctly mapped to an IP address.
-
   -> `dig`, `nslookup`
 
 - Traceroute helps identify the network path and potential delays between source and destination.
-
   -> `traceroute`
 
 - HTTP checks verify web server availability and response status codes.
-
   -> `curl -I <url>`
 
 - Port checks confirm whether a service is listening and reachable.
-
   -> `ss -tulnp`, `nc -zv`
 
 - Follow up checks in real incident :
 
   ○ Check firewall (`sudo ufw status`)
-
   ○ Service health check (`systemctl status <service>`)
-
   ○ Review service logs (`journalctl -u <service>`)
-
   ○ Connectivity test (`ping`, `traceroute`, `nc`)
