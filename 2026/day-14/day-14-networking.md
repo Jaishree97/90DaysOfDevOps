@@ -144,95 +144,60 @@ ss -an | head
 
 - SSH service on port 22
 
+### Observation:
+
+SSH daemon (**sshd**) is listening on port **22**.
+
 ```bash
 sudo ss -tulnp | grep :22
 ```
-
-### Observation:
-
-The SSH daemon (sshd) is actively listening on port 22, allowing remote SSH connections.
 
 ![ssh-port](images/09-ssh-tulnp.png)
 
 ---
 
-- Port Connectivity Test
+- Connection succeeded
 
 ```bash
 nc -zv localhost 22
 ```
 
-Output:
-
-```text
-Connection to localhost (127.0.0.1) 22 port [tcp/ssh] succeeded!
-```
-
 ![nc](images/10-nc-zvlocalhost.png)
 
-### Interpretation
+If not reachable:
 
-Port 22 is reachable, and the SSH service is functioning correctly. This confirms that the SSH server is listening and accepting TCP connections on the local machine.
-
----
-
-## If not reachable :
-
-- Check service status
-
-```bash
-systemctl status ssh
-```
-
-- Check logs
-
-```bash
-journalctl -u ssh
-```
-
-- Check firewall
-
-```bash
-sudo ufw status
-```
+- Check service status - `systemctl status ssh`
+- Check logs - `journalctl -u ssh`
+- Check firewall - `sudo ufw status`
 
 ---
 
 # Reflection
 
-- Ping command gives fastest signal if something is broken.
+- Ping command gives the fastest indication of basic network connectivity and latency issues.
 
-- DNS fails :
-It runs on Application Layer. If DNS queries don't resolve, the next logical layer to inspect is the Transport Layer (L4) and Internet Layer (L3).
+- DNS resolution is the first thing to verify when a domain is unreachable.
 
--> dig, nslookup, ping, ss -tulnp
+  -> `dig`, `nslookup`, `ping`
 
-- HTTP 500 :
-It is an Application Layer issue. Since you receive HTTP response codes, Internet and Transport layers are working.
+- Traceroute helps identify the network path and locate potential delays between hops.
 
--> systemctl status service
+  -> `traceroute`
 
--> journalctl -u service
+- HTTP status checks confirm whether a web server is reachable and responding correctly.
 
--> tail -f /var/log/service/error.log
+  -> `curl -I <url>`
 
-- Follow up checks in real incident :
+- Port probing verifies whether a service is listening and accepting connections.
 
-  - Check firewall
+  -> `ss -tulnp`, `nc -zv`
 
-  ```bash
-  sudo ufw status
-  ```
+- Follow up checks in real incidents :
 
-  - Service health check
+  ○ Check firewall (`sudo ufw status`)
 
-  ```bash
-  systemctl status <service>
-  ```
+  ○ Service health check (`systemctl status <service>`)
 
-  - Connectivity test
+  ○ Review logs (`journalctl -u <service>`)
 
-  ```bash
-  curl -I google.com
-  nc -zv localhost 22
-  ```
+  ○ Connectivity test (`ping`, `traceroute`, `nc`)
