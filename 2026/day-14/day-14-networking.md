@@ -174,30 +174,32 @@ If not reachable:
 
 # Reflection
 
-- Ping command gives the fastest indication of basic network connectivity and latency issues.
+- Ping command gives the fastest indication of network connectivity issues.
 
-- DNS resolution is the first thing to verify when a domain is unreachable.
+  -> `ping`
 
-  -> `dig`, `nslookup`, `ping`
+- DNS resolution confirms whether a domain name is correctly mapped to an IP address.
 
-- Traceroute helps identify the network path and locate potential delays between hops.
+  -> `dig`, `nslookup`
+
+- Traceroute helps identify the network path and potential delays between source and destination.
 
   -> `traceroute`
 
-- HTTP status checks confirm whether a web server is reachable and responding correctly.
+- HTTP checks verify web server availability and response status codes.
 
   -> `curl -I <url>`
 
-- Port probing verifies whether a service is listening and accepting connections.
+- Port checks confirm whether a service is listening and reachable.
 
   -> `ss -tulnp`, `nc -zv`
 
-- Follow up checks in real incidents :
+- Follow up checks in real incident :
 
   ○ Check firewall (`sudo ufw status`)
 
   ○ Service health check (`systemctl status <service>`)
 
-  ○ Review logs (`journalctl -u <service>`)
+  ○ Review service logs (`journalctl -u <service>`)
 
   ○ Connectivity test (`ping`, `traceroute`, `nc`)
