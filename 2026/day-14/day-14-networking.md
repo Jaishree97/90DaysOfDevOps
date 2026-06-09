@@ -74,7 +74,7 @@ ping -c 4 google.com
 
 ### Observation:
 
-Traffic reached Google successfully through multiple hops. Average latency remained below 12 ms.
+The route to Google was traced successfully through multiple network hops. Response times remained low, indicating a stable network path.
 
 ```bash
 traceroute google.com
@@ -88,7 +88,7 @@ traceroute google.com
 
 ### Observation:
 
-SSH service is listening on port 22.
+Active listening ports and network services were displayed successfully. SSH service was found listening on port 22.
 
 ```bash
 ss -tulnp
@@ -102,7 +102,7 @@ ss -tulnp
 
 ### Observation:
 
-Domain resolves to **142.251.210.110**
+The DNS query resolved google.com successfully to the IP address 142.251.210.110, confirming proper DNS functionality.
 
 ```bash
 dig google.com
@@ -116,9 +116,7 @@ dig google.com
 
 ### Observation:
 
-Received response **HTTP/1.1 301 Moved Permanently**.
-
-Server successfully responded and redirected the request to www.google.com.
+Received HTTP/1.1 301 Moved Permanently. The server responded successfully and redirected the request to www.google.com.
 
 ```bash
 curl -I google.com
@@ -132,7 +130,7 @@ curl -I google.com
 
 ### Observation:
 
-Active socket information displayed successfully.
+Displayed active socket and network connection information, including local and peer addresses.
 
 ```bash
 ss -an | head
@@ -152,13 +150,13 @@ sudo ss -tulnp | grep :22
 
 ### Observation:
 
-SSH daemon (sshd) is listening on port 22.
+The SSH daemon (sshd) is actively listening on port 22, allowing remote SSH connections.
 
 ![ssh-port](images/09-ssh-tulnp.png)
 
 ---
 
-- Connection succeeded
+- Port Connectivity Test
 
 ```bash
 nc -zv localhost 22
@@ -174,7 +172,7 @@ Connection to localhost (127.0.0.1) 22 port [tcp/ssh] succeeded!
 
 ### Interpretation
 
-Port 22 is reachable and SSH service is functioning properly.
+Port 22 is reachable, and the SSH service is functioning correctly. This confirms that the SSH server is listening and accepting TCP connections on the local machine.
 
 ---
 
