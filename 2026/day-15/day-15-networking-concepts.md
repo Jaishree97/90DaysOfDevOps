@@ -5,10 +5,14 @@
 ### 1. What happens when you type `google.com` in a browser?
 
 **Answer**
+### Answer
 
 1. The browser checks its cache to see if it already knows the IP address of `google.com`.
+
 2. If the IP address is not found, it sends a DNS request to resolve the domain name.
+
 3. DNS returns the corresponding IP address, and the browser connects to that server.
+
 4. The server processes the request and sends the webpage back to the browser.
 
 ### 2. What are these record types? Write one line each:
