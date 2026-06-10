@@ -5,30 +5,30 @@
 ### 1. What happens when you type `google.com` in a browser?
 
 **Answer**
-### Answer
-
-1. The browser checks its cache to see if it already knows the IP address of `google.com`.
+```text
+1. The browser checks its cache to see if it already knows the IP address of google.com.
 
 2. If the IP address is not found, it sends a DNS request to resolve the domain name.
 
 3. DNS returns the corresponding IP address, and the browser connects to that server.
 
 4. The server processes the request and sends the webpage back to the browser.
+```
 
 ### 2. What are these record types? Write one line each:
 
-- **A** - Maps a domain name to an IPv4 address.
-- **AAAA** - Maps a domain name to an IPv6 address.
-- **CNAME** - Creates an alias from one domain to another.
-- **MX** - Specifies mail servers responsible for handling email.
-- **NS** - Defines the authoritative name servers for a domain.
+- **A** – Points a domain name to an IPv4 address.
+- **AAAA** – Points a domain name to an IPv6 address.
+- **CNAME** – Creates an alias for another domain name.
+- **MX** – Specifies which mail server receives emails for a domain.
+- **NS** – Identifies the DNS servers responsible for a domain.
 
 ### 3. Run: `dig google.com`
 
 ![dig output](images/01-dig.png)
 
-- **A** record gives IPv4 address - `142.250.189.142`
-- **TTL** - Time To Live - `268 seconds`
+- **A Record** – Returns the IPv4 address: `142.250.189.142`
+- **TTL (Time To Live)** – `268 seconds`
 
 ---
 
@@ -36,74 +36,74 @@
 
 ### 1. What is an IPv4 address? How is it structured?
 
-**Answer** - An IP Address is a unique numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication.
+### Answer
 
-- IP address is divided into:
-  - Network Portion : Identifies the network
-  - Host Portion : Identifies the individual device
+An IPv4 address is a unique number used to identify a device on a network.
 
-- Example : IP `172.31.41.95`
-  - Network Portion : `172.31.32.0`
-  - Host Portion : `41.95`
+It consists of two parts:
+
+- **Network Portion** – Identifies the network.
+- **Host Portion** – Identifies the device on that network.
+
+**Example:** `192.168.1.10`
+
+- Network Portion: `192.168.1`
+- Host Portion: `10`
 
 ### 2. Difference between public and private IPs
 
 | Public IP | Private IP |
-|------------|------------|
-| Assigned by ISP or Cloud Provider | Assigned within private networks |
-| Reachable from the internet | Not directly reachable from the internet |
-| Unique globally | Reusable in different networks |
+|-----------|-----------|
+| Used for communication over the internet. | Used within a local network. |
+| Assigned by an ISP. | Assigned by a router or network administrator. |
+| Accessible from the internet. | Not directly accessible from the internet. |
 | Example: `18.224.212.253` | Example: `172.31.41.95` |
 
 ### 3. What are the private IP ranges?
 
-- `10.x.x.x` - Large enterprise networks
-- `172.16.x.x - 172.31.x.x` - Medium-sized organizations
-- `192.168.x.x` - Home & small office networks
+- `10.0.0.0 - 10.255.255.255` - Typically used in large enterprise networks.
+- `172.16.0.0 - 172.31.255.255` - Commonly used in medium-sized networks.
+- `192.168.0.0 - 192.168.255.255` - Commonly used in home and small office networks.
 
-### 4. Run: `ip addr show` — identify which of your IPs are private
+### 4. Run: `ip addr show` — Identify Private and Special IP Addresses
 
 ![ip address output](images/02-id-address-show.png)
 
-- `127.0.0.1/8` - Reserved for localhost communication
-- `172.31.41.95/20` - This is a private IP address
-
+- `127.0.0.1/8` - Loopback address for local communication.
+- `172.31.41.95/20` - Private IP address of this EC2 instance.
+- `172.31.47.255` - Broadcast address of the subnet.
+  
 ---
 
 ## Task 3: CIDR & Subnetting
 
 ### 1. What does `/24` mean in `192.168.1.0/24`?
 
-**Answer** - `/24` is CIDR notation. It tells us how many bits of the IP address are used for the network portion.
+**Answer** - `/24` means the first 24 bits are used for the network portion, leaving 8 bits for hosts.
 
-Here first **24 bits** (out of 32) are reserved for the network and the remaining **8 bits** are available for hosts.
-
-IP Range:
-
-`192.168.1.0 - 192.168.1.255`
-
-Total:
-
-`256 IPs`
+- Network: `192.168.1.0`
+- IP Range: `192.168.1.0 - 192.168.1.255`
+- Total IPs: `256`
+- Usable Hosts: `254`
 
 ### 2. How many usable hosts in:
 
-- `/24` : 254
-- `/16` : 65,534
-- `/28` : 14
+- `/24` : `254`
+- `/16` : `65,534`
+- `/28` : `14`
 
 ### 3. Why do we subnet?
 
-**Answer** - Subnetting divides one large network into smaller, manageable and efficient sub-networks.
+**Answer** - Subnetting divides a large network into smaller networks to improve management, performance, and security.
 
-- Improves performance - Reduces broadcast traffic.
-- Enhanced Security - Limits access between networks.
-- Easier Troubleshooting - Smaller networks are easier to manage.
+- Reduces network traffic.
+- Improves security.
+- Makes troubleshooting easier.
 
 ### 4. Quick exercise — fill in:
 
 | CIDR | Subnet Mask | Total IPs | Usable Hosts |
-|--------|--------|--------|--------|
+|------|------------|------------|-------------|
 | /24 | 255.255.255.0 | 256 | 254 |
 | /16 | 255.255.0.0 | 65,536 | 65,534 |
 | /28 | 255.255.255.240 | 16 | 14 |
@@ -117,13 +117,13 @@ Total:
 **Answer**
 
 - Port is a logical endpoint in networking.
-- IP address identifies the device and port number identifies the service.
-- Ports allow multiple services to run on the same machine.
+- IP address identifies the device on a network and port number specifies which service...
+- Port is needed to differentiate between services...
 
 ### 2. Document these common ports:
 
 | Port | Service |
-|--------|--------|
+|------|---------|
 | 22 | SSH |
 | 80 | HTTP |
 | 443 | HTTPS |
@@ -147,6 +147,11 @@ tcp LISTEN 0 4096 0.0.0.0:22
 tcp LISTEN 0 4096 [::]:22
 ```
 
+**Observation:**
+- Port `22` is in the **LISTEN** state.
+- The service associated with this port is **SSH (sshd)**.
+- The output shows SSH is listening on both **IPv4 (`0.0.0.0:22`)** and **IPv6 (`[::]:22`)** addresses.
+
 ```bash
 nc -zv localhost 22
 ```
@@ -161,31 +166,26 @@ Connection to localhost (127.0.0.1) 22 port [tcp/ssh] succeeded!
 
 ## Task 5: Putting It Together
 
-### When you run `curl http://myapp.com:8080`
+## Task 5: Putting It Together
 
-- DNS resolves the domain name into an IP address.
-- The client connects to the server IP.
-- Port 8080 identifies the service.
-- TCP establishes the connection.
-- HTTP request is sent and a response is received.
+### 1. When you run `curl http://localhost:80`
 
-### Your app can't reach a database at `10.0.1.50:3306` — what would you check first?
+- **Protocol:** HTTP
+- **Hostname:** `localhost` resolves to `127.0.0.1` (loopback IP)
+- **Port:** `80` identifies the web service.
+- **Service:** Apache/Nginx processes the request and returns a response.
 
-- Check whether the database service is running.
-- Verify port 3306 is listening.
-- Verify Security Groups and firewall rules.
-- Test connectivity using:
+### 2. Your app can't reach a database at `10.0.1.50:3306` — what would you check first?
 
-```bash
-nc -zv 10.0.1.50 3306
-```
-
-- Check database logs.
-
----
+- `ss -tulpn | grep 3306` - Check if MySQL is listening on port 3306.
+- `systemctl status mysql` - Verify the MySQL service is running.
+- `nc -zv 10.0.1.50 3306` - Test connectivity to the database server.
+- `journalctl -u mysql` - Review MySQL logs for errors.
 
 ## What I Learned
 
 - DNS translates domain names into IP addresses.
+- Public and private IPs help identify devices on different networks.
 - CIDR and subnetting help organize and manage networks efficiently.
-- Ports allow different services to communicate over the network.
+- Ports allow multiple services to communicate on the same device.
+- Networking concepts work together to enable communication between clients, servers, and applications.
