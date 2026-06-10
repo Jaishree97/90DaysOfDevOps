@@ -166,8 +166,6 @@ Connection to localhost (127.0.0.1) 22 port [tcp/ssh] succeeded!
 
 ## Task 5: Putting It Together
 
-## Task 5: Putting It Together
-
 ### 1. When you run `curl http://localhost:80`
 
 - **Protocol:** HTTP
