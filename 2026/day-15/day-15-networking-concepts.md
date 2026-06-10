@@ -6,14 +6,10 @@
 
 **Answer**
 
-1- First the browser checks its local cache for the corresponding IP address.
-If not present, the browser sends a DNS request asking for the IP address.
-
-2- DNS resolves the domain name and returns the IP address.
-
-3- The browser establishes a connection using TCP/IP.
-
-4- The web server processes the request and sends back the webpage.
+1. The browser checks its cache to see if it already knows the IP address of `google.com`.
+2. If the IP address is not found, it sends a DNS request to resolve the domain name.
+3. DNS returns the corresponding IP address, and the browser connects to that server.
+4. The server processes the request and sends the webpage back to the browser.
 
 ### 2. What are these record types? Write one line each:
 
@@ -25,7 +21,7 @@ If not present, the browser sends a DNS request asking for the IP address.
 
 ### 3. Run: `dig google.com`
 
-![dig output](01-dig.png)
+![dig output](images/01-dig.png)
 
 - **A** record gives IPv4 address - `142.250.189.142`
 - **TTL** - Time To Live - `268 seconds`
@@ -63,7 +59,7 @@ If not present, the browser sends a DNS request asking for the IP address.
 
 ### 4. Run: `ip addr show` — identify which of your IPs are private
 
-![ip address output](02-id-address-show.png)
+![ip address output](images/02-id-address-show.png)
 
 - `127.0.0.1/8` - Reserved for localhost communication
 - `172.31.41.95/20` - This is a private IP address
