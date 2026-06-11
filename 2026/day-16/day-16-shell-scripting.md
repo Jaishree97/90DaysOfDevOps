@@ -7,14 +7,18 @@
 3. Print `Hello, DevOps!` using `echo`
 4. Make it executable and run it
 
-[Here is the script hello.sh](scripts/hello.sh)
+- Why do we use the shebang line?
+
+  - `#!/bin/bash` tells Linux to execute the script using the Bash shell.
+  - It ensures the script runs with the intended interpreter.
 
 - What happens if you remove the shebang line?
 
-- The script runs after removing shebang line :
-  - `./hello.sh` - Kernel looks for a shebang. If not found it will use current shell to interpret the file.
-  - `bash hello.sh` - The shell explicitly uses bash.
-  - `sh hello.sh` - It uses sh.
+  - `./hello.sh` → May still work depending on the current shell.
+  - `bash hello.sh` → Executes the script using Bash.
+  - `sh hello.sh` → Executes the script using sh, which may behave differently from Bash.
+
+[Here is the script hello.sh](scripts/hello.sh)
 
 ![hello](images/01-hello.png)
 
@@ -29,11 +33,8 @@
 
 2. Try using single quotes vs double quotes — what's the difference?
 
-- Using double quote `" "` - The variables and commands are evaluated.
-
-- Using single quote `' '` - Everything inside is taken literally, no evaluation happens.
-
-Here is the script variables.sh
+- Double quotes `" "` allow variable expansion.
+- Single quotes `' '` treat the content as literal text.
 
 [Here is the script variables.sh](scripts/variables.sh)
 
@@ -48,8 +49,6 @@ Here is the script variables.sh
    - Asks for their favourite tool
    - Prints: `Hello <name>, your favourite tool is <tool>`
 
-Here is the script greet.sh
-
 [Here is the script greet.sh](scripts/greet.sh)
 
 ![greet](images/03-greet.png)
@@ -62,8 +61,6 @@ Here is the script greet.sh
    - Takes a number using `read`
    - Prints whether it is positive, negative, or zero
 
-Here is the script check_number.sh
-
 [Here is the script check_number.sh](scripts/check_number.sh)
 
 ![check-number](images/04-check-number.png)
@@ -72,8 +69,6 @@ Here is the script check_number.sh
    - Asks for a filename
    - Checks if the file exists using `-f`
    - Prints appropriate message
-
-Here is the script file_check.sh
 
 [Here is the script file_check.sh](scripts/file_check.sh)
 
@@ -90,8 +85,6 @@ Create `server_check.sh` that:
 3. If `y` — runs `systemctl status <service>` and prints whether it's active or not
 4. If `n` — prints "Skipped."
 
-Here is the script server_check.sh
-
 [Here is the script server_check.sh](scripts/server_check.sh)
 
 ![server-check](images/06-service-check.png)
@@ -100,7 +93,11 @@ Here is the script server_check.sh
 
 # What I learned -
 
-- How to write and run shell scripts with shebangs, variables, and user input using read.
-- The difference between single vs double quotes, and how quoting affects variable expansion.
-- Using conditional logic (if, elif, else) and test operators (-f, -gt, -lt) to handle files and numbers.
-- Checking Linux service status using systemctl.
+- How to write and execute Bash scripts using `#!/bin/bash`.
+- Working with variables and variable expansion.
+- Taking user input using the `read` command.
+- Understanding the difference between single and double quotes.
+- Using conditional statements (`if`, `elif`, `else`) in Bash.
+- Checking file existence using the `-f` operator.
+- Verifying service status using `systemctl is-active`.
+- Making scripts executable using `chmod +x`.
