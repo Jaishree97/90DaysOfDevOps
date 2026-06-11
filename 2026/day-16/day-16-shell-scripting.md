@@ -7,9 +7,7 @@
 3. Print `Hello, DevOps!` using `echo`
 4. Make it executable and run it
 
-Here is the script hello.sh
-
-[Script](scripts/hello.sh)
+[Here is the script hello.sh](scripts/hello.sh)
 
 - What happens if you remove the shebang line?
 
@@ -37,7 +35,7 @@ Here is the script hello.sh
 
 Here is the script variables.sh
 
-[Script](scripts/variables.sh)
+[Here is the script variables.sh](scripts/variables.sh)
 
 ![variables](images/02-variable.png)
 
@@ -52,7 +50,7 @@ Here is the script variables.sh
 
 Here is the script greet.sh
 
-[Script](scripts/greet.sh)
+[Here is the script greet.sh](scripts/greet.sh)
 
 ![greet](images/03-greet.png)
 
@@ -66,7 +64,7 @@ Here is the script greet.sh
 
 Here is the script check_number.sh
 
-[Script](scripts/check_number.sh)
+[Here is the script check_number.sh](scripts/check_number.sh)
 
 ![check-number](images/04-check-number.png)
 
@@ -77,7 +75,7 @@ Here is the script check_number.sh
 
 Here is the script file_check.sh
 
-[Script](scripts/file_check.sh)
+[Here is the script file_check.sh](scripts/file_check.sh)
 
 ![file-check](images/05-file-check.png)
 
@@ -94,7 +92,7 @@ Create `server_check.sh` that:
 
 Here is the script server_check.sh
 
-[Script](scripts/server_check.sh)
+[Here is the script server_check.sh](scripts/server_check.sh)
 
 ![server-check](images/06-service-check.png)
 
