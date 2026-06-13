@@ -93,15 +93,12 @@ Create `system_info.sh` that uses functions for everything:
 ## What I Learned
 
 ### Functions
-
 Functions help organize scripts into reusable and maintainable blocks of code.
 
 ### Strict Mode
-
 Using `set -euo pipefail` makes shell scripts more reliable by detecting errors early.
 
 ### Local Variables
-
 The `local` keyword limits a variable's scope to a function and prevents variable leakage.
 
 ---
