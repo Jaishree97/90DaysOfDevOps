@@ -9,10 +9,8 @@
    - A function `greet` that takes a name as argument and prints `Hello, <name>!`
    - A function `add` that takes two numbers and prints their sum
    - Call both functions from the script
-
-### Here is the script functions.sh
-
-[functions.sh](scripts/functions.sh)
+     
+[Here is the script functions.sh](scripts/functions.sh)
 
 ![functions.sh Output](images/01-function-sh.png)
 
@@ -26,9 +24,7 @@
    - A function `check_memory` that checks available memory
    - A main section that calls both functions and prints the results
 
-### Here is the script disk_check.sh
-
-[disk_check.sh](scripts/disk_check.sh)
+[Here is the script disk_check.sh](scripts/disk_check.sh)
 
 ![disk_check.sh Output](images/02-disk-check-sh.png)
 
@@ -50,9 +46,7 @@
 - `set -u` → Exit if an undefined variable is used.
 - `set -o pipefail` → Makes a pipeline fail if any command in the pipeline fails.
 
-### Here is the script strict_demo.sh
-
-[strict_demo.sh](scripts/strict_demo.sh)
+[Here is the script strict_demo.sh](scripts/strict_demo.sh)
 
 ![strict_demo.sh Output](images/03-strict-demo-sh.png)
 
@@ -66,9 +60,7 @@
    - Show that local variables do not leak outside the function
    - Compare local variables with regular variables
 
-### Here is the script local_demo.sh
-
-[local_demo.sh](scripts/local_demo.sh)
+[Here is the script local_demo.sh](scripts/local_demo.sh)
 
 ![local_demo.sh Output](images/04-local-demo-sh.png)
 
@@ -92,9 +84,7 @@ Create `system_info.sh` that uses functions for everything:
 
 7. Use `set -euo pipefail` at the top
 
-### Here is the script system_info.sh
-
-[system_info.sh](scripts/system_info.sh)
+[Here is the script system_info.sh](scripts/system_info.sh)
 
 ![system_info.sh Output](images/05-system-info.png)
 
