@@ -10,7 +10,7 @@ Create `log_rotate.sh` that:
 4. Prints how many files were compressed and deleted
 5. Exits with an error if the directory doesn't exist
 
-Here is the script [log_rotate.sh](./scripts/log_rotate.sh)
+[Here is the script log_rotate.sh](scripts/log_rotate.sh)
 
 ![log-rotate](./images/01-log-rotate.png)
 
@@ -27,7 +27,7 @@ Create `backup.sh` that:
 5. Deletes backups older than 14 days from the destination
 6. Handles errors — exit if source doesn't exist
 
-Here is the script [backup.sh](./scripts/backup.sh)
+[Here is the script backup.sh](scripts/backup.sh)
 
 ![backup](./images/02-backup.png)
 
@@ -84,7 +84,7 @@ Create `maintenance.sh` that:
 0 1 * * *
 ```
 
-Here is the script [maintenance.sh](./scripts/maintenance.sh)
+[Here is the script maintenance.sh](scripts/maintenance.sh)
 
 ![maintenance](./images/03-maintenance.png)
 
