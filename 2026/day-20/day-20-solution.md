@@ -63,15 +63,9 @@ Generate a summary report containing:
 5. Top 5 error messages
 6. Critical events with line numbers
 
-[Here is the generated report file](archive/log_report_2026-06-16.txt)
-
 [Here is the script log_analyzer_report.sh](scripts/log_analyzer_report.sh)
 
-##### Report Content
-
 ![Report Content](images/06-report-content.png)
-
-##### Report Generation
 
 ![Report Generation](images/07-report-generation.png)
 
