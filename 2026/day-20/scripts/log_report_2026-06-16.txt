@@ -1,0 +1,33 @@
+========== LOG ANALYSIS REPORT ==========
+
+Date of analysis: Tue Jun 16 08:30:06 UTC 2026
+Log file name: sample.log
+Total lines processed: 100
+Total error count: 19
+
+---------- Top 5 Error Messages ----------
+      8 Disk full
+      4 Failed to connect
+      3 Out of memory
+      2 Segmentation fault
+      2 Invalid input
+
+---------- Critical Events ----------
+Line 17: 2026-06-16 07:46:44 [CRITICAL]  - 5759
+Line 28: 2026-06-16 07:46:44 [CRITICAL]  - 7066
+Line 37: 2026-06-16 07:46:44 [CRITICAL]  - 1144
+Line 46: 2026-06-16 07:46:44 [CRITICAL]  - 21210
+Line 50: 2026-06-16 07:46:44 [CRITICAL]  - 9467
+Line 53: 2026-06-16 07:46:44 [CRITICAL]  - 22241
+Line 54: 2026-06-16 07:46:44 [CRITICAL]  - 15023
+Line 60: 2026-06-16 07:46:44 [CRITICAL]  - 6824
+Line 63: 2026-06-16 07:46:44 [CRITICAL]  - 16526
+Line 66: 2026-06-16 07:46:44 [CRITICAL]  - 9273
+Line 73: 2026-06-16 07:46:44 [CRITICAL]  - 21649
+Line 76: 2026-06-16 07:46:44 [CRITICAL]  - 16089
+Line 77: 2026-06-16 07:46:44 [CRITICAL]  - 11822
+Line 80: 2026-06-16 07:46:44 [CRITICAL]  - 14800
+Line 85: 2026-06-16 07:46:44 [CRITICAL]  - 10326
+Line 87: 2026-06-16 07:46:44 [CRITICAL]  - 15663
+Line 97: 2026-06-16 07:46:44 [CRITICAL]  - 25436
+

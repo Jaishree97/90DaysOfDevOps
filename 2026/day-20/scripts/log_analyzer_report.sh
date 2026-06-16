@@ -1,0 +1,72 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Validate input
+if [ $# -eq 0 ]; then
+    echo "Error: No log file path provided."
+    exit 1
+fi
+
+log_file="$1"
+
+if [ ! -f "$log_file" ]; then
+    echo "Error: File does not exist: $log_file"
+    exit 1
+fi
+
+# Date
+analysis_date=$(date)
+
+# Total lines
+total_lines_processed=$(wc -l < "$log_file")
+
+# Total errors
+total_errors_count=$(grep -Ei "ERROR|Failed" "$log_file" | wc -l)
+
+# Top 5 error messages
+top_errors=$(grep "ERROR" "$log_file" \
+| awk -F'] ' '{print $2}' \
+| awk -F' - ' '{print $1}' \
+| sort \
+| uniq -c \
+| sort -rn \
+| head -5)
+
+# Critical events with line numbers (NO sed)
+critical_events=$(grep -n "CRITICAL" "$log_file" | while IFS=: read -r line_num log_entry
+do
+    echo "Line $line_num: $log_entry"
+done)
+
+# Report file
+report_file="log_report_$(date +%F).txt"
+
+{
+    echo "========== LOG ANALYSIS REPORT =========="
+    echo
+    echo "Date of analysis: $analysis_date"
+    echo "Log file name: $log_file"
+    echo "Total lines processed: $total_lines_processed"
+    echo "Total error count: $total_errors_count"
+    echo
+
+    echo "---------- Top 5 Error Messages ----------"
+    echo "$top_errors"
+    echo
+
+    echo "---------- Critical Events ----------"
+    echo "$critical_events"
+    echo
+
+} > "$report_file"
+
+echo "Summary report generated: $report_file"
+
+# Optional Task 6
+mkdir -p archive
+
+mv "$log_file" archive/
+
+echo "Moved $log_file to archive/"
+echo "Log analysis completed."
