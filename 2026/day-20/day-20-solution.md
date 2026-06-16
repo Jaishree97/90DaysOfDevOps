@@ -10,9 +10,7 @@ Your script should:
 2. Exit with a clear error message if no argument is provided
 3. Exit with a clear error message if the file doesn't exist
 
-#### Script
-
-`scripts/input_valid.sh`
+[Here is the script input_valid.sh](scripts/input_valid.sh)
 
 ![Input Validation](images/01-input-validation.png)
 
@@ -23,9 +21,7 @@ Your script should:
 1. Count the total number of lines containing the keyword `ERROR` or `Failed`
 2. Print the total error count to the console
 
-#### Script
-
-`scripts/error_count.sh`
+[Here is the script error_count.sh](scripts/error_count.sh)
 
 ![Error Count](images/02-error-count-before.png)
 
@@ -38,9 +34,7 @@ Your script should:
 1. Search for lines containing the keyword `CRITICAL`
 2. Print those lines along with their line number
 
-#### Script
-
-`scripts/critical.sh`
+[Here is the script critical.sh](scripts/critical.sh)
 
 ![Critical Events](images/04-critical-events.png)
 
@@ -52,9 +46,7 @@ Your script should:
 2. Identify the top 5 most common error messages
 3. Display them with their occurrence count sorted in descending order
 
-#### Script
-
-`scripts/top_error.sh`
+[Here is the script top_error.sh](scripts/top_error.sh)
 
 ![Top Error Messages](images/05-top-error-messages.png)
 
@@ -71,11 +63,9 @@ Generate a summary report containing:
 5. Top 5 error messages
 6. Critical events with line numbers
 
-#### Script
+[Here is the generated report file](archive/log_report_2026-06-16.txt)
 
-`scripts/log_analyzer_report.sh`
-
-#### Sample Output
+[Here is the script log_analyzer_report.sh](scripts/log_analyzer_report.sh)
 
 ##### Report Content
 
