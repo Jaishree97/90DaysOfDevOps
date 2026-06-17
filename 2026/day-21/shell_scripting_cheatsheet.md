@@ -563,9 +563,9 @@ fi
 - **! (NOT)**: Reverses the result of a condition.
 
 | Operator | Meaning |
-|----------|----------|
+|----------|---------|
 | `&&` | AND |
-| `||` | OR |
+| OR (`\|\|`) | Execute if previous command fails |
 | `!` | NOT |
 
 ### Example
