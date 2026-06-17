@@ -1,3 +1,74 @@
+# 🚀 Shell Scripting Cheat Sheet
+
+## Quick Reference Table
+
+| Topic | Syntax | Example |
+|--------|---------|---------|
+| Make Executable | `chmod +x file.sh` | `chmod +x script.sh` |
+| Run Script | `./file.sh` | `./script.sh` |
+| Comment | `# comment` | `echo "Hi" # inline comment` |
+| Variable | `VAR="value"` | `NAME="DevOps"` |
+| Use Variable | `$VAR` | `echo $NAME` |
+| Read Input | `read VAR` | `read USER` |
+| Arguments | `$1 $2 $# $@ $?` | `./script.sh arg1` |
+| String Compare | `[ "$a" = "$b" ]` | `[ "$name" = "Linux" ]` |
+| Integer Compare | `[ $a -gt 10 ]` | `[ $num -eq 5 ]` |
+| File Test | `[ -f file ]` | `[ -d /home ]` |
+| If Condition | `if [ condition ]; then` | `if [ -f file ]; then echo OK; fi` |
+| Case Statement | `case $var in ... esac` | `case $1 in start) echo run ;; esac` |
+| Logical AND | `cmd1 && cmd2` | `mkdir test && cd test` |
+| Logical OR | `cmd1 \|\| cmd2` | `cd dir \|\| pwd` |
+| For Loop | `for i in list; do` | `for i in 1 2 3; do echo $i; done` |
+| C-Style Loop | `for ((i=1;i<=3;i++))` | `for ((i=1;i<=3;i++)); do touch f$i; done` |
+| While Loop | `while [ condition ]; do` | `while [ $a -lt 5 ]; do echo $a; done` |
+| Until Loop | `until [ condition ]; do` | `until ping -c1 google.com; do sleep 2; done` |
+| Break | `break` | `if [ $i -eq 5 ]; then break; fi` |
+| Continue | `continue` | `if [ $i -eq 2 ]; then continue; fi` |
+| Function | `name() { ... }` | `greet(){ echo "Hi"; }` |
+| Function Argument | `$1 inside function` | `add(){ echo $(($1+$2)); }` |
+| Return Status | `return 0` | `return 1` |
+| Capture Output | `result=$(func)` | `today=$(date)` |
+| Local Variable | `local var=value` | `local count=10` |
+| grep | `grep pattern file` | `grep -i "error" log.txt` |
+| awk | `awk '{print $1}' file` | `awk -F: '{print $1}' /etc/passwd` |
+| sed | `sed 's/a/b/g' file` | `sed -i 's/foo/bar/g' file.txt` |
+| cut | `cut -d: -f1 file` | `cut -d: -f1 /etc/passwd` |
+| sort | `sort file` | `sort -n numbers.txt` |
+| uniq | `sort file \| uniq` | `sort file \| uniq -c` |
+| tr | `tr 'a-z' 'A-Z'` | `echo hi \| tr 'a-z' 'A-Z'` |
+| wc | `wc -l file` | `wc -w file.txt` |
+| head | `head -n 5 file` | `head -n 10 log.txt` |
+| tail | `tail -f file` | `tail -f app.log` |
+
+---
+
+## Common Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | General Error |
+| `2` | Misuse of Command |
+| `126` | Permission Denied |
+| `127` | Command Not Found |
+| `130` | Script Terminated (Ctrl+C) |
+
+---
+
+## Debugging Options
+
+| Command | Purpose |
+|----------|---------|
+| `set -e` | Exit on first error |
+| `set -u` | Error on undefined variable |
+| `set -x` | Print commands before execution |
+| `set -o pipefail` | Fail if any command in a pipeline fails |
+| `trap cleanup EXIT` | Run cleanup function before exit |
+
+---
+
+---
+
 # Task 1: Basics
 
 ## 1. Shebang (#!/bin/bash)
