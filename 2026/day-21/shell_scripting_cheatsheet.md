@@ -622,7 +622,7 @@ esac
 ### List-Based For Loop
 
 ```bash
-for USER in root ubuntu sanket; do
+for USER in root ubuntu jaishree; do
     echo "$USER"
 done
 ```
