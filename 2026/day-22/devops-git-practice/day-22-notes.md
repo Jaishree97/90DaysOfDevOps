@@ -10,7 +10,7 @@
 
 3. Verify your configuration
 
-![Git Configuration](images/01-git-config.png)
+![Git Configuration](../images/01-git-config.png)
 
 ---
 
@@ -53,7 +53,7 @@
 
 4. View your commit history
 
-![Git Log](images/02-git-log.png)
+![Git Log](../images/02-git-log.png)
 
 ---
 
