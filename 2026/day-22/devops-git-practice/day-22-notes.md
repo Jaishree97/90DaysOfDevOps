@@ -35,7 +35,6 @@
    - Setup & Config
    - Basic Workflow
    - Viewing Changes
-   - Branching & Merging
 
 3. For each command, write:
 
@@ -48,27 +47,11 @@
 
 1. Stage your file
 
-```bash
-git add git-commands.md
-```
-
 2. Check what's staged
-
-```bash
-git status
-```
 
 3. Commit with a meaningful message
 
-```bash
-git commit -m "Added git commands reference"
-```
-
 4. View your commit history
-
-```bash
-git log
-```
 
 ![Git Log](images/02-git-log.png)
 
@@ -82,19 +65,7 @@ git log
 
 3. Stage and commit again with a different, descriptive message
 
-```bash
-git commit -m "Added branch commands"
-```
-
-```bash
-git commit -m "Added checkout command"
-```
-
-```bash
-git commit -m "Added merge command"
-```
-
-4. Repeat this process so you have multiple commits in your history
+4. Repeat this process at least 3 times so you have multiple commits in your history
 
 5. View the full history in a compact format
 
@@ -115,52 +86,36 @@ Output:
 
 # Task 6: Understand the Git Workflow
 
-## 1. What is the difference between `git add` and `git commit`?
+### 1. What is the difference between `git add` and `git commit`?
 
-- `git add` moves changes to the staging area.
+- `git add` keeps files in the staging area so they can be included in the next commit.
 
-- `git commit` saves staged changes permanently into Git history.
+- `git commit` saves staged changes into the repository history with a commit message.
 
----
+### 2. What does the staging area do? Why doesn't Git just commit directly?
 
-## 2. What does the staging area do? Why doesn't Git just commit directly?
+- The staging area stores files and changes that will be included in the next commit.
 
-- The staging area stores selected changes before they are committed.
+- It helps review and organize changes before committing.
 
-- It allows us to review and organize changes before creating a commit.
+- It prevents accidental commits.
 
-- This helps avoid accidental commits and gives better control over version history.
+### 3. What information does `git log` show you?
 
----
+- `git log` shows commit history.
 
-## 3. What information does `git log` show you?
+- It displays commit ID, author, date and commit message.
 
-- `git log` displays commit history.
+### 4. What is the `.git/` folder and what happens if you delete it?
 
-- It shows commit IDs, author information, dates, and commit messages.
+- `.git/` stores repository history, branches, tags and configuration files.
 
----
+- If deleted, Git tracking and commit history are lost.
 
-## 4. What is the `.git/` folder and what happens if you delete it?
+### 5. What is the difference between a working directory, staging area, and repository?
 
-- The `.git/` folder stores the complete history of your repository.
+- **Working Directory** – Place where files are created and modified.
 
-- It contains commits, branches, tags, configuration files, and references.
+- **Staging Area** – Area where changes are prepared before committing.
 
-- If the `.git/` folder is deleted, Git tracking and history are permanently lost.
-
----
-
-## 5. What is the difference between a working directory, staging area, and repository?
-
-### Working Directory
-
-The area where files are created and modified.
-
-### Staging Area
-
-The area where selected changes are prepared before committing.
-
-### Repository
-
-The Git database that stores commits, branches, tags, and project history.
+- **Repository** – Stores commits, branches and complete project history.
