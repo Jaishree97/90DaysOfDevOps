@@ -7,14 +7,14 @@
 - A branch is a separate workspace used to make changes without affecting the main project.
 - A branch points to a commit in Git history.
 
-### 2. Why do we use branches instead of committing everything to main?
+### 2. Why do we use branches instead of committing everything to `main`?
 
-- If we commit everything directly to main, it may break the project.
+- If we commit everything directly to `main`, it may break the project.
 - We use branches to test and develop features safely before merging.
 
-### 3. What is HEAD in Git?
+### 3. What is `HEAD` in Git?
 
-- HEAD points to the latest commit in the current branch.
+- `HEAD` points to the latest commit in the current branch.
 
 ### 4. What happens to your files when you switch branches?
 
@@ -41,11 +41,11 @@
 
 7. Switch back to `main` — verify that the commit from `feature-1` is not there
 
-8. Delete a branch you no longer need
+8. Push your branches to GitHub
 
-9. Add all branching commands to your `git-commands.md`
+9. Verify both branches are visible on GitHub
 
-![Git Branches](images/01-git-branch.png)
+![Git Branch](images/01-git-branch.png)
 
 ![Branches Created](images/02-branches-created.png)
 
@@ -116,4 +116,5 @@
 ### After forking, how do you keep your fork in sync with the original repo?
 
 - There is an option available on GitHub, **Sync Fork**.
+
 - You can update a fork using that option.
