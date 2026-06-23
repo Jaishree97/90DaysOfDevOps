@@ -1,4 +1,4 @@
-# 🚀 GitHub CLI (gh) Commands Reference
+# GitHub CLI (gh) Commands Reference
 
 A quick reference guide for GitHub CLI commands explored during Day 26 of the #90DaysOfDevOps challenge.
 
