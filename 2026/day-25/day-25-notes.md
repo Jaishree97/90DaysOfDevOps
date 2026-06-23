@@ -1,3 +1,5 @@
+# Day 25 – Git Reset vs Revert & Branching Strategies
+
 ## Task 1: Git Reset — Hands-On
 
 ### 1. Create 3 commits in your practice repository (Commit A, B, C)
@@ -31,7 +33,7 @@
 
 ![Task 1.4](images/04-task-1.4.png)
 
-### 5. Key Learnings
+### Key Takeaways
 
 #### What is the difference between `--soft`, `--mixed`, and `--hard`?
 
@@ -54,7 +56,7 @@
 #### Should you ever use Git Reset on commits that are already pushed?
 
 - Generally, no.
-- Reset rewrites commit history and can create issues for collaborators who have already pulled those commits.
+- `git reset` rewrites commit history and may cause issues for collaborators who have already pulled those commits.
 - For shared branches, `git revert` is usually the safer choice.
 
 ---
@@ -86,7 +88,7 @@
 
 ![Task 2.3](images/08-task-2.3.png)
 
-### 4. Key Learnings
+### Key Takeaways
 
 #### How is `git revert` different from `git reset`?
 
@@ -257,25 +259,38 @@ main (trunk)
 
 #### Which strategy would you use for a startup shipping fast?
 
-**Trunk-Based Development** because it supports rapid development, continuous integration, and frequent deployments with minimal overhead.
+- **Trunk-Based Development**
+- Supports rapid development and continuous integration.
+- Enables frequent deployments with minimal overhead.
 
 #### Which strategy would you use for a large team with scheduled releases?
 
-**GitFlow** because it provides structured release management, clear branch separation, and better control over production releases.
+- **GitFlow**
+- Provides structured release management.
+- Offers clear branch separation and better release control.
 
 #### Which strategy does your favorite open-source project use?
 
-Many modern open-source projects use **GitHub Flow**, where contributors create feature branches, submit Pull Requests, and merge approved changes into `main`.
+- **GitHub Flow**
+- Commonly used by modern open-source projects on GitHub.
+- Contributors work on feature branches, submit Pull Requests, and merge approved changes into `main`.
 
 ---
 
-### Key Takeaway
+### Key Takeaways
 
 Different teams require different branching strategies. **GitFlow** is ideal for structured release management, **GitHub Flow** simplifies collaboration and deployment, and **Trunk-Based Development** enables rapid delivery through continuous integration. Selecting the right strategy depends on team size, release frequency, and deployment requirements.
 
 ---
 
-### Task 5: Git Commands Reference
+## Task 5: Git Commands Reference
 
-📄 **Git Commands Cheat Sheet:**  
-[View Git Commands Reference](git-commands.md)
+### Related Documentation
+
+- [Git Commands Reference](git-commands.md)
+
+---
+
+## Day 25 Summary
+
+In this lab, I explored Git Reset, Git Revert, and common branching strategies used in modern software development. I learned when to rewrite history, when to preserve it, and how different branching models support various team workflows. These concepts are essential for managing source code safely and collaborating effectively in DevOps environments.
