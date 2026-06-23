@@ -4,7 +4,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 | Command | Description |
 |----------|-------------|
@@ -13,7 +13,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 📂 Repository Management
+## Repository Management
 
 | Command | Description |
 |----------|-------------|
@@ -24,7 +24,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 🐞 Issues
+## Issues
 
 | Command | Description |
 |----------|-------------|
@@ -35,7 +35,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 🔀 Pull Requests
+## Pull Requests
 
 | Command | Description |
 |----------|-------------|
@@ -48,7 +48,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## ⚙️ GitHub Actions
+## GitHub Actions
 
 | Command | Description |
 |----------|-------------|
@@ -58,7 +58,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 🛠 Useful Commands
+## Useful Commands
 
 | Command | Description |
 |----------|-------------|
@@ -70,7 +70,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 💡 Helpful Tips
+## Helpful Tips
 
 | Command | Purpose |
 |----------|---------|
@@ -81,7 +81,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## 🎯 Key Takeaways
+## Key Takeaways
 
 - Manage GitHub repositories directly from the terminal.
 - Create and manage issues without opening GitHub.
@@ -91,4 +91,4 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-🚀 Built while learning GitHub CLI through the #90DaysOfDevOps challenge.
+Built while learning GitHub CLI through the #90DaysOfDevOps challenge.
