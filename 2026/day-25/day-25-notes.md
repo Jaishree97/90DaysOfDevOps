@@ -288,9 +288,3 @@ Different teams require different branching strategies. **GitFlow** is ideal for
 ### Related Documentation
 
 - [Git Commands Reference](git-commands.md)
-
----
-
-## Day 25 Summary
-
-In this lab, I explored Git Reset, Git Revert, and common branching strategies used in modern software development. I learned when to rewrite history, when to preserve it, and how different branching models support various team workflows. These concepts are essential for managing source code safely and collaborating effectively in DevOps environments.
