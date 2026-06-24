@@ -1,6 +1,17 @@
 # GitHub CLI (gh) Commands Reference
 
-A quick reference guide for GitHub CLI commands explored during Day 26 of the #90DaysOfDevOps challenge.
+A concise reference guide for GitHub CLI commands explored during **Day 26** of the **#90DaysOfDevOps** challenge.
+
+## Topics Covered
+
+- Authentication
+- Repository Management
+- Issues
+- Pull Requests
+- GitHub Actions
+- GitHub API
+- Releases & Gists
+- Command Aliases
 
 ---
 
@@ -9,7 +20,7 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 | Command | Description |
 |----------|-------------|
 | `gh auth login` | Authenticate GitHub CLI |
-| `gh auth status` | Check authentication status |
+| `gh auth status` | Verify authentication status |
 
 ---
 
@@ -43,8 +54,8 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 | `gh pr list` | List pull requests |
 | `gh pr view` | View pull request details |
 | `gh pr merge --merge` | Merge using merge commit |
-| `gh pr merge --squash` | Merge using squash strategy |
-| `gh pr merge --rebase` | Merge using rebase strategy |
+| `gh pr merge --squash` | Merge using squash merge |
+| `gh pr merge --rebase` | Merge using rebase merge |
 
 ---
 
@@ -58,15 +69,15 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-## Useful Commands
+## Additional GitHub CLI Commands
 
 | Command | Description |
 |----------|-------------|
-| `gh api user` | View GitHub user details using API |
+| `gh api user` | Access GitHub API data |
 | `gh gist create <file>` | Create a GitHub Gist |
 | `gh release create <tag>` | Create a GitHub Release |
-| `gh alias set <name> "<command>"` | Create a command alias |
-| `gh search repos <keyword>` | Search repositories |
+| `gh alias set <name> "<command>"` | Create custom command aliases |
+| `gh search repos <keyword>` | Search GitHub repositories |
 
 ---
 
@@ -74,14 +85,14 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 | Command | Purpose |
 |----------|---------|
-| `gh help` | Display GitHub CLI help |
-| `gh <command> --help` | Show help for a specific command |
-| `gh pr create --fill` | Auto-fill PR title and description |
-| `gh repo view --json` | Return machine-readable JSON output |
+| `gh help` | Display CLI help |
+| `gh <command> --help` | Show command-specific help |
+| `gh pr create --fill` | Auto-fill PR details |
+| `gh repo view --json` | Generate JSON output for automation |
 
 ---
 
-## Key Takeaways
+## Summary
 
 - Manage GitHub repositories directly from the terminal.
 - Create and manage issues without opening GitHub.
@@ -91,4 +102,5 @@ A quick reference guide for GitHub CLI commands explored during Day 26 of the #9
 
 ---
 
-Built while learning GitHub CLI through the #90DaysOfDevOps challenge.
+**Day 26 – GitHub CLI (gh)**  
+**#90DaysOfDevOps | UDAAN Batch 11**
