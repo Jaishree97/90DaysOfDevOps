@@ -2,40 +2,40 @@
 
 ---
 
-# Task 1: Audit Your Current GitHub Profile
+## Task 1: Audit Your Current GitHub Profile
 
-Before making changes, assess where you stand:
+Before making changes, assess where you stand.
 
-1. Visit your own GitHub profile as if you were a recruiter.
+1. Visit your GitHub profile as if you were a recruiter.
 
-2. Answer these questions in your notes:
+2. Answer these questions:
 
-   - Is your profile picture professional?
-     - Yes
+- Is your profile picture professional?
+  - Yes
 
-   - Is your bio filled in? Does it clearly say what you do?
-     - Yes, but I improved it to better reflect my DevOps journey.
+- Is your bio filled in? Does it explain what you do?
+  - Yes
 
-   - Are your pinned repositories relevant?
-     - Yes, I pinned my best DevOps and Cloud projects.
+- Are your pinned repositories relevant?
+  - Yes
 
-   - Do your repositories have descriptions, or are they blank?
-     - Some repositories needed better descriptions and documentation.
+- Do your repositories have descriptions?
+  - Some repositories were improved.
 
-   - Would a recruiter understand what you've been working on?
-     - Yes, but adding a Profile README makes it much easier.
+- Would a recruiter understand your work?
+  - Yes, after adding a Profile README.
 
 ---
 
-# Task 2: Create Your Profile README
+## Task 2: Create Your Profile README
 
 README includes
 
-- Introduction — Jaishree Chaure, Aspiring DevOps & Cloud Engineer passionate about automation, cloud technologies, and hands-on learning.
+- Introduction — Jaishree Chaure, Aspiring DevOps & Cloud Engineer passionate about Cloud, Linux and Automation.
 
-- What I'm currently working on — 90 Days of DevOps Challenge
+- What I'm working on — 90 Days of DevOps Challenge
 
-- Skills & Tools — AWS, Linux, Docker, Kubernetes, Jenkins, Git, GitHub, Python, Shell Scripting
+- Skills & Tools — AWS, Linux, Docker, Kubernetes, Jenkins, Git, GitHub, Python & Shell Scripting
 
 - Tech Stack section
 
@@ -43,13 +43,11 @@ README includes
 
 - Certifications section
 
-- GitHub Stats
-
-- Contact section — Email and LinkedIn
+- Contact section — Email & LinkedIn
 
 ---
 
-# Task 3: Organize Your Repositories
+## Task 3: Organize Your Repositories
 
 | Repo | Status |
 |------|--------|
@@ -59,17 +57,15 @@ README includes
 | Shell-Scripting-For-DevOps | Updated |
 | devboard | Updated |
 
-All repositories have
+All repositories have:
 
 - Descriptive repository names
 - One-line GitHub descriptions
-- README.md explaining the project
-- Better folder organization
-- Recruiter-friendly documentation
+- README.md explaining contents
 
 ---
 
-# Task 4: Pin Your Best Repositories
+## Task 4: Pin Your Best Repositories
 
 Selected pinned repositories
 
@@ -79,74 +75,40 @@ Selected pinned repositories
 - Shell-Scripting-For-DevOps
 - devboard
 
-These projects best represent my DevOps learning journey and practical experience.
-
 ---
 
-# Task 5: Review Profile
+## Task 5: Before & After
 
-Things verified
+### 2. GitHub profile after
 
-- Profile picture is professional
-- Bio clearly describes my role
-- Profile README added
-- Tech stack highlighted
-- Certifications mentioned
-- Current learning section added
-- Contact information available
-- Important repositories pinned
-- Repository descriptions updated
+![GitHub Profile After](images/01-after.png)
 
----
+### 3. Things improved
 
-# Task 6: Before & After
+**Added a Professional Introduction**
 
-## 1. GitHub profile after
-
-![After](01-after.png)
-
----
-
-## 3. Things improved
-
-**Added a Personal Introduction**
-
-Added a Profile README with a clear introduction so visitors immediately understand who I am and what I'm learning.
-
----
+Added a Profile README with a clear introduction so visitors immediately know who I am and what I do.
 
 **Organized Profile Layout**
 
-Structured the profile into sections such as About Me, Tech Stack, Current Learning, Certifications, GitHub Stats, and Connect with Me.
+Structured the profile into sections such as About Me, Tech Stack, Current Learning, Certifications, and Contact.
 
----
+**Highlighted Skills Clearly**
 
-**Highlighted Technical Skills**
-
-Clearly displayed my DevOps skills including AWS, Linux, Docker, Kubernetes, Jenkins, Git, GitHub, Python, and Shell Scripting.
-
----
+Listed my AWS, Linux, Docker, Kubernetes, Git, GitHub, Python and Shell Scripting skills for better visibility.
 
 **Pinned Relevant Projects**
 
-Pinned my best DevOps projects instead of random repositories, making the profile more focused for recruiters.
+Pinned my best DevOps projects to showcase practical learning.
+
+**Improved Repository Documentation**
+
+Updated repository descriptions and README files to make projects easier to understand.
 
 ---
 
-**Improved Documentation**
-
-Updated repository descriptions and README files so every project explains its purpose and implementation clearly.
-
----
-
-**Professional First Impression**
-
-The profile now looks more organized, easier to navigate, and better represents my DevOps journey.
-
----
-
-# Learning Outcome
+## Learning Outcome
 
 GitHub is more than just a place to store code.
-A well-organized GitHub profile acts as a technical portfolio that showcases skills, projects, consistency, and documentation quality.
-Improving the profile helps recruiters quickly understand my experience and learning journey.
+
+A well-organized GitHub profile acts as a technical portfolio that showcases your projects, skills, documentation, and consistency.
