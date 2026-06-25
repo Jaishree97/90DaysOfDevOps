@@ -7,21 +7,15 @@
 Before making changes, assess where you stand.
 
 1. Visit your GitHub profile as if you were a recruiter.
-
 2. Answer these questions:
-
 - Is your profile picture professional?
   - Yes
-
 - Is your bio filled in? Does it explain what you do?
   - Yes
-
 - Are your pinned repositories relevant?
   - Yes
-
 - Do your repositories have descriptions?
   - Some repositories were improved.
-
 - Would a recruiter understand your work?
   - Yes, after adding a Profile README.
 
@@ -86,23 +80,18 @@ Selected pinned repositories
 ### 3. Things improved
 
 **Added a Professional Introduction**
-
 Added a Profile README with a clear introduction so visitors immediately know who I am and what I do.
 
 **Organized Profile Layout**
-
 Structured the profile into sections such as About Me, Tech Stack, Current Learning, Certifications, and Contact.
 
 **Highlighted Skills Clearly**
-
 Listed my AWS, Linux, Docker, Kubernetes, Git, GitHub, Python and Shell Scripting skills for better visibility.
 
 **Pinned Relevant Projects**
-
 Pinned my best DevOps projects to showcase practical learning.
 
 **Improved Repository Documentation**
-
 Updated repository descriptions and README files to make projects easier to understand.
 
 ---
