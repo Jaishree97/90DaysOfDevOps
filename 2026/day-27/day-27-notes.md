@@ -11,19 +11,19 @@ Before making changes, assess where you stand:
 2. Answer these questions in your notes:
 
    - Is your profile picture professional?
-     - ✅ Yes
+     - Yes
 
    - Is your bio filled in? Does it clearly say what you do?
-     - ✅ Yes, but I improved it to better reflect my DevOps journey.
+     - Yes, but I improved it to better reflect my DevOps journey.
 
    - Are your pinned repositories relevant?
-     - ✅ Yes, I pinned my best DevOps and Cloud projects.
+     - Yes, I pinned my best DevOps and Cloud projects.
 
    - Do your repositories have descriptions, or are they blank?
-     - ⚠️ Some repositories needed better descriptions and documentation.
+     - Some repositories needed better descriptions and documentation.
 
    - Would a recruiter understand what you've been working on?
-     - ✅ Yes, but adding a Profile README makes it much easier.
+     - Yes, but adding a Profile README makes it much easier.
 
 ---
 
@@ -148,7 +148,5 @@ The profile now looks more organized, easier to navigate, and better represents 
 # Learning Outcome
 
 GitHub is more than just a place to store code.
-
 A well-organized GitHub profile acts as a technical portfolio that showcases skills, projects, consistency, and documentation quality.
-
 Improving the profile helps recruiters quickly understand my experience and learning journey.
