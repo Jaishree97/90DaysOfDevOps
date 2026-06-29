@@ -2,308 +2,271 @@
 
 ---
 
-# Task 1
+# Task 1: What is Docker?
 
-## What is Docker?
+Research and write short notes on:
 
-Docker is an open-source containerization platform that packages applications along with their dependencies, making them portable and consistent across different environments.
+- What is a container and why do we need them?
+- Containers vs Virtual Machines — What's the real difference?
+- What is the Docker architecture? (Client, Daemon, Images, Containers, Registry)
+- Draw or describe the Docker architecture.
 
-## Why Docker?
+---
 
-- Consistent development environment
-- Lightweight compared to Virtual Machines
-- Fast deployment
-- Easy application portability
-- Simplifies CI/CD pipelines
+## What is a Container?
+
+A **container** is a lightweight, isolated runtime environment that packages an application along with all its dependencies, libraries, and configuration files.
+
+### Why do we need Containers?
+
+- Eliminates **"Works on my machine"** problems.
+- Provides consistent environments across Development, Testing, and Production.
+- Lightweight and starts within seconds.
+- Uses fewer system resources than Virtual Machines.
+- Makes application deployment fast and portable.
 
 ---
 
 ## Containers vs Virtual Machines
 
-| Feature | Virtual Machine | Container |
-|----------|----------------|------------|
-| Virtualization | Hardware Level | OS Level |
-| Boot Time | Minutes | Seconds |
-| Size | GBs | MBs |
-| Performance | Slower | Faster |
-| Isolation | Complete OS | Process Level |
-| Portability | Limited | High |
+| Feature | Containers | Virtual Machines |
+|----------|------------|------------------|
+| Virtualization | OS-level | Hardware-level |
+| Operating System | Shares Host OS | Separate Guest OS |
+| Startup Time | Seconds | Minutes |
+| Size | MBs | GBs |
+| Performance | Faster | Slower |
+| Resource Usage | Low | High |
+| Isolation | Process Level | Full OS Isolation |
+| Portability | High | Moderate |
+| Best Use Case | Microservices, CI/CD | Multiple Operating Systems |
 
 ---
 
-## Docker Architecture
+# Docker Architecture
 
-### Docker Client
+Docker consists of five main components.
 
-The Docker Client is the command-line interface used to communicate with Docker.
+## Docker Client
 
-Example Commands
+### What is it?
+
+The Docker Client is the command-line interface (CLI) used to communicate with Docker.
+
+### Example Commands
 
 ```bash
 docker build
 docker run
 docker pull
 docker push
+docker ps
 ```
 
 ---
 
-### Docker Daemon
+## Docker Daemon
 
-The Docker daemon is the background service responsible for building, running and managing containers.
+### What is it?
 
-Responsibilities
+The Docker Daemon (`dockerd`) is the background service responsible for managing Docker resources.
 
-- Build Images
-- Run Containers
-- Manage Networks
-- Manage Volumes
+### Responsibilities
 
----
-
-### Docker Hub
-
-Docker Hub is the public registry used to download and share Docker images.
-
-It allows you to
-
-- Pull Images
-- Push Images
-- Share Images
+- Builds Docker images
+- Creates containers
+- Starts and stops containers
+- Manages networks
+- Manages volumes
 
 ---
 
-### Docker Registry
+## Docker Images
+
+### What is it?
+
+A Docker Image is a **read-only template** used to create Docker containers.
+
+### Characteristics
+
+- Immutable
+- Contains application code
+- Includes dependencies
+- Stores configuration files
+
+---
+
+## Docker Containers
+
+### What is it?
+
+A Docker Container is a **running instance of a Docker Image**.
+
+### Characteristics
+
+- Lightweight
+- Isolated
+- Portable
+- Can be started or stopped anytime
+
+---
+
+## Docker Registry
+
+### What is it?
 
 A Docker Registry stores Docker Images.
 
-Examples
+### Types
 
-- Docker Hub
-- Private Registry
-- AWS ECR
-- Azure Container Registry
+- **Public Registry** → Docker Hub
+- **Private Registry** → Enterprise Registries
+
+### Usage
+
+- Pull images
+- Push images
+- Share images with teams
 
 ---
 
-# Task 2 – Install Docker
+# Docker Architecture Diagram
 
-## Install Docker
+```text
+                +----------------------+
+                |    Docker Client     |
+                | (docker commands)    |
+                +----------+-----------+
+                           |
+                           | Docker API
+                           ▼
+                +----------------------+
+                |    Docker Daemon     |
+                |      (dockerd)       |
+                +----------+-----------+
+                           |
+         +-----------------+-----------------+
+         |                                   |
+         ▼                                   ▼
++---------------------+             +----------------------+
+|    Docker Images    |             | Docker Containers    |
++---------------------+             +----------------------+
+                           |
+                           ▼
+                +----------------------+
+                |   Docker Registry    |
+                |     Docker Hub       |
+                +----------------------+
+```
+
+---
+# Task 2: Install Docker
+
+Install Docker on an Ubuntu EC2 instance, verify the installation, and run the first Docker container.
+
+---
+
+## Step 1: Verify Docker Installation
+
+Initially, Docker commands returned a permission error because the current user was not added to the Docker group.
+
+### Commands
 
 ```bash
-sudo apt update
-
-sudo apt install docker.io -y
-
-sudo systemctl enable docker
-
-sudo systemctl start docker
-
 sudo usermod -aG docker $USER
-
 newgrp docker
+docker -v
+docker ps
 ```
 
 ### Output
 
-![](images/01-docker-install.png)
+<img src="./images/01-2.1-docker-version.png" width="900">
 
 ---
 
-## Verify Docker
+## Step 2: Run the Hello World Container
 
-```bash
-docker -v
-```
+Pull and run Docker's official **hello-world** image to verify that Docker is working correctly.
 
-![](images/02-docker-version.png)
-
----
-
-## Run Hello World
+### Command
 
 ```bash
 docker run hello-world
 ```
 
-![](images/03-hello-world.png)
+### Output
+
+<img src="./images/02-2.3-hello-world.png" width="900">
 
 ---
 
-### Output Explanation
+## What Happened?
 
-- Docker searched the image locally.
-- Pulled the image from Docker Hub.
-- Created a container.
-- Executed the application.
-- Displayed the success message.
+When the `hello-world` container was executed, Docker performed the following steps:
+
+1. Checked for the image locally.
+2. Downloaded the image from Docker Hub.
+3. Created a new container from the image.
+4. Started the container.
+5. Executed the application inside the container.
+6. Displayed the success message and exited.
+
+---
+# Task 3: Run Real Containers
 
 ---
 
-# Task 3 – Run Containers
+## 1. Run an Nginx Container and Access It in the Browser
 
-## Run Nginx Container
+Created an Nginx container and exposed it on **Port 80**. Verified that the web server was running successfully by accessing the EC2 Public IP from a web browser.
 
-```bash
-docker run -d -p 80:80 nginx
-```
+### Container
 
-![](images/04-nginx-container.png)
+<img src="./images/04-3.1-nginx-80-80.png" width="900">
 
----
+### Browser Output
 
-## Verify Running Containers
-
-```bash
-docker ps
-```
-
-![](images/05-docker-ps.png)
+<img src="./images/03-3.0-nginx.png" width="900">
 
 ---
 
-## Access Nginx in Browser
+## 2. Run an Ubuntu Container in Interactive Mode
 
-```
-http://<Public-IP>:80
-```
+Launched an Ubuntu container and explored it like a lightweight Linux machine.
 
-![](images/06-nginx-browser.png)
+Verified:
 
----
+- Updated package repository
+- Checked current user
+- Listed directories
+- Verified shell environment
+- Exited the container
 
-## Run Ubuntu Container
-
-```bash
-docker run -it ubuntu bash
-```
-
-![](images/07-ubuntu-container.png)
+<img src="./images/05-3.2-ubuntu.png" width="900">
 
 ---
 
-## Running Containers
+## 3. List Running Containers
 
-```bash
-docker ps
-```
+Displayed all currently running Docker containers.
 
-![](images/08-running-containers.png)
+<img src="./images/06-3.3-docker-ps.png" width="900">
 
 ---
 
-## List All Containers
+## 4. List All Containers
 
-```bash
-docker ps -a
-```
+Displayed all Docker containers, including running and stopped containers.
 
-![](images/09-all-containers.png)
+<img src="./images/07-3.4-all-containers.png" width="900">
 
 ---
 
-## Stop & Remove Container
+## 5. Stop and Remove a Container
 
-```bash
-docker stop <container-id>
+Stopped the running container and removed it from the Docker host.
 
-docker rm <container-id>
-```
-
-![](images/10-stop-remove.png)
+<img src="./images/08-3.5-stop-remove.png" width="900">
 
 ---
-
-# Task 4 – Explore Docker Commands
-
-## Run Container in Detached Mode
-
-```bash
-docker run -d ubuntu
-```
-
-![](images/11-detached-container.png)
-
----
-
-## Create Named Container
-
-```bash
-docker run -d --name nginx -p 81:80 nginx
-```
-
-![](images/12-custom-container.png)
-
----
-
-## View Container Logs
-
-```bash
-docker logs nginx
-```
-
-![](images/13-docker-logs.png)
-
----
-
-## Execute Commands Inside Container
-
-```bash
-docker exec -it nginx bash
-```
-
-![](images/14-docker-exec.png)
-
----
-
-## Copy File to Container
-
-```bash
-docker cp index.html nginx:/usr/share/nginx/html/index.html
-```
-
-![](images/15-docker-cp.png)
-
----
-
-## Verify Custom Web Page
-
-```
-http://<Public-IP>:81
-```
-
-![](images/16-final-output.png)
-
----
-
-# Commands Practiced
-
-| Command | Description |
-|----------|-------------|
-| docker run | Create Container |
-| docker ps | Running Containers |
-| docker ps -a | All Containers |
-| docker stop | Stop Container |
-| docker rm | Remove Container |
-| docker exec | Execute Inside Container |
-| docker logs | View Logs |
-| docker cp | Copy Files |
-| docker images | List Images |
-
----
-
-# Key Learnings
-
-- Docker Installation
-- Docker Architecture
-- Docker Images
-- Docker Containers
-- Docker Hub
-- Docker Registry
-- Container Lifecycle
-- Detached Mode
-- Port Mapping
-- Interactive Containers
-- Docker Logs
-- Docker Exec
-- Docker Copy
