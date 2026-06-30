@@ -156,7 +156,7 @@ Deploy a static HTML website using an Nginx Docker container.
 
 Reduce the Docker build context by excluding unnecessary files.
 
-### 📄 Source File
+### Source File
 
 - **.dockerignore:** [nginx-demo/.dockerignore](./nginx-demo/.dockerignore)
 
@@ -176,8 +176,8 @@ Reduce the Docker build context by excluding unnecessary files.
 
 ### Verification
 
-- ✅ Docker build context optimized successfully.
-- ✅ Unnecessary files were excluded.
+- Docker build context optimized successfully.
+- Unnecessary files were excluded.
 
 ![Docker Ignore](images/10-5.1-my-website-v2.png)
 
@@ -217,7 +217,7 @@ Understand Docker layer caching and its impact on build performance.
 
 ---
 
-# 🎯 Key Takeaways
+# Key Takeaways
 
 - Built custom Docker images using Dockerfiles.
 - Learned the purpose of commonly used Dockerfile instructions.
