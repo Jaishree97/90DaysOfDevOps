@@ -2,94 +2,80 @@
 
 ## Objective
 
-Learn how to write Dockerfiles, build custom Docker images, understand Dockerfile instructions, compare **CMD** and **ENTRYPOINT**, deploy a static website using **Nginx**, use **.dockerignore**, and optimize builds using **Docker layer caching**.
+In this hands-on lab, I learned how to create custom Docker images using Dockerfiles, explored commonly used Dockerfile instructions, compared **CMD** and **ENTRYPOINT**, deployed a static website using **Nginx**, optimized Docker build context with **.dockerignore**, and improved build performance using **Docker layer caching**.
 
 ---
 
 # Task 1: Your First Dockerfile
 
-## Steps Performed
+## Objective
 
-### Step 1: Created the Project Directory
-Created the **my-first-image** directory for the Docker project.
+Create and run a custom Docker image using Ubuntu as the base image.
 
-### Step 2: Created the Dockerfile
-Configured a Dockerfile using:
-- Ubuntu as the base image
-- Installed `curl`
-- Added a default command using `CMD`
+### Source File
 
-### Dockerfile
+- **Dockerfile:** [my-first-image/Dockerfile](./my-first-image/Dockerfile)
 
-➡️ [my-first-image/Dockerfile](./my-first-image/Dockerfile)
+### Steps Performed
 
-### Step 3: Built the Docker Image
+1. Created the **my-first-image** project directory.
+2. Wrote a Dockerfile using **Ubuntu** as the base image.
+3. Installed **curl** using the `RUN` instruction.
+4. Configured a default command using `CMD`.
+5. Built the Docker image with the tag **my-ubuntu:v1**.
+6. Ran the container and verified the output.
 
-Successfully built the custom Docker image.
+### Verification
 
-### Step 4: Ran the Container
-
-Verified the container executed successfully.
-
-### Result
-
-- Image built successfully (`my-ubuntu:v1`)
-- Default message displayed as expected
+- Docker image built successfully.
+- Container started successfully.
+- Default message printed as expected.
 
 ![Dockerfile](images/01-my-first-image-docker-file.png)
 
-![Output](images/02-1.4-run-my-ubuntu.png)
+![Container Output](images/02-1.4-run-my-ubuntu.png)
 
 ---
 
 # Task 2: Dockerfile Instructions
 
-## Steps Performed
+## Objective
 
-### Step 1: Created the Dockerfile
+Understand the purpose of commonly used Dockerfile instructions by building and running a custom Docker image.
 
-Implemented the following Dockerfile instructions.
+### Source Files
 
-### Dockerfile
+- **Dockerfile:** [dockerfile-demo/Dockerfile](./dockerfile-demo/Dockerfile)
+- **HTML File:** [dockerfile-demo/index.html](./dockerfile-demo/index.html)
 
-➡️ [dockerfile-demo/Dockerfile](./dockerfile-demo/Dockerfile)
-
-### HTML File
-
-➡️ [dockerfile-demo/index.html](./dockerfile-demo/index.html)
-
-### Step 2: Dockerfile Instructions Used
+### Instructions Used
 
 | Instruction | Purpose |
 |-------------|---------|
-| `FROM` | Selects the base image |
+| `FROM` | Defines the base image |
 | `RUN` | Executes commands during image build |
 | `COPY` | Copies files into the image |
 | `WORKDIR` | Sets the working directory |
 | `EXPOSE` | Documents the application port |
-| `CMD` | Defines the default container command |
+| `CMD` | Defines the default startup command |
 
-### Step 3: Built the Image
+### Steps Performed
 
-Successfully built the Docker image.
+1. Created a custom HTML page.
+2. Wrote a Dockerfile using the above instructions.
+3. Built the Docker image.
+4. Started the Nginx container.
+5. Verified the application in the browser.
 
-### Step 4: Started the Container
+### Verification
 
-Ran the Nginx container successfully.
+- Docker image built successfully.
+- Nginx container started successfully.
+- Application served correctly in the browser.
 
-### Step 5: Verified in Browser
+![Dockerfile](images/03-2.1-dockerfile.demo.png)
 
-Accessed the application through the browser.
-
-### Result
-
-- Docker image created successfully
-- Container started successfully
-- Application served using Nginx
-
-![Dockerfile Demo](images/03-2.1-dockerfile.demo.png)
-
-![Build & Run](images/04-2.2-build-run-docker-demo.png)
+![Build Output](images/04-2.2-build-run-docker-demo.png)
 
 ![Browser Output](images/05-2.3-browser-output.png)
 
@@ -97,27 +83,35 @@ Accessed the application through the browser.
 
 # Task 3: CMD vs ENTRYPOINT
 
-## Steps Performed
+## Objective
 
-### Step 1: Created Dockerfile using CMD
+Compare the runtime behavior of **CMD** and **ENTRYPOINT** instructions.
 
-➡️ [cmd-vs-entrypoint/Dockerfile.cmd](./cmd-vs-entrypoint/Dockerfile.cmd)
+### Source Files
 
-### Step 2: Created Dockerfile using ENTRYPOINT
+- **CMD Dockerfile:** [cmd-vs-entrypoint/Dockerfile.cmd](./cmd-vs-entrypoint/Dockerfile.cmd)
+- **ENTRYPOINT Dockerfile:** [cmd-vs-entrypoint/Dockerfile.entrypoint](./cmd-vs-entrypoint/Dockerfile.entrypoint)
 
-➡️ [cmd-vs-entrypoint/Dockerfile.entrypoint](./cmd-vs-entrypoint/Dockerfile.entrypoint)
-
-### Step 3: Compared Both Instructions
+### Comparison
 
 | CMD | ENTRYPOINT |
 |------|------------|
-| Provides a default command | Defines the main executable |
-| Can be overridden | Always executes first |
-| Suitable for optional commands | Suitable for fixed application startup |
+| Provides the default command | Defines the main executable |
+| Can be overridden | Always executes |
+| Suitable for optional runtime commands | Suitable for fixed application startup |
 
-### Result
+### Steps Performed
 
-Successfully verified the runtime behavior of **CMD** and **ENTRYPOINT**.
+1. Built a Docker image using **CMD**.
+2. Built another image using **ENTRYPOINT**.
+3. Executed both containers.
+4. Passed runtime arguments.
+5. Compared the behavior.
+
+### Verification
+
+- Successfully verified the behavior of **CMD**.
+- Successfully verified the behavior of **ENTRYPOINT**.
 
 ![CMD Demo](images/06-3.1-cmd-demo.png)
 
@@ -127,37 +121,28 @@ Successfully verified the runtime behavior of **CMD** and **ENTRYPOINT**.
 
 # Task 4: Build a Simple Web Application
 
-## Steps Performed
+## Objective
 
-### Step 1: Created Static HTML Page
+Deploy a static HTML website using an Nginx Docker container.
 
-Created an `index.html` file.
+### Source Files
 
-### Step 2: Created Dockerfile
+- **Dockerfile:** [nginx-demo/Dockerfile](./nginx-demo/Dockerfile)
+- **HTML File:** [nginx-demo/index.html](./nginx-demo/index.html)
 
-➡️ [nginx-demo/Dockerfile](./nginx-demo/Dockerfile)
+### Steps Performed
 
-### HTML File
+1. Created a static HTML webpage.
+2. Wrote the Dockerfile.
+3. Built the Docker image.
+4. Started the Nginx container.
+5. Accessed the application through the browser.
 
-➡️ [nginx-demo/index.html](./nginx-demo/index.html)
+### Verification
 
-### Step 3: Built the Docker Image
-
-Successfully built the custom Nginx image.
-
-### Step 4: Started the Container
-
-Mapped the required port and started the container.
-
-### Step 5: Verified in Browser
-
-Successfully accessed the webpage.
-
-### Result
-
-- Custom Nginx image created
-- Container running successfully
-- Website accessible from the browser
+- Docker image built successfully.
+- Website deployed successfully.
+- Browser output verified.
 
 ![Website Build](images/08-4.1-my-website-v1.png)
 
@@ -167,30 +152,32 @@ Successfully accessed the webpage.
 
 # Task 5: Using .dockerignore
 
-## Steps Performed
+## Objective
 
-### Step 1: Created the .dockerignore File
+Reduce the Docker build context by excluding unnecessary files.
 
-Configured a `.dockerignore` file.
+### 📄 Source File
 
-➡️ [nginx-demo/.dockerignore](./nginx-demo/.dockerignore)
+- **.dockerignore:** [nginx-demo/.dockerignore](./nginx-demo/.dockerignore)
 
-### Step 2: Added Ignore Rules
-
-Ignored the following files and directories:
+### Ignored Files
 
 - `node_modules`
 - `.git`
-- `*.md`
 - `.env`
+- `*.md`
 
-### Step 3: Rebuilt the Docker Image
+### Steps Performed
 
-Verified that ignored files were excluded from the build context.
+1. Created a `.dockerignore` file.
+2. Added ignore rules.
+3. Rebuilt the Docker image.
+4. Verified ignored files were excluded from the build context.
 
-### Result
+### Verification
 
-Successfully reduced the Docker build context.
+- ✅ Docker build context optimized successfully.
+- ✅ Unnecessary files were excluded.
 
 ![Docker Ignore](images/10-5.1-my-website-v2.png)
 
@@ -198,31 +185,29 @@ Successfully reduced the Docker build context.
 
 # Task 6: Docker Layer Caching
 
-## Steps Performed
+## Objective
 
-### Step 1: Built the Initial Image
+Understand Docker layer caching and its impact on build performance.
 
-Created the initial Docker image.
+### Steps Performed
 
-### Step 2: Modified the Application
-
-Updated the application source.
-
-### Step 3: Rebuilt the Image
-
-Observed Docker layer caching during rebuild.
+1. Built the Docker image.
+2. Modified the application.
+3. Rebuilt the image.
+4. Observed Docker cache behavior.
 
 ### Key Observations
 
-- Docker builds images layer by layer.
-- Every Dockerfile instruction creates a new layer.
+- Docker creates images layer by layer.
+- Every Dockerfile instruction creates a separate layer.
 - Unchanged layers are reused from cache.
-- Modified layers are rebuilt.
+- Only modified layers and subsequent layers are rebuilt.
 - Proper instruction ordering improves build performance.
 
-### Result
+### Verification
 
-Successfully demonstrated Docker layer caching and build optimization.
+- Successfully observed Docker layer caching.
+- Verified faster image rebuilds.
 
 ![Initial Build](images/11-6.1-creating-cache.png)
 
@@ -232,12 +217,12 @@ Successfully demonstrated Docker layer caching and build optimization.
 
 ---
 
-# Key Takeaways
+# 🎯 Key Takeaways
 
 - Built custom Docker images using Dockerfiles.
-- Learned the purpose of common Dockerfile instructions.
-- Compared **CMD** and **ENTRYPOINT**.
-- Deployed a static website using **Nginx**.
+- Learned the purpose of commonly used Dockerfile instructions.
+- Compared **CMD** and **ENTRYPOINT** with practical examples.
+- Containerized and deployed a static website using **Nginx**.
 - Optimized Docker build context using **.dockerignore**.
-- Improved build performance with **Docker layer caching**.
-- Successfully built, tested, and deployed Docker applications on an AWS EC2 instance.
+- Improved image build performance using **Docker layer caching**.
+- Successfully built, tested, and verified Docker applications on an **AWS EC2** instance.
