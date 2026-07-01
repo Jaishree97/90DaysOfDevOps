@@ -38,6 +38,8 @@ Started a new MySQL container using the same image and verified whether the prev
 
 ![Create New Container](images/04-1.4-new-container.png)
 
+![Delete Containers](images/05-1.5-deleted-containers.png)
+
 **Key Observation**
 
 - User-created tables and records were lost.
@@ -52,7 +54,7 @@ Started a new MySQL container using the same image and verified whether the prev
 
 Created a persistent Docker volume and verified it.
 
-![Create Docker Volume](images/06-2.1-create-volume.png)
+![Create Docker Volume](images/06-2.1-created-volume.png)
 
 ---
 
@@ -60,7 +62,7 @@ Created a persistent Docker volume and verified it.
 
 Started a MySQL container using the named volume.
 
-![Run MySQL with Volume](images/07-2.2-run-volume-container.png)
+![Run MySQL with Volume](images/07-2.2-run-container-attached-volume.png)
 
 ---
 
@@ -68,7 +70,7 @@ Started a MySQL container using the named volume.
 
 Created the employee table, inserted records, and verified the data.
 
-![Insert Employee Records](images/08-2.3-create-data.png)
+![Insert Employee Records](images/08-2.3.1-created-data.png)
 
 ---
 
@@ -76,7 +78,7 @@ Created the employee table, inserted records, and verified the data.
 
 Stopped and removed the database container while keeping the volume.
 
-![Remove Container](images/09-2.4-remove-container.png)
+![Remove Container](images/09-2.3.2-stop-remove-container.png)
 
 ---
 
@@ -84,7 +86,7 @@ Stopped and removed the database container while keeping the volume.
 
 Started a new MySQL container using the existing named volume and verified the stored data.
 
-![Verify Persistent Data](images/10-2.5-data-persisted.png)
+![Reuse Named Volume](images/10-2.4-created-new-container-with-attached-volume.png)
 
 **Key Observation**
 
@@ -100,7 +102,7 @@ Started a new MySQL container using the existing named volume and verified the s
 
 Created a local website directory and added an HTML page.
 
-![Create Website Files](images/11-3.1-create-index.png)
+![Create Website Folder](images/11-3.1-created-folder.png)
 
 ---
 
@@ -108,7 +110,7 @@ Created a local website directory and added an HTML page.
 
 Mounted the local website directory inside the Nginx container.
 
-![Run Nginx Using Bind Mount](images/12-3.2-run-nginx-bind.png)
+![Run Nginx Container](images/12-3.2-run-container.png)
 
 ---
 
@@ -116,7 +118,7 @@ Mounted the local website directory inside the Nginx container.
 
 Verified that the website was served successfully through the browser.
 
-![Open Website](images/13-3.3-browser.png)
+![Browser Output](images/13-3.3-browser-output.png)
 
 ---
 
@@ -124,7 +126,9 @@ Verified that the website was served successfully through the browser.
 
 Modified the HTML file on the host machine and refreshed the browser.
 
-![Updated Website](images/14-3.4-updated-index.png)
+![Updated index.html](images/14-3.4.1-updated-indexfile.png)
+
+![Updated Browser Output](images/15-3.4.2-updated-browser-output.png)
 
 **Key Observation**
 
@@ -140,7 +144,7 @@ Modified the HTML file on the host machine and refreshed the browser.
 
 Listed all available Docker networks.
 
-![List Docker Networks](images/15-4.1-network-list.png)
+![List Docker Networks](images/16-4.1-list-network.png)
 
 ---
 
@@ -148,7 +152,7 @@ Listed all available Docker networks.
 
 Verified containers attached to the default bridge network.
 
-![Inspect Bridge Network](images/16-4.2-inspect-network.png)
+![Inspect Bridge Network](images/17-4.2-inspect-network.png)
 
 ---
 
@@ -162,7 +166,7 @@ Retrieved the container IP address and successfully pinged it.
 
 Attempted to ping another container using its name.
 
-![Default Bridge Network Communication](images/17-4.3-ping-ip.png)
+![Ping by IP and Name](images/18-4.3-run-by-name-ip.png)
 
 **Key Observation**
 
@@ -193,7 +197,7 @@ Started two Alpine containers connected to the custom network.
 
 Verified communication between containers using container names.
 
-![Ping by Container Name](images/21-5.3-ping.png)
+![Ping Using Container Name](images/21-5.3-ping.png)
 
 **Key Observation**
 
@@ -226,14 +230,13 @@ Started a MySQL database container attached to the custom network and persistent
 Started an Alpine application container on the same network and verified network configuration.
 
 ![Run Application Container](images/24-6.3-rub-other-container.png)
-
 ---
 
 ### 4. Verify Container Communication
 
 Confirmed that the application container successfully communicated with the database container using its container name.
 
-![Verify Container Communication](images/25-6.4-verifying-container.png)
+![Verify Communication](images/25-6.4-verifying-container.png)
 
 ---
 
@@ -241,7 +244,7 @@ Confirmed that the application container successfully communicated with the data
 
 Removed all containers, custom networks, and Docker volumes created during the lab.
 
-![Docker Cleanup](images/26-6.4.1-cleanup.png)
+![Cleanup](images/26-6.4.1-cleanup.png)
 
 ---
 
