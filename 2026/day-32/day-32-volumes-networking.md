@@ -2,7 +2,7 @@
 
 ## Objective
 
-Learn Docker data persistence using **Named Volumes** and **Bind Mounts**, understand Docker networking concepts, practice container communication, and build a multi-container application using custom networks and persistent storage.
+Learn how Docker manages persistent data using Named Volumes and Bind Mounts, understand Docker networking concepts, enable container-to-container communication, and build a multi-container application using custom networks and persistent storage.
 
 ---
 
@@ -160,18 +160,13 @@ Verified containers attached to the default bridge network.
 
 Retrieved the container IP address and successfully pinged it.
 
+![Ping by IP and Name](images/18-4.3-run-by-name-ip.png)
+
 ---
 
 ### 4. Test Communication Using Container Name
 
-Attempted to ping another container using its name.
-
-![Ping by IP and Name](images/18-4.3-run-by-name-ip.png)
-
-**Key Observation**
-
-- Containers communicated successfully using IP addresses.
-- Name-based communication failed on the default bridge network.
+Attempted to ping another container using its container name on the default bridge network. Docker could not resolve the container name because the default bridge network does not provide automatic DNS-based name resolution.
 
 ---
 
@@ -207,7 +202,7 @@ Verified communication between containers using container names.
 
 ---
 
-# Task 6: Put It Together
+# Task 6: Build a Multi-Container Application
 
 ### 1. Create a Project Network and Volume
 
@@ -230,6 +225,7 @@ Started a MySQL database container attached to the custom network and persistent
 Started an Alpine application container on the same network and verified network configuration.
 
 ![Run Application Container](images/24-6.3-rub-other-container.png)
+
 ---
 
 ### 4. Verify Container Communication
@@ -248,14 +244,13 @@ Removed all containers, custom networks, and Docker volumes created during the l
 
 ---
 
-# 🚀 Key Learnings
+# Key Learnings
 
-- Docker container data persistence
-- Docker Named Volumes
-- Docker Bind Mounts
-- Docker Bridge Networks
-- Custom Docker Networks
-- Docker DNS and service discovery
-- Container-to-container communication
-- Multi-container application setup
-- Docker resource cleanup
+- Containers are ephemeral and lose data when removed.
+- Docker Named Volumes provide persistent storage independent of containers.
+- Bind Mounts synchronize host files directly with containers.
+- Docker Bridge Networks enable container communication using IP addresses.
+- User-defined Bridge Networks provide automatic DNS-based name resolution.
+- Container names can be used instead of IP addresses on custom networks.
+- Volumes and custom networks simplify multi-container application deployment.
+- Cleaning up unused Docker resources helps maintain a healthy Docker environment.
