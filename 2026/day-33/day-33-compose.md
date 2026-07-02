@@ -22,7 +22,7 @@ Learn how Docker Compose simplifies the deployment and management of multi-conta
 - WordPress
 - MySQL 8.0
 - Ubuntu EC2
-- 
+  
 ---
 
 ## Project Files
