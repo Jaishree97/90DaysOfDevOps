@@ -2,7 +2,25 @@
 
 ## Objective
 
-Learn how Docker manages persistent data using Named Volumes and Bind Mounts, understand Docker networking concepts, enable container-to-container communication, and build a multi-container application using custom networks and persistent storage.
+Learn how Docker manages persistent data using **Named Volumes** and **Bind Mounts**, understand Docker networking concepts, enable container-to-container communication, and build a simple multi-container application using custom networks and persistent storage.
+
+---
+
+## Prerequisites
+
+- Docker Engine installed
+- Basic Linux command knowledge
+- Internet connection to pull Docker images
+
+---
+
+## Technologies Used
+
+- Docker
+- MySQL
+- Nginx
+- Alpine Linux
+- Ubuntu EC2
 
 ---
 
@@ -40,7 +58,7 @@ Started a new MySQL container using the same image and verified whether the prev
 
 ![Delete Containers](images/05-1.5-deleted-containers.png)
 
-**Key Observation**
+### Key Observation
 
 - User-created tables and records were lost.
 - Containers do not preserve data after removal.
@@ -84,15 +102,15 @@ Stopped and removed the database container while keeping the volume.
 
 ### 5. Reuse the Same Volume
 
-Started a new MySQL container using the existing named volume and verified the stored data.
+Started a new MySQL container using the existing named volume and verified that the data persisted.
 
 ![Reuse Named Volume](images/10-2.4-created-new-container-with-attached-volume.png)
 
-**Key Observation**
+### Key Observation
 
-- Docker volume remained after container removal.
+- Docker volumes remain even after containers are removed.
 - Database records persisted successfully.
-- Named volumes provide persistent storage independent of containers.
+- Named Volumes provide persistent storage independent of containers.
 
 ---
 
@@ -130,11 +148,11 @@ Modified the HTML file on the host machine and refreshed the browser.
 
 ![Updated Browser Output](images/15-3.4.2-updated-browser-output.png)
 
-**Key Observation**
+### Key Observation
 
-- Host files were synchronized instantly.
+- Host files synchronized instantly with the container.
 - No container rebuild or restart was required.
-- Bind mounts are ideal for development environments.
+- Bind Mounts are ideal for local development.
 
 ---
 
@@ -150,7 +168,7 @@ Listed all available Docker networks.
 
 ### 2. Inspect the Default Bridge Network
 
-Verified containers attached to the default bridge network.
+Inspected the default bridge network and viewed the connected containers.
 
 ![Inspect Bridge Network](images/17-4.2-inspect-network.png)
 
@@ -160,13 +178,19 @@ Verified containers attached to the default bridge network.
 
 Retrieved the container IP address and successfully pinged it.
 
-![Ping by IP and Name](images/18-4.3-run-by-name-ip.png)
+![Ping by IP Address](images/18-4.3-run-by-name-ip.png)
 
 ---
 
 ### 4. Test Communication Using Container Name
 
-Attempted to ping another container using its container name on the default bridge network. Docker could not resolve the container name because the default bridge network does not provide automatic DNS-based name resolution.
+Attempted to communicate with another container using its container name on the default bridge network.
+
+### Key Observation
+
+- Containers communicated successfully using IP addresses.
+- Name-based communication failed on the default bridge network.
+- The default bridge network does not provide automatic DNS-based name resolution.
 
 ---
 
@@ -194,7 +218,7 @@ Verified communication between containers using container names.
 
 ![Ping Using Container Name](images/21-5.3-ping.png)
 
-**Key Observation**
+### Key Observation
 
 - Docker automatically resolved container names.
 - Containers communicated successfully without using IP addresses.
@@ -222,7 +246,7 @@ Started a MySQL database container attached to the custom network and persistent
 
 ### 3. Run the Application Container
 
-Started an Alpine application container on the same network and verified network configuration.
+Started an Alpine application container on the same network.
 
 ![Run Application Container](images/24-6.3-run-other-container.png)
 
@@ -230,7 +254,7 @@ Started an Alpine application container on the same network and verified network
 
 ### 4. Verify Container Communication
 
-Confirmed that the application container successfully communicated with the database container using its container name.
+Verified that the application container successfully communicated with the database container using its container name.
 
 ![Verify Communication](images/25-6.4-verifying-container.png)
 
@@ -244,7 +268,7 @@ Removed all containers, custom networks, and Docker volumes created during the l
 
 ---
 
-# Key Learnings
+# 🚀 Key Learnings
 
 - Containers are ephemeral and lose data when removed.
 - Docker Named Volumes provide persistent storage independent of containers.
