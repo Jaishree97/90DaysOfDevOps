@@ -22,31 +22,14 @@ Learn how Docker Compose simplifies the deployment and management of multi-conta
 - WordPress
 - MySQL 8.0
 - Ubuntu EC2
-
----
-
-## Project Structure
-
-```text
-day-33/
-├── compose-basics/
-│   └── docker-compose.yml
-├── wordpress-mysql/
-│   └── docker-compose.yml
-├── wordpress-mysql-env/
-│   ├── docker-compose.yml
-│   └── .env
-├── images/
-└── README.md
-```
-
+- 
 ---
 
 ## Project Files
 
-- 📄 [Compose Basics Configuration](compose-basics/docker-compose.yml)
-- 📄 [WordPress + MySQL Configuration](wordpress-mysql/docker-compose.yml)
-- 📄 [WordPress + MySQL with Environment Variables](wordpress-mysql-env/docker-compose.yml)
+- [Compose Basics Configuration](compose-basics/docker-compose.yml)
+- [WordPress + MySQL Configuration](wordpress-mysql/docker-compose.yml)
+- [WordPress + MySQL with Environment Variables](wordpress-mysql-env/docker-compose.yml)
 - 
 ---
 
@@ -124,8 +107,6 @@ Created a Docker Compose project containing two services:
 - MySQL
 
 Configured a named volume for persistent database storage and allowed both services to communicate over the default Docker Compose network.
-
-**Docker Compose File**
 
 [wordpress-mysql/docker-compose.yml](wordpress-mysql/docker-compose.yml)
 
@@ -276,9 +257,7 @@ Created a `.env` file to store database credentials separately from the Docker C
 
 Modified the Compose configuration to load database credentials from the `.env` file instead of hardcoding them.
 
-**Docker Compose File**
-
-📄 [wordpress-mysql-env/docker-compose.yml](wordpress-mysql-env/docker-compose.yml)
+[wordpress-mysql-env/docker-compose.yml](wordpress-mysql-env/docker-compose.yml)
 
 ![Updated Compose File](images/18-5.2-edited-compose-file.png)
 
