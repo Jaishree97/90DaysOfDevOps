@@ -208,7 +208,7 @@ Verified communication between containers using container names.
 
 Created a custom network (**project-net**) and a named volume (**project-data**).
 
-![Create Project Network](images/22-6.1-custome-network.png)
+![Create Project Network](images/22-6.1-custom-network.png)
 
 ---
 
@@ -216,7 +216,7 @@ Created a custom network (**project-net**) and a named volume (**project-data**)
 
 Started a MySQL database container attached to the custom network and persistent volume.
 
-![Run Database Container](images/23-6.2-run-cotainer.png)
+![Run Database Container](images/23-6.2-run-container.png)
 
 ---
 
@@ -224,7 +224,7 @@ Started a MySQL database container attached to the custom network and persistent
 
 Started an Alpine application container on the same network and verified network configuration.
 
-![Run Application Container](images/24-6.3-rub-other-container.png)
+![Run Application Container](images/24-6.3-run-other-container.png)
 
 ---
 
