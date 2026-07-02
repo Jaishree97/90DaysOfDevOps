@@ -2,7 +2,7 @@
 
 ## Objective
 
-Learn how Docker Compose simplifies the deployment and management of multi-container applications using a single YAML configuration file. Build a WordPress and MySQL application, understand Docker Compose networking, persistent storage, environment variables, and commonly used Compose commands.
+Learn how Docker Compose simplifies the deployment and management of multi-container applications using a single YAML configuration file. Build and manage a WordPress and MySQL application, understand automatic networking, persistent storage, environment variables, and common Docker Compose operations.
 
 ---
 
@@ -19,23 +19,48 @@ Learn how Docker Compose simplifies the deployment and management of multi-conta
 
 - Docker
 - Docker Compose
-- MySQL 8.0
 - WordPress
+- MySQL 8.0
 - Ubuntu EC2
 
 ---
 
+## Project Structure
+
+```text
+day-33/
+├── compose-basics/
+│   └── docker-compose.yml
+├── wordpress-mysql/
+│   └── docker-compose.yml
+├── wordpress-mysql-env/
+│   ├── docker-compose.yml
+│   └── .env
+├── images/
+└── README.md
+```
+
+---
+
+## Project Files
+
+- 📄 [Compose Basics Configuration](compose-basics/docker-compose.yml)
+- 📄 [WordPress + MySQL Configuration](wordpress-mysql/docker-compose.yml)
+- 📄 [WordPress + MySQL with Environment Variables](wordpress-mysql-env/docker-compose.yml)
+- 
+---
+
 # Task 1: Install & Verify Docker Compose
 
-### Install Docker Compose
+### 1. Install Docker Compose
 
-Installed Docker Compose v2 and configured it on the EC2 instance.
+Installed Docker Compose v2 on the Ubuntu EC2 instance.
 
 ![Docker Compose Installation](images/01-1.1-installation.png)
 
 ---
 
-### Verify Installation
+### 2. Verify Docker Compose Installation
 
 Verified that both Docker Engine and Docker Compose were installed successfully.
 
@@ -43,62 +68,62 @@ Verified that both Docker Engine and Docker Compose were installed successfully.
 
 ### Key Observation
 
-- Docker Compose extends Docker by allowing multiple containers to be managed through a single configuration file.
-- The installation was verified successfully.
+- Docker Compose was installed successfully.
+- Docker Engine and Docker Compose are ready for deploying multi-container applications.
 
 ---
 
-# Task 2: Create the First Docker Compose Application
+# Task 2: Create Your First Docker Compose Application
 
-### Create the Compose Project
+### 1. Create the Compose Project
 
-Created a new project directory named **compose-basics** and added a Docker Compose configuration for an Nginx container.
+Created a project directory named **compose-basics** and added a Docker Compose configuration to deploy an Nginx web server.
 
 **Docker Compose File**
 
 [compose-basics/docker-compose.yml](compose-basics/docker-compose.yml)
 
-![Compose Basics](images/03-2.0-compose-basics.png)
+![Compose Project](images/03-2.0-compose-basics.png)
 
 ---
 
-### Deploy the Application
+### 2. Deploy the Application
 
-Started the Nginx application using Docker Compose.
+Deployed the Nginx application using Docker Compose.
 
 Docker Compose automatically:
 
 - Pulled the required image
-- Created an isolated network
+- Created a dedicated project network
 - Created the container
-- Started the service
+- Started the application
 
 ---
 
-### Verify Browser Output
+### 3. Verify Browser Output
 
-Verified that the Nginx web server was accessible from the browser.
+Confirmed that the Nginx welcome page was accessible through the browser.
 
 ![Browser Output](images/04-2.1-browser-output.png)
 
 ### Key Observation
 
-- A single Compose file was enough to deploy the application.
+- A complete application was deployed using a single Docker Compose configuration.
 - Docker Compose automatically created the required network.
-- The container became accessible through the configured port.
+- The Nginx service became accessible through the configured port.
 
 ---
 
-# Task 3: Build a Two-Container WordPress Application
+# Task 3: Build a WordPress & MySQL Multi-Container Application
 
-### Create the WordPress Project
+### 1. Create the WordPress Compose Project
 
-Created a new Docker Compose project consisting of:
+Created a Docker Compose project containing two services:
 
 - WordPress
 - MySQL
 
-The MySQL container uses a named volume for persistent storage, while WordPress connects to MySQL through the Compose network.
+Configured a named volume for persistent database storage and allowed both services to communicate over the default Docker Compose network.
 
 **Docker Compose File**
 
@@ -108,189 +133,191 @@ The MySQL container uses a named volume for persistent storage, while WordPress 
 
 ---
 
-### Deploy the Multi-Container Application
+### 2. Verify Running Containers
 
-Started both services together using Docker Compose.
-
-![Compose Up](images/07-3.3-docker-up.png)
-
----
-
-### Verify Running Containers
-
-Verified that both WordPress and MySQL containers were running successfully.
+Verified that both WordPress and MySQL containers were created and running successfully.
 
 ![Running Containers](images/06-3.2-docker-ps.png)
 
 ---
 
-### Verify Docker Network
+### 3. Deploy the Multi-Container Application
 
-Verified that Docker Compose automatically created a dedicated bridge network for the project.
+Started the complete application using a single Docker Compose configuration.
+
+Docker Compose automatically:
+
+- Pulled the required images
+- Created the project network
+- Created the named volume
+- Started both containers
+
+![Compose Up](images/07-3.3-docker-up.png)
+
+---
+
+### 4. Verify Docker Network
+
+Confirmed that Docker Compose automatically created a dedicated bridge network for the project.
 
 ![Docker Network](images/08-3.4-docker-network.png)
 
 ---
 
-### Inspect Network Configuration
+### 5. Inspect the Compose Network
 
-Inspected the automatically created network and confirmed that both containers were connected to the same network.
+Inspected the network configuration and verified that both containers were attached to the same network.
 
 ![Inspect Network](images/09-3.5-docker-network-inspect.png)
 
 ---
 
-### Verify Persistent Storage
+### 6. Verify Persistent Storage
 
-Verified that Docker Compose created a named volume for MySQL data persistence.
+Verified that Docker Compose automatically created a named volume for MySQL data persistence.
 
 ![Docker Volume](images/10-3.6-docker-volume.png)
 
 ---
 
-### Verify Data Persistence
+### 7. Validate Data Persistence
 
-Stopped and recreated the application while confirming that the WordPress data remained available.
+Recreated the application and confirmed that the database data remained available because of the named volume.
 
-![Compose Up and Down](images/11-3.7-up-down.png)
+![Compose Up & Down](images/11-3.7-up-down.png)
 
 ---
 
-### Configure WordPress
+### 8. Configure WordPress
 
-Completed the WordPress installation through the browser.
+Completed the initial WordPress installation from the browser.
 
 ![WordPress Installation](images/11-3.8-setup-wordpress.png)
 
 ---
 
-### Verify WordPress Dashboard
+### 9. Verify WordPress Dashboard
 
-Successfully logged into the WordPress Admin Dashboard.
+Successfully logged in to the WordPress Admin Dashboard and confirmed that the application was working correctly.
 
 ![WordPress Dashboard](images/12-3.8-browser-output.png)
 
 ### Key Observation
 
-- Docker Compose created the network automatically.
-- WordPress communicated with MySQL using the service name.
-- Named volumes preserved database data even after recreating containers.
-- Multi-container applications can be deployed with a single Compose configuration.
+- Docker Compose automatically created the required network and named volume.
+- WordPress connected to MySQL using the service name instead of an IP address.
+- Database data persisted even after recreating the containers.
+- A complete multi-container application was deployed using a single Docker Compose file.
 
 ---
 
-# Task 4: Docker Compose Commands
+# Task 4: Practice Docker Compose Commands
 
-### Manage Compose Services
+### 1. Start Services in Detached Mode
 
-Practiced common Docker Compose operations including:
+Started all application services in detached mode and verified that the containers were running successfully in the background.
 
-- Starting services
-- Viewing running services
-- Viewing logs
-- Viewing service-specific logs
-- Stopping services
-- Restarting services
-- Removing containers and networks
-
-Verified the behavior of each operation successfully.
+![Start Services](images/13-4.1-up-in-detached-mode.png)
 
 ---
 
-### Start Services
+### 2. View Application Logs
 
-![Compose Up](images/13-4.1-up-in-detached-mode.png)
-
----
-
-### View Logs
+Viewed logs from all running services to monitor container activity and verify successful startup.
 
 ![Compose Logs](images/14-4.2-logs.png)
 
 ---
 
-### View Service Logs
+### 3. View Logs for a Specific Service
+
+Filtered logs for the WordPress service to troubleshoot and monitor a single container.
 
 ![WordPress Logs](images/15-4.3-logs-specific-service.png)
 
 ---
 
-### Manage Services
+### 4. Manage the Application Lifecycle
 
-Verified stop, start, restart, remove, and recreate operations.
+Successfully performed service lifecycle operations including stopping, starting, restarting, and removing the application.
 
 ![Compose Operations](images/16-4.4-other-operation-performing.png)
 
 ---
 
-### Verify WordPress After Restart
+### 5. Verify Application Availability
 
 Confirmed that the WordPress application remained accessible after restarting the services.
 
-![Login Page](images/16-4.5-login-page.png)
+![WordPress Login](images/16-4.5-login-page.png)
 
 ### Key Observation
 
-- Docker Compose simplifies container lifecycle management.
-- Individual services can be managed independently.
-- Application data remains available because of persistent volumes.
-- Restarting services does not require rebuilding containers.
+- Docker Compose provides a simple way to manage the complete application lifecycle.
+- Individual services can be monitored and managed independently.
+- Application data remained intact because the MySQL database was stored in a named volume.
+- Restarting containers did not affect the application configuration or database.
 
 ---
 
-# Task 5: Environment Variables
+# Task 5: Manage Environment Variables
 
-### Create Environment File
+### 1. Create a Dedicated Environment File
 
-Created a dedicated `.env` file to store sensitive database configuration values.
+Created a `.env` file to store database credentials separately from the Docker Compose configuration.
 
-> The `.env` file is intentionally excluded from the repository because it contains credentials.
+> **Note:** The `.env` file contains sensitive credentials and is excluded from the repository in production environments.
 
 ![Environment File](images/17-5.1-created-env-file.png)
 
 ---
 
-### Update Compose Configuration
+### 2. Update the Docker Compose Configuration
 
-Modified the Docker Compose configuration to load variables from the `.env` file.
+Modified the Compose configuration to load database credentials from the `.env` file instead of hardcoding them.
 
 **Docker Compose File**
 
-[wordpress-mysql-env/docker-compose.yml](wordpress-mysql-env/docker-compose.yml)
+📄 [wordpress-mysql-env/docker-compose.yml](wordpress-mysql-env/docker-compose.yml)
 
 ![Updated Compose File](images/18-5.2-edited-compose-file.png)
 
 ---
 
-### Verify Environment Variables
+### 3. Validate Environment Variables
 
-Verified that Docker Compose successfully loaded the environment variables and started the application.
+Verified that Docker Compose successfully loaded all variables from the `.env` file and generated the expected configuration.
 
 ![Compose Configuration](images/19-5.3-compose-config.png)
 
 ---
 
-### Validate Deployment
+### 4. Deploy the Application
 
-Confirmed that the application deployed successfully using the externalized configuration.
+Successfully deployed the application using the externalized configuration and confirmed that both services started correctly.
 
-![Compose Deployment](images/20-5.4-up-down.png)
+![Application Deployment](images/20-5.4-up-down.png)
 
 ### Key Observation
 
-- Sensitive configuration values were separated from the Compose file.
+- Environment variables separated sensitive configuration from the Compose file.
 - Docker Compose automatically loaded variables from the `.env` file.
-- The Compose configuration became cleaner, reusable, and easier to maintain.
+- The configuration became cleaner, reusable, and easier to maintain across environments.
 
 ---
 
-# 🚀 Key Learnings
+# Final Outcome
 
-- Docker Compose simplifies multi-container deployments using a single YAML file.
-- Services communicate automatically through the default Compose network.
-- Docker Compose creates project-specific networks and volumes automatically.
-- Named volumes ensure persistent database storage.
-- WordPress can communicate with MySQL using the service name instead of an IP address.
-- Docker Compose provides simple commands to start, stop, restart, inspect, and manage services.
-- Environment variables improve security by separating sensitive configuration from application code.
-- Docker Compose makes multi-container applications easier to deploy, manage, and reproduce.
+Successfully deployed a production-style multi-container WordPress application using Docker Compose. Configured automatic networking, persistent storage with named volumes, centralized application configuration using environment variables, and managed the complete application lifecycle through Docker Compose.
+
+---
+
+# Key Learnings
+
+- Learned how Docker Compose simplifies multi-container deployments using a declarative YAML configuration.
+- Built and deployed a complete WordPress and MySQL application from a single Compose file.
+- Understood Docker Compose networking and service discovery using service names.
+- Implemented persistent database storage using Docker Named Volumes.
+- Practiced Docker Compose lifecycle commands for deploying and managing applications.
+- Improved configuration management by externalizing sensitive values into a `.env` file.
+- Learned how Docker Compose enables repeatable, scalable, and maintainable containerized deployments.
