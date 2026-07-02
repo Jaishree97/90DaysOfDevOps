@@ -1,0 +1,6 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-compose
+    ports:
+      - "8080:80"
