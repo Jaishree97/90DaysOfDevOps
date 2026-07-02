@@ -30,7 +30,7 @@ Learn how Docker Compose simplifies the deployment and management of multi-conta
 - [Compose Basics Configuration](compose-basics/docker-compose.yml)
 - [WordPress + MySQL Configuration](wordpress-mysql/docker-compose.yml)
 - [WordPress + MySQL with Environment Variables](wordpress-mysql-env/docker-compose.yml)
-- 
+  
 ---
 
 # Task 1: Install & Verify Docker Compose
