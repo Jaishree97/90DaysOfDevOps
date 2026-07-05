@@ -1,0 +1,32 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+}
+
+.container{
+    width:70%;
+    margin:30px auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+h1{
+    text-align:center;
+}
+
+button{
+    padding:10px 20px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+#products{
+    margin-top:20px;
+}
+
+.product{
+    border:1px solid #ddd;
+    padding:10px;
+    margin:10px 0;
+}
