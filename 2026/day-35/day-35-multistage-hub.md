@@ -30,13 +30,12 @@ The objective of this hands-on exercise was to understand how Docker multi-stage
 
 | File | Description |
 |------|-------------|
-| `app/Dockerfile` | Single-stage Docker build |
-| `app/Dockerfile.multistage` | Multi-stage Docker build |
-| `app/Dockerfile.final` | Production-ready Dockerfile with Docker best practices |
-| `app/app.js` | Node.js application |
-| `app/package.json` | Project dependencies |
-| `README.md` | Project documentation |
-
+| [`app/Dockerfile`](app/Dockerfile) | Single-stage Docker build |
+| [`app/Dockerfile.multistage`](app/Dockerfile.multistage) | Multi-stage Docker build |
+| [`app/Dockerfile.final`](app/Dockerfile.final) | Production-ready Dockerfile with Docker best practices |
+| [`app/app.js`](app/app.js) | Node.js application |
+| [`app/package.json`](app/package.json) | Project dependencies |
+| [`README.md`](README.md) | Project documentation |
 ---
 
 ## Project Structure
@@ -46,14 +45,16 @@ day-35/
 │
 ├── app/
 │   ├── Dockerfile
-│   ├── Dockerfile.multistage
 │   ├── Dockerfile.final
+│   ├── Dockerfile.multistage
 │   ├── app.js
 │   └── package.json
 │
 ├── images/
 │
-└── README.md
+├── README.md
+│
+└── day-35-multistage-hub.md
 ```
 
 ---
