@@ -37,11 +37,3 @@ Write in your notes: Why is the multi-stage image so much smaller?
 
 ---
 
-### Task 5: Image Best Practices
-Apply these to one of your images and rebuild:
-1. Use a **minimal base image** (alpine vs ubuntu — compare sizes)
-2. **Don't run as root** — add a non-root USER in your Dockerfile
-3. Combine `RUN` commands to **reduce layers**
-4. Use **specific tags** for base images (not `latest`)
-
-Check the size before and after.
