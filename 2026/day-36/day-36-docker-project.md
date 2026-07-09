@@ -93,13 +93,11 @@ To verify that the image works independently of the local build:
 
 ### Verification Images
 
-| Screenshot | Description |
-|------------|-------------|
-| [Browser Output](./images/browser-output1.png) | Application Home Page |
-| [CRUD API Testing](./images/browser-output2.png) | API Response |
-| [Docker Images](./images/final-images.png) | Final Docker Images |
-| [Docker Hub Push](./images/4.2-dockerhub-push.png) | Successfully Pushed Image |
-| [Fresh Deployment Test](./images/5.1-testing.png) | Pulled and Tested from Docker Hub |
+- [Application Home Page](./images/browser-output1.png)
+- [CRUD API Testing](./images/browser-output2.png)
+- [Final Docker Images](./images/final-images.png)
+- [Docker Hub Push](./images/4.2-dockerhub-push.png)
+- [Fresh Deployment Test](./images/5.1-testing.png)
 
 ---
 
