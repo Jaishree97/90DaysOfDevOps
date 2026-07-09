@@ -91,13 +91,27 @@ To verify that the image works independently of the local build:
 5. Verified the application and MongoDB were running successfully.
 6. Tested CRUD APIs successfully.
 
-### Verification Images
+## Verification Images
 
-- [Application Home Page](./images/browser-output1.png)
-- [CRUD API Testing](./images/browser-output2.png)
-- [Final Docker Images](./images/final-images.png)
-- [Docker Hub Push](./images/4.2-dockerhub-push.png)
-- [Fresh Deployment Test](./images/5.1-testing.png)
+### Application Home Page
+
+![Application Home Page](./images/browser-output1.png)
+
+### CRUD API Testing
+
+![CRUD API Testing](./images/browser-output2.png)
+
+### Final Docker Images
+
+![Docker Images](./images/final-images.png)
+
+### Docker Hub Push
+
+![Docker Hub Push](./images/4.2-dockerhub-push.png)
+
+### Fresh Deployment Test
+
+![Fresh Deployment Test](./images/5.1-testing.png)
 
 ---
 
