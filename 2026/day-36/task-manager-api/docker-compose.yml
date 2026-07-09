@@ -1,0 +1,46 @@
+services:
+  app:
+    image: jaishreechaure/task-manager-api:v1
+    container_name: task-manager-app
+
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - .env
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    restart: unless-stopped
+
+    networks:
+      - task-network
+
+  mongodb:
+    image: mongo:8
+    container_name: mongodb
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - mongo-data:/data/db
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    restart: unless-stopped
+
+    networks:
+      - task-network
+
+networks:
+  task-network:
+
+volumes:
+  mongo-data:
