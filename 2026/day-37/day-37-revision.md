@@ -5,36 +5,33 @@
 ## Self-Assessment Checklist
 Mark yourself honestly — **can do**, **shaky**, or **haven't done**:
 
-- [can do ] Run a container from Docker Hub (interactive + detached)
-- [can do ] List, stop, remove containers and images
-- [can do ] Explain image layers and how caching works
-- [can do ] Write a Dockerfile from scratch with FROM, RUN, COPY, WORKDIR, CMD
-- [can do ] Explain CMD vs ENTRYPOINT
-- [can do ] Build and tag a custom image
-- [can do ] Create and use named volumes
-- [can do ] Use bind mounts
-- [can do ] Create custom networks and connect containers
-- [can do ] Write a docker-compose.yml for a multi-container app
-- [can do ] Use environment variables and .env files in Compose
-- [can do ] Write a multi-stage Dockerfile
-- [can do ] Push an image to Docker Hub
-- [can do ] Use healthchecks and depends_on
+- [x] Run Docker containers in interactive and detached modes
+- [x] List, stop, and remove containers and images
+- [x] Explain Docker image layers and build cache
+- [x] Write a Dockerfile using `FROM`, `RUN`, `COPY`, `WORKDIR`, and `CMD`
+- [x] Explain the difference between `CMD` and `ENTRYPOINT`
+- [x] Build and tag custom Docker images
+- [x] Create and manage Docker volumes
+- [x] Use bind mounts for local development
+- [x] Create custom Docker networks and connect containers
+- [x] Build multi-container applications with Docker Compose
+- [x] Configure environment variables using `.env` files
+- [x] Write multi-stage Dockerfiles
+- [x] Push Docker images to Docker Hub
+- [x] Configure health checks and service dependencies
 
 ---
 
 ## Docker Quick-Fire Questions
 
 ### 1. What is the difference between an image and a container?
-- **Image** = Blueprint or template of an application.
-- **Container** = A running instance of that image.
-
-> **Image = Recipe**  
-> **Container = Cooked Food**
+- **Image** = A read-only blueprint used to create containers.
+- **Container** = A running instance of a Docker image.
 
 ---
 
 ### 2. What happens to data inside a container when you remove it?
-- The data is **deleted** with the container.
+- Container data is deleted when the container is removed unless it is stored in a Docker Volume.
 - To keep data, use **Docker Volumes**.
 
 ---
@@ -104,8 +101,10 @@ docker system df -v
 
 ---
 
-## Build Your Docker Cheat Sheet
-Create `docker-cheatsheet.md` organized by category:
+## Docker Command Cheat Sheet
+
+As part of today's revision, I created a comprehensive Docker Command Cheat Sheet covering:
+
 - **Container commands** — run, ps, stop, rm, exec, logs
 - **Image commands** — build, pull, push, tag, ls, rm
 - **Volume commands** — create, ls, inspect, rm
@@ -114,32 +113,34 @@ Create `docker-cheatsheet.md` organized by category:
 - **Cleanup commands** — prune, system df
 - **Dockerfile instructions** — FROM, RUN, COPY, WORKDIR, EXPOSE, CMD, ENTRYPOINT
 
-Keep it short — one line per command, something you'd actually reference on the job.
+The cheat sheet is organized into practical categories for quick reference during development, troubleshooting, and interview preparation.
 
-> **[Open Docker Command Cheat Sheet](../../docker/cheatsheet.md)**
+**[View Docker Command Cheat Sheet](https://github.com/Jaishree97/DevOps-Notes/blob/main/docker/cheatsheet.md)**
 
 ---
 
-## Revisit Weak Spots
-Pick **2 topics** you marked as shaky and redo the hands-on tasks from that day.
+## Revisited Topics
 
-#1 What is the difference between `CMD` and `ENTRYPOINT`?
+### CMD vs ENTRYPOINT
 
 | CMD | ENTRYPOINT |
 |------|------------|
 | Provides default arguments. | Defines the main executable. |
 | Can be overridden easily. | Runs every time unless explicitly overridden. |
 
-##2 What does `docker system prune` do?
+---
 
-It removes unused containers, networks, dangling images, and build cache. Adding `-a --volumes` also removes unused images and volumes.
+### `docker system prune`
+
+Removes unused containers, networks, dangling images, and build cache.
+
+> **Note:** `docker system prune -a --volumes` also removes unused images and volumes.
 
 ---
 
-## Suggested Flow (45–60 minutes)
-- 10 min: go through the checklist honestly
-- 10 min: answer quick-fire questions
-- 20 min: build your cheat sheet
-- 10 min: redo one weak area
+## Key Takeaways
 
----
+- Revised Docker fundamentals, architecture, and core concepts.
+- Practiced common Docker interview questions and reviewed key concepts.
+- Strengthened understanding of Docker Compose, networking, volumes, Dockerfiles, and multi-stage builds.
+- Created a comprehensive Docker Command Cheat Sheet for quick reference and future DevOps projects.
