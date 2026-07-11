@@ -1,0 +1,18 @@
+# Key-Value Pairs
+name: Jaishree Chaure
+role: Aspiring Cloud & Devops Engineer
+experience_years: 0
+learning: true
+
+# Lists Using - (dash)
+tools:
+  - aws
+  - linux
+  - shell scripting
+  - networking
+  - docker
+  - git & github
+  - github actions
+
+# Lists Using square brackets [ ] Inline format
+hobbies: [Reading, Coding, Music]
