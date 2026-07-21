@@ -1,0 +1,25 @@
+name: Scheduled Workflow
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # Every day at midnight UTC
+
+  workflow_dispatch:
+
+jobs:
+  scheduled-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Print Message
+        run: echo "Scheduled workflow executed successfully!"
+
+      - name: Print Current Date and Time
+        run: date
+
+      - name: Print Runner OS
+        run: |
+          echo "Runner OS: ${{ runner.os }}"
