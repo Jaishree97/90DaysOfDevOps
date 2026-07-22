@@ -1,0 +1,23 @@
+name: Self Hosted Runner Lab
+
+on:
+    workflow_dispatch:
+
+jobs:
+    self-hosted-job:
+        runs-on: 
+            - self-hosted 
+            - linux
+            - aws
+            - devops
+            - ubuntu
+        steps:
+            - name: Checking Self-Hosted Runner Information
+              run: |
+                echo "Hostname: $HOSTNAME"
+                echo "Current User: $(whoami)"
+                echo "Working directory: $PWD"
+                echo "Welcome to self hosted runner" > welcome.txt
+
+            - name: Print Welcome Message
+              run: cat welcome.txt
