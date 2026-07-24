@@ -1,0 +1,95 @@
+name: Smart Pipeline
+
+on:
+  push:
+
+# Workflow-level environment variable
+env:
+  ENVIRONMENT: staging
+
+jobs:
+  # Job 1 - Build
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Application
+        run: echo "Building the application..."
+
+  # Job 2 - Lint
+  lint:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Check JavaScript File
+        run: node src/app.js
+
+  # Job 3 - Test
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Tests
+        run: echo "Testing the application..."
+
+  # Job 4 - Generate Version
+  generate-version:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+
+    outputs:
+      app_version: ${{ steps.version.outputs.app_version }}
+
+    steps:
+      - name: Generate Application Version
+        id: version
+        run: |
+          echo "app_version=v1.0.0" >> $GITHUB_OUTPUT
+
+  # Job 5 - Deploy
+  deploy:
+    needs: generate-version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Application
+        run: |
+          echo "Deploying Version: ${{ needs.generate-version.outputs.app_version }}"
+          echo "Environment: $ENVIRONMENT"
+
+  # Job 6 - Summary
+  summary:
+    needs: [generate-version, deploy]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Pipeline Summary
+        run: |
+          echo "===== PIPELINE SUMMARY ====="
+          echo "Repository Name: ${{ github.repository }}"
+          echo "Branch Name: ${{ github.ref_name }}"
+          echo "Triggered By: ${{ github.actor }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Commit Message: ${{ github.event.commits[0].message }}"
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Application Version: ${{ needs.generate-version.outputs.app_version }}"
+          echo "Deployment Environment: $ENVIRONMENT"
+
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "Production Deployment."
+          else
+            echo "Staging Deployment."
+          fi

@@ -1,0 +1,38 @@
+name: Environment Variables Demo
+
+on:
+  workflow_dispatch:
+
+# Workflow-level environment variable
+env:
+  APP_NAME: shopping-app
+
+jobs:
+  environment-demo:
+    runs-on: ubuntu-latest
+
+    # Job-level environment variable
+    env:
+      ENVIRONMENT: staging
+
+    steps:
+      - name: Print workflow, job and step variables
+
+        # Step-level environment variable
+        env:
+          VERSION: 1.0.0
+
+        run: |
+          echo "Workflow level env: $APP_NAME"
+          echo "Job level env: $ENVIRONMENT"
+          echo "Step level env: $VERSION"
+
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Branch Name: ${{ github.ref_name }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Runner OS: ${{ runner.os }}"
+
+      - name: Check if VERSION exists in another step
+        run: |
+          echo "VERSION = $VERSION"

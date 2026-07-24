@@ -1,0 +1,35 @@
+name: Job Outputs Demo
+
+on:
+    workflow_dispatch:
+
+
+jobs:
+    generate-date:
+        runs-on: ubuntu-latest
+
+        #job-output
+        outputs:
+            current_date: ${{ steps.set-date.outputs.date }} #${{ steps.<step-id>.outputs.<output-name> }}
+
+        steps:
+            - name: Generate Current Date
+              id: set-date
+
+              run: |
+                echo "date=$(date)" >> $GITHUB_OUTPUT
+                # Creates a step output named 'date'
+
+
+    display-date:
+        runs-on: ubuntu-latest
+
+        # Wait for the generate-date job to complete
+        needs: generate-date  
+
+        steps:
+            - name: Display Current Date
+              run: |
+                echo "Current date is: ${{ needs.generate-date.outputs.current_date }}"
+                # Access the output from the 'date' job using: needs.<job_id>.outputs.<job_output_name>
+
