@@ -118,9 +118,9 @@ Create `.github/workflows/smart-pipeline.yml` that:
 
 1. Triggers on push to any branch.
 2. Has `lint` and `test` jobs running in parallel.
-3. Has a `summary` job that runs after both jobs complete successfully.
+3. Has a `summary` job that runs after all dependent jobs complete successfully.
 4. Prints whether the workflow was triggered from the `main` branch or a feature branch.
-5. Displays useful workflow information such as the commit message, actor, branch name, commit SHA, and application version.
+5. Displays useful workflow information such as the commit message, actor, branch name, commit SHA, deployment environment, and application version.
 
 > **`needs`**: Used to define job dependencies and control workflow execution order.
 >
@@ -129,6 +129,8 @@ Create `.github/workflows/smart-pipeline.yml` that:
 > **GitHub Context Variables**: Used to access workflow information such as branch name, actor, commit SHA, commit message, and repository details.
 >
 > **Conditional Logic**: Used to determine whether the workflow was triggered from the `main` branch or another branch.
+>
+> **Job Outputs**: Used to share the generated application version between jobs.
 
 **Verify:** Did the Smart Pipeline execute successfully and display the expected workflow information?
 
@@ -140,27 +142,39 @@ Create `.github/workflows/smart-pipeline.yml` that:
 
 ### Failed Pipeline
 
-> The `lint` job failed intentionally, demonstrating that dependent jobs (`generate-version`, `deploy`, and `summary`) are automatically skipped when a required job fails.
+> The `lint` job was intentionally failed to demonstrate that dependent jobs (`generate-version`, `deploy`, and `summary`) are automatically skipped when a required job does not complete successfully.
 
 ![Smart Pipeline Failed](./images/09-task-5.0-smart-pipeline-failed.png)
 
 ### Successful Pipeline
 
-> All jobs completed successfully, and the workflow executed in the expected order.
+> All jobs completed successfully, and the Smart Pipeline executed in the expected order.
 
 ![Smart Pipeline Passed](./images/09-task-5.1-smart-pipeline-passed.png)
 
 ### Workflow Jobs
 
+- **Build Job** – Builds the application.
+
 ![Build Job](./images/10-task-5.2-build.png)
+
+- **Lint Job** – Performs lint checks on the application.
 
 ![Lint Job](./images/11-task-5.3-lint.png)
 
+- **Test Job** – Runs the application's test stage.
+
 ![Test Job](./images/12-task-5.4-test.png)
+
+- **Generate Version Job** – Generates and shares the application version using job outputs.
 
 ![Generate Version Job](./images/13-task-5.5-generate-version.png)
 
+- **Deploy Job** – Simulates the deployment process using the generated application version.
+
 ![Deploy Job](./images/14-task-5.6-deploy.png)
+
+- **Summary Job** – Displays the pipeline summary, including branch information, commit details, deployment environment, and application version.
 
 ![Summary Job](./images/15-task-5.7-summary.png)
 
