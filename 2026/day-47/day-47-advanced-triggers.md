@@ -1,3 +1,5 @@
+# Day 47 – Advanced Triggers: PR Events, Cron Schedules & Event-Driven Pipelines
+
 ## Task 1: Pull Request Event Types
 
 Created a Pull Request lifecycle workflow to understand how GitHub Actions responds to different PR activity types.
