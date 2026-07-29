@@ -273,9 +273,11 @@ production
 
 **Verify:** Triggered the `deploy-request` event using GitHub CLI and passed `production` through `client_payload`.
 
-![Task 6 - External Trigger Workflow](./images/24-task-6-external-trigger-workflow.png)
+![Task 6 - Repository Dispatch Payload Received](./images/24-task-6.0-repository-dispatch-payload.png)
 
-**Result:** The external event successfully triggered the workflow, and the `production` environment value was received and printed in the workflow logs.
+![Task 6 - External Trigger Workflow](./images/25-task-6.1-external-trigger-workflow.png)
+
+**Result:** The `repository_dispatch` event successfully triggered the workflow, and the `production` environment value from `client_payload` was received and printed in the workflow logs.
 
 ---
 
