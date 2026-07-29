@@ -1,0 +1,22 @@
+name: Ignore Docs
+
+on:
+  push:
+    branches:
+      - main
+      - "release/*"
+    paths-ignore:
+      - "*.md"
+      - "docs/**"
+
+jobs:
+  non-docs-change:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Trigger Information
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Workflow ran because the push was not docs-only"

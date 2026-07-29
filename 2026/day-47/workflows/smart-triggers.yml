@@ -1,0 +1,22 @@
+name: Smart Triggers
+
+on:
+  push:
+    branches:
+      - main
+      - "release/*"
+    paths:
+      - "src/**"
+      - "app/**"
+
+jobs:
+  source-change:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Trigger Information
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Source code changed in src/ or app/"
