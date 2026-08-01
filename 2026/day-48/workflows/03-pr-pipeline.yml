@@ -1,0 +1,38 @@
+name: PR Pipeline
+
+# Run when PR targets main
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+
+# Required workflow permissions
+permissions:
+  contents: read
+
+jobs:
+
+  # Call reusable build and test workflow
+  build-test:
+    name: Build & Test
+    uses: ./.github/workflows/01-reusable-build-test.yml
+    with:
+      node_version: "22"
+      run_tests: true
+
+  # Print PR test summary
+  pr-comment:
+    name: PR Summary
+    needs:
+      - build-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print PR summary
+        run: |
+          echo "PR checks passed for branch: ${{ github.head_ref }}"
+          echo "Test result: ${{ needs.build-test.outputs.test_result }}"
+          echo "Commit: ${{ github.sha }}"

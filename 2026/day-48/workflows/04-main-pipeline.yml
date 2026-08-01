@@ -1,0 +1,128 @@
+name: Main CI/CD Pipeline
+
+# Run when code is pushed to main
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+
+  # Job 1: Build and test application
+  build-test:
+    name: Build & Test
+    uses: ./.github/workflows/01-reusable-build-test.yml
+    with:
+      node_version: "22"
+      run_tests: true
+
+
+  # Generate short commit SHA for Docker image tag
+  generate-sha:
+    name: Generate Short SHA
+    runs-on: ubuntu-latest
+
+    outputs:
+      short_sha: ${{ steps.vars.outputs.short_sha }}
+
+    steps:
+      - name: Create short SHA
+        id: vars
+        run: |
+          echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+
+  # Job 2: Build and push Docker image
+  docker-build:
+    name: Docker Build & Push
+
+    needs:
+      - build-test
+      - generate-sha
+
+    uses: ./.github/workflows/02-reusable-docker.yml
+
+    with:
+      image_name: task-manager-api
+      tag: sha-${{ needs.generate-sha.outputs.short_sha }}
+
+    secrets:
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_token: ${{ secrets.DOCKER_TOKEN }}
+
+
+    # Brownie Point: Scan Docker image for vulnerabilities
+  trivy-scan:
+    name: Trivy Security Scan
+    needs: docker-build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Install Trivy
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" \
+            | sudo tee /etc/apt/sources.list.d/trivy.list
+
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+          trivy --version
+
+      # Generate report without failing pipeline
+      - name: Generate Trivy report
+        run: |
+          trivy image \
+            --severity CRITICAL \
+            --ignore-unfixed \
+            --exit-code 0 \
+            --format table \
+            --output trivy-report.txt \
+            jaishreechaure/task-manager-api:latest
+
+      # Upload scan report
+      - name: Upload Trivy report
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-security-report
+          path: trivy-report.txt
+          retention-days: 7
+
+      # Security gate
+      - name: Security gate - check CRITICAL vulnerabilities
+        run: |
+          trivy image \
+            --severity CRITICAL \
+            --ignore-unfixed \
+            --exit-code 1 \
+            jaishreechaure/task-manager-api:latest
+
+
+  # Job 3: Deploy only after security scan passes
+  deploy:
+    name: Deploy to Production
+
+    needs:
+      - docker-build
+      - trivy-scan
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - name: Deployment summary
+        run: |
+          echo "Deploying image: ${{ needs.docker-build.outputs.image_url }} to production"
+          echo "Environment: production"

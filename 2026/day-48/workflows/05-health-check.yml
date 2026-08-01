@@ -1,0 +1,112 @@
+name: Scheduled Health Check
+
+on:
+  # Run every 12 hours
+  schedule:
+    - cron: "0 */12 * * *"
+
+  # Allow manual testing
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_NAME: jaishreechaure/task-manager-api
+  APP_CONTAINER: task-manager-health
+  MONGO_CONTAINER: mongodb-health
+  NETWORK_NAME: health-network
+
+jobs:
+  health-check:
+    name: Docker Health Check
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Pull latest application image
+      - name: Pull Docker image
+        run: |
+          docker pull ${{ env.IMAGE_NAME }}:latest
+
+      # Create Docker network
+      - name: Create Docker network
+        run: |
+          docker network create ${{ env.NETWORK_NAME }}
+
+      # Start MongoDB container
+      - name: Start MongoDB
+        run: |
+          docker run -d \
+            --name ${{ env.MONGO_CONTAINER }} \
+            --network ${{ env.NETWORK_NAME }} \
+            mongo:8
+
+      # Wait until MongoDB is ready
+      - name: Wait for MongoDB
+        run: |
+          echo "Waiting for MongoDB..."
+
+          for i in {1..10}; do
+            if docker exec ${{ env.MONGO_CONTAINER }} \
+              mongosh --quiet --eval "db.adminCommand('ping').ok" | grep -q 1; then
+              echo "MongoDB is ready"
+              exit 0
+            fi
+
+            echo "MongoDB not ready yet..."
+            sleep 3
+          done
+
+          echo "MongoDB failed to become ready"
+          exit 1
+
+      # Start application container
+      - name: Start application
+        run: |
+          docker run -d \
+            --name ${{ env.APP_CONTAINER }} \
+            --network ${{ env.NETWORK_NAME }} \
+            -p 3000:3000 \
+            -e PORT=3000 \
+            -e MONGO_URI=mongodb://${{ env.MONGO_CONTAINER }}:27017/taskmanager \
+            ${{ env.IMAGE_NAME }}:latest
+
+      # Wait for application to start
+      - name: Wait for application
+        run: |
+          echo "Waiting for application..."
+          sleep 5
+
+      # Check application health endpoint
+      - name: Run health check
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            http://localhost:3000/health)
+
+          echo "HTTP Status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "Health check PASSED"
+          else
+            echo "Health check FAILED"
+            docker logs ${{ env.APP_CONTAINER }}
+            exit 1
+          fi
+
+      # Create GitHub Actions health report
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## Health Check Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Image: ${{ env.IMAGE_NAME }}:latest" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Status: ${{ job.status }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Time: $(date -u)" >> "$GITHUB_STEP_SUMMARY"
+
+      # Clean up Docker resources even if previous steps fail
+      - name: Clean up
+        if: always()
+        run: |
+          docker rm -f ${{ env.APP_CONTAINER }} || true
+          docker rm -f ${{ env.MONGO_CONTAINER }} || true
+          docker network rm ${{ env.NETWORK_NAME }} || true
