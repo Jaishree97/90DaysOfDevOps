@@ -1,0 +1,100 @@
+name: Main Branch Pipeline
+
+# Run on pushes to main
+on:
+  push:
+    branches:
+      - main
+
+# Minimum required permissions
+permissions:
+  contents: read
+
+# Use Node 24 for GitHub Actions
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+
+  # Build and test
+  build-test:
+    name: Build & Test
+    uses: ./.github/workflows/01-reusable-build-test.yml
+    with:
+      node_version: "22"
+      run_tests: true
+
+  # Generate image tag
+  generate-sha:
+    name: Generate Short SHA
+    runs-on: ubuntu-latest
+
+    outputs:
+      short_sha: ${{ steps.vars.outputs.short_sha }}
+
+    steps:
+      - name: Create Short SHA
+        id: vars
+        run: |
+          echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+  # Build and push Docker image
+  docker-build:
+    name: Docker Build & Push
+    needs:
+      - build-test
+      - generate-sha
+    uses: ./.github/workflows/02-reusable-docker.yml
+    with:
+      image_name: task-manager-api
+      tag: sha-${{ needs.generate-sha.outputs.short_sha }}
+    secrets:
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_token: ${{ secrets.DOCKER_TOKEN }}
+
+  # Scan image
+  trivy-scan:
+    name: Trivy Vulnerability Scan
+    runs-on: ubuntu-latest
+    needs:
+      - docker-build
+      - generate-sha
+
+    permissions:
+      security-events: write
+      contents: read
+
+    steps:
+      - name: Run Trivy Scan
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          image-ref: jaishreechaure/task-manager-api:sha-${{ needs.generate-sha.outputs.short_sha }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "0"
+
+      - name: Upload SARIF Report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+
+  # Deploy application
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    needs:
+      - docker-build
+      - trivy-scan
+
+    environment:
+      name: production
+
+    steps:
+      - name: Deployment Summary
+        run: |
+          echo "Deploying image: ${{ needs.docker-build.outputs.image_url }}"
+          echo "Environment: production"
+          echo "Deployment completed successfully."

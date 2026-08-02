@@ -1,0 +1,62 @@
+name: PR Pipeline
+
+# Run when a pull request targets the main branch
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+# Minimum required permissions
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+
+  # Job 1: Build and test the application
+  build-test:
+    name: Build & Test
+    uses: ./.github/workflows/01-reusable-build-test.yml
+    with:
+      node_version: "22"
+      run_tests: true
+
+  # Job 2: Review new dependencies for vulnerabilities
+  # Runs only after Build & Test succeeds
+  dependency-review:
+    name: Dependency Review
+    needs: build-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Scan Dependencies
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+
+  # Job 3: Print workflow summary
+  pr-summary:
+    name: PR Summary
+    needs:
+      - build-test
+      - dependency-review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print PR Summary
+        run: |
+          echo "=================================="
+          echo "✅ Pull Request Validation Passed"
+          echo "=================================="
+          echo "Branch      : ${{ github.head_ref }}"
+          echo "Commit SHA  : ${{ github.sha }}"
+          echo "Test Result : ${{ needs.build-test.outputs.test_result }}"
+          echo "Dependency Review : PASSED"
+          echo "=================================="
