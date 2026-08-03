@@ -1,9 +1,9 @@
 # Day 50 – Kubernetes Architecture and Cluster Setup
 
-### Task 1: Recall the Kubernetes Story
+## Task 1: Recall the Kubernetes Story
 Before touching a terminal, write down from memory:
 
-#### 1. Why was Kubernetes created? What problem does it solve that Docker alone cannot?
+### 1. Why was Kubernetes created? What problem does it solve that Docker alone cannot?
 
 - Docker runs containers but doesn't manage them across multiple servers.
 - Kubernetes was created to orchestrate containers at scale.
@@ -19,7 +19,7 @@ Before touching a terminal, write down from memory:
 
 ---
 
-#### 2. Who created Kubernetes and what was it inspired by?
+### 2. Who created Kubernetes and what was it inspired by?
 
 - Kubernetes was created by **Google**.
 - Inspired by Google's internal system **Borg**.
@@ -28,7 +28,7 @@ Before touching a terminal, write down from memory:
 
 ---
 
-#### 3. What does the name "Kubernetes" mean?
+### 3. What does the name "Kubernetes" mean?
 
 - Kubernetes is a Greek word.
 - It means **"Helmsman"** or **"Captain of a Ship."**
@@ -36,7 +36,7 @@ Before touching a terminal, write down from memory:
 
 ---
 
-### Task 2: Draw the Kubernetes Architecture
+## Task 2: Draw the Kubernetes Architecture
 From memory, draw or describe the Kubernetes architecture. Your diagram should include:
 
 **Control Plane (Master Node):**
@@ -80,11 +80,11 @@ After drawing, verify your understanding:
 
 ---
 
-### Task 3: Install `kubectl`
+## Task 3: Install `kubectl`
 
 `kubectl` is the command-line tool used to communicate with a Kubernetes cluster.
 
-#### Linux (amd64)
+### Linux (amd64)
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -92,47 +92,39 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 ```
 
-#### Verify Installation
-
+### Verify Installation
 ```bash
 kubectl version --client
 ```
-
 ![kubectl version](./images/01-task-3-kubectl-version.png)
 
 ---
 
-### Task 4: Set Up Your Local Kubernetes Cluster
+## Task 4: Set Up Your Local Kubernetes Cluster
 
 I chose **KIND (Kubernetes IN Docker)** to create a local Kubernetes cluster.
 
-#### Install KIND (Linux)
+### Install KIND (Linux)
 
 ```bash
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/local/bin/kind
 ```
-
-#### Create a Cluster
+### Create a Cluster
 
 ```bash
 kind create cluster --name devops-cluster
 ```
-
-#### Verify the Cluster
+### Verify the Cluster
 
 ```bash
 kubectl cluster-info
 kubectl get nodes
 ```
-
 ![Cluster created](./images/02-task-4-lind-create-cluster.png)
 
----
-
 ### Output
-
 The Kubernetes cluster was created successfully, and the control plane node reached the **Ready** state.
 
 - **Cluster Name:** `devops-cluster`
@@ -142,8 +134,6 @@ The Kubernetes cluster was created successfully, and the control plane node reac
 - **Status:** `Ready`
 - **Kubernetes Version:** `v1.36.1`
 
----
-
 ### Which one did you choose and why?
 
 I chose **KIND (Kubernetes IN Docker)** because it is lightweight, fast, and easy to set up for local Kubernetes development.
@@ -151,18 +141,15 @@ I chose **KIND (Kubernetes IN Docker)** because it is lightweight, fast, and eas
 KIND runs Kubernetes clusters inside Docker containers, allowing me to quickly create and delete clusters without requiring virtual machines or cloud infrastructure. It is ideal for learning Kubernetes, testing manifests, and practicing cluster administration in a local environment.
 
 ---
-### Task 5: Explore Your Kubernetes Cluster
+
+## Task 5: Explore Your Kubernetes Cluster
 
 Now that your cluster is running, explore its components using the following commands.
 
----
-
-#### 1. View Cluster Information
-
+### 1. View Cluster Information
 ```bash
 kubectl cluster-info
 ```
-
 ![Cluster Info](./images/03-task-5.1-cluster-info.png)
 
 **Output**
@@ -171,36 +158,28 @@ kubectl cluster-info
 - Confirmed the **CoreDNS** service is available.
 - Displayed the local cluster endpoint.
 
----
-
-#### 2. List All Nodes
-
+### 2. List All Nodes
 ```bash
 kubectl get nodes
 ```
-
 ![Get Nodes](./images/04-task-5.2-kubectl-nodes.png)
 
 **Output**
-
 | Node | Status | Role | Version |
 |------|--------|------|---------|
 | `devops-cluster-control-plane` | `Ready` | `control-plane` | `v1.36.1` |
 
 ---
 
-#### 3. Describe the Control Plane Node
-
+### 3. Describe the Control Plane Node
 ```bash
 kubectl describe node devops-cluster-control-plane
 ```
-
 ![Describe Node](./images/05-task-5.3-describe-node.png)
 
 **Output**
 
 Displays:
-
 - `Node Information`
 - `Labels & Annotations`
 - `Resource Capacity`
@@ -208,51 +187,36 @@ Displays:
 - `Running Pods`
 - `Events`
 
----
-
-#### 4. List All Namespaces
-
+### 4. List All Namespaces
 ```bash
 kubectl get namespaces
 ```
-
 ![Namespaces](./images/06-task-5.4-name-spaces.png)
 
 **Output**
 
 Available namespaces:
-
 - `default`
 - `kube-system`
 - `kube-public`
 - `kube-node-lease`
 - `local-path-storage`
 
----
-
-#### 5. View All Pods
-
+### 5. View All Pods
 ```bash
 kubectl get pods -A
 ```
-
 ![All Pods](./images/07-task-5.5-get-pod-a.png)
 
 **Output**
 
 Displays Pods running across all namespaces, including the Kubernetes control plane and system components.
 
----
-
-#### 6. View Kubernetes System Pods
-
+### 6. View Kubernetes System Pods
 ```bash
 kubectl get pods -n kube-system
 ```
-
 ![kube-system Pods](./images/08-task-5.6-kube-system.png)
-
----
 
 ### Kubernetes System Pods
 
@@ -267,16 +231,12 @@ kubectl get pods -n kube-system
 | `kindnet` | CNI plugin that enables Pod-to-Pod networking. |
 | `local-path-provisioner` | Dynamically provisions local Persistent Volumes. |
 
----
-
 ### Pod Status
 
 - **READY:** `1/1` → All containers in the Pod are running.
 - **STATUS:** `Running` → The Pod is healthy and operational.
 - **RESTARTS:** `0` → No container restarts have occurred.
 - **AGE:** Time since the Pod was created.
-
----
 
 ### Verify Your Understanding
 
@@ -293,51 +253,35 @@ Can you identify these running Pods in your Kubernetes Architecture diagram?
 
 ---
 
-### Task 6: Practice Cluster Lifecycle
+## Task 6: Practice Cluster Lifecycle
 
 Practice creating, deleting, and managing your Kubernetes cluster to build familiarity with the cluster lifecycle.
 
-#### 1. Delete the Cluster
-
+### 1. Delete the Cluster
 ```bash
 kind delete cluster --name devops-cluster
 ```
----
-
-#### 2. Recreate the Cluster
-
+### 2. Recreate the Cluster
 ```bash
 kind create cluster --name devops-cluster
 ```
----
-
-#### 3. Verify the Cluster
-
+### 3. Verify the Cluster
 ```bash
 kubectl get nodes
 ```
----
-
-#### 4. Check the Current Context
-
+### 4. Check the Current Context
 ```bash
 kubectl config current-context
 ```
 Displays the Kubernetes cluster that `kubectl` is currently connected to.
 
----
-
-#### 5. List All Available Contexts
-
+### 5. List All Available Contexts
 ```bash
 kubectl config get-contexts
 ```
 Displays all configured Kubernetes contexts and highlights the active one.
 
----
-
-#### 6. View the kubeconfig File
-
+### 6. View the kubeconfig File
 ```bash
 kubectl config view
 ```
@@ -349,7 +293,7 @@ Displays the complete Kubernetes configuration, including clusters, users, and c
 
 ### Verify Your Understanding
 
-#### What is a kubeconfig?
+### What is a kubeconfig?
 
 A **kubeconfig** is a configuration file used by `kubectl` to connect to Kubernetes clusters. It stores information about:
 
@@ -358,18 +302,16 @@ A **kubeconfig** is a configuration file used by `kubectl` to connect to Kuberne
 - Contexts
 - Current active context
 
-#### Where is it stored?
+### Where is it stored?
 
 By default, the kubeconfig file is stored at:
 
 **Linux / macOS**
-
 ```text
 ~/.kube/config
 ```
 
 **Windows**
-
 ```text
 %USERPROFILE%\.kube\config
 ```
