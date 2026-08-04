@@ -17,16 +17,12 @@ Before touching a terminal, write down from memory:
 
 > **In short:** Docker runs containers, Kubernetes manages containers.
 
----
-
 ### 2. Who created Kubernetes and what was it inspired by?
 
 - Kubernetes was created by **Google**.
 - Inspired by Google's internal system **Borg**.
 - Open-sourced in **2014**.
 - Now maintained by the **Cloud Native Computing Foundation (CNCF).**
-
----
 
 ### 3. What does the name "Kubernetes" mean?
 
@@ -124,7 +120,6 @@ kubectl get nodes
 ```
 ![Cluster created](./images/02-task-4-lind-create-cluster.png)
 
-### Output
 The Kubernetes cluster was created successfully, and the control plane node reached the **Ready** state.
 
 - **Cluster Name:** `devops-cluster`
@@ -152,40 +147,19 @@ kubectl cluster-info
 ```
 ![Cluster Info](./images/03-task-5.1-cluster-info.png)
 
-**Output**
-
-- Verified the Kubernetes **Control Plane** is running.
-- Confirmed the **CoreDNS** service is available.
-- Displayed the local cluster endpoint.
-
 ### 2. List All Nodes
 ```bash
 kubectl get nodes
 ```
 ![Get Nodes](./images/04-task-5.2-kubectl-nodes.png)
 
-**Output**
-| Node | Status | Role | Version |
-|------|--------|------|---------|
-| `devops-cluster-control-plane` | `Ready` | `control-plane` | `v1.36.1` |
-
----
-
 ### 3. Describe the Control Plane Node
 ```bash
 kubectl describe node devops-cluster-control-plane
 ```
+This command displays detailed information about the `devops-cluster-control-plane` node, including its status, labels, resource capacity, conditions, running Pods, and events.
+
 ![Describe Node](./images/05-task-5.3-describe-node.png)
-
-**Output**
-
-Displays:
-- `Node Information`
-- `Labels & Annotations`
-- `Resource Capacity`
-- `Node Conditions`
-- `Running Pods`
-- `Events`
 
 ### 4. List All Namespaces
 ```bash
@@ -193,30 +167,23 @@ kubectl get namespaces
 ```
 ![Namespaces](./images/06-task-5.4-name-spaces.png)
 
-**Output**
-
-Available namespaces:
-- `default`
-- `kube-system`
-- `kube-public`
-- `kube-node-lease`
-- `local-path-storage`
-
 ### 5. View All Pods
 ```bash
 kubectl get pods -A
 ```
-![All Pods](./images/07-task-5.5-get-pod-a.png)
-
-**Output**
-
 Displays Pods running across all namespaces, including the Kubernetes control plane and system components.
+
+![All Pods](./images/07-task-5.5-get-pod-a.png)
 
 ### 6. View Kubernetes System Pods
 ```bash
 kubectl get pods -n kube-system
 ```
 ![kube-system Pods](./images/08-task-5.6-kube-system.png)
+
+You should see pods like `etcd`, `kube-apiserver`, `kube-scheduler`, `kube-controller-manager`, `coredns`, and `kube-proxy`. These are the architecture components you drew in Task 2 — running as pods inside the cluster.
+
+**Verify:** Can you match each running pod in `kube-system` to a component in your architecture diagram?
 
 ### Kubernetes System Pods
 
@@ -239,8 +206,6 @@ kubectl get pods -n kube-system
 - **AGE:** Time since the Pod was created.
 
 ### Verify Your Understanding
-
-Can you identify these running Pods in your Kubernetes Architecture diagram?
 
 - `etcd` → Cluster Database
 - `kube-apiserver` → API Server
@@ -289,42 +254,25 @@ Displays the complete Kubernetes configuration, including clusters, users, and c
 
 ![Cluster Lifecycle](./images/09-task-6-practice-cluster-lifecycle.png)
 
----
-
 ### Verify Your Understanding
 
-### What is a kubeconfig?
+#### What is a kubeconfig?
+- **kubeconfig** is the configuration file used by `kubectl` to connect to Kubernetes clusters.
+- **KIND** automatically updates the kubeconfig when a cluster is created.
+- It stores cluster information, user credentials, and contexts.
 
-A **kubeconfig** is a configuration file used by `kubectl` to connect to Kubernetes clusters. It stores information about:
-
-- Clusters
-- Users (credentials)
-- Contexts
-- Current active context
-
-### Where is it stored?
-
-By default, the kubeconfig file is stored at:
-
-**Linux / macOS**
-```text
-~/.kube/config
-```
-
-**Windows**
-```text
-%USERPROFILE%\.kube\config
-```
-
-### Key Commands
-
-| Command | Purpose |
-|---------|---------|
-| `kind delete cluster --name devops-cluster` | Deletes the Kubernetes cluster |
-| `kind create cluster --name devops-cluster` | Creates a new Kubernetes cluster |
-| `kubectl get nodes` | Verifies that the cluster is running |
-| `kubectl config current-context` | Shows the active Kubernetes context |
-| `kubectl config get-contexts` | Lists all configured contexts |
-| `kubectl config view` | Displays the complete kubeconfig |
+#### Where is it stored?
+- **Linux / macOS:** `~/.kube/config`
+- **Windows:** `%USERPROFILE%\.kube\config`
 
 ---
+
+### Key Commands
+| Command | Purpose |
+|---------|---------|
+| `kind delete cluster --name devops-cluster` | Delete the cluster |
+| `kind create cluster --name devops-cluster` | Create the cluster |
+| `kubectl get nodes` | Verify the cluster |
+| `kubectl config current-context` | Show the active context |
+| `kubectl config get-contexts` | List all contexts |
+| `kubectl config view` | View the kubeconfig |
