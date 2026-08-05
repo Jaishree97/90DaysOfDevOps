@@ -80,9 +80,8 @@ exit
 ```
 ![Task 1.4](./images/04-task-1.4-exec-into-pod.png)
 
-**Verify:** Can you see the Nginx welcome page when you curl from inside the pod?
-
-**Verification** Successfully accessed the container and confirmed the Nginx Welcome page using: ```curl localhost:80```
+**Verification** 
+- Successfully accessed the container and confirmed the Nginx Welcome page using: ```curl localhost:80```
 
 ---
 
@@ -185,6 +184,8 @@ Using `--dry-run=client -o yaml` is a convenient way to scaffold a manifest. You
 - The container name is automatically set to `test-pod`.
 - The hand-written manifest contains custom labels (`app: nginx`).
 - The hand-written manifest is cleaner and includes only the fields required for deployment.
+
+---
 
 ### Task 4: Validate Before Applying
 
