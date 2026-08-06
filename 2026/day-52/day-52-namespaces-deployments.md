@@ -59,7 +59,7 @@ metadata:
 Apply the manifest:
 
 ```bash
-kubectl apply -f manifests/namespace.yml
+kubectl apply -f namespace.yml
 ```
 
 ![Task 2.2](./images/03-task-2.2.png)
