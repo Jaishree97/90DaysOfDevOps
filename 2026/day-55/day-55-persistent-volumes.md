@@ -156,7 +156,7 @@ Access modes to know:
 
 ### PersistentVolumeClaim (PVC)
 
-- A **PersistentVolumeClaim (PVC)** is a user's request for storage.
+- A **PersistentVolumeClaim (PVC)** is a request for storage by a user or application.
 - It specifies requirements such as:
   - Storage size
   - Access mode
@@ -172,4 +172,4 @@ PVC is bound to a PV
         ↓
 Pod uses the PVC
         ↓
-Pod accesses the persistent storage
+Pod accesses persistent storage
