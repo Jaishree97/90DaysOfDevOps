@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dynamic-pv-pod
+spec:
+  containers:
+    - name: dynamic-pv-pod
+      image: busybox:1.36
+      command: ["/bin/sh", "-c"]
+      args:
+        - echo "Dynamic provisioning works!" > /data/message.txt && sleep 3600
+      volumeMounts:
+        - name: dynamic-storage
+          mountPath: /data
+
+  volumes:
+    - name: dynamic-storage
+      persistentVolumeClaim:
+        claimName: dynamic-pvc
