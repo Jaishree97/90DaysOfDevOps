@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-demo
+
+spec:
+  containers:
+    - name: busybox
+      image: busybox:1.36
+
+      command:
+        - /bin/sh
+        - -c
+        - |
+          touch /tmp/healthy
+          echo "Container started - health file created"
+          sleep 30
+          echo "Deleting health file..."
+          rm -f /tmp/healthy
+          echo "Health file deleted - container stays alive"
+          sleep 3600
+
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/healthy
+
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        failureThreshold: 3

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-demo
+
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+
+      command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Application starting..."
+          sleep 20
+          echo "Application started!"
+          touch /tmp/started
+          sleep 3600
+
+      startupProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/started
+
+        periodSeconds: 5
+        failureThreshold: 2
+        #failureThreshold: 12
+
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/started
+
+        periodSeconds: 5
+        failureThreshold: 3
