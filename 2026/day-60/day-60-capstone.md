@@ -274,8 +274,6 @@ kubectl delete namespace wordpress-helm
 
 ---
 
----
-
 ## Architecture Diagram
 
 **Which resources connect to which:**
