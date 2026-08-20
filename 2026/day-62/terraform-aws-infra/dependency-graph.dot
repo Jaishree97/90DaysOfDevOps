@@ -1,0 +1,23 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "aws_instance.ec2" [label="aws_instance.ec2"];
+  "aws_internet_gateway.igw" [label="aws_internet_gateway.igw"];
+  "aws_key_pair.my_key_pair" [label="aws_key_pair.my_key_pair"];
+  "aws_route_table.public_rt" [label="aws_route_table.public_rt"];
+  "aws_route_table_association.public_rt_assoc" [label="aws_route_table_association.public_rt_assoc"];
+  "aws_s3_bucket.app_logs" [label="aws_s3_bucket.app_logs"];
+  "aws_security_group.ec2_sg" [label="aws_security_group.ec2_sg"];
+  "aws_subnet.public_subnet" [label="aws_subnet.public_subnet"];
+  "aws_vpc.vpc" [label="aws_vpc.vpc"];
+  "aws_instance.ec2" -> "aws_key_pair.my_key_pair";
+  "aws_instance.ec2" -> "aws_security_group.ec2_sg";
+  "aws_instance.ec2" -> "aws_subnet.public_subnet";
+  "aws_internet_gateway.igw" -> "aws_vpc.vpc";
+  "aws_route_table.public_rt" -> "aws_internet_gateway.igw";
+  "aws_route_table_association.public_rt_assoc" -> "aws_route_table.public_rt";
+  "aws_route_table_association.public_rt_assoc" -> "aws_subnet.public_subnet";
+  "aws_s3_bucket.app_logs" -> "aws_instance.ec2";
+  "aws_security_group.ec2_sg" -> "aws_vpc.vpc";
+  "aws_subnet.public_subnet" -> "aws_vpc.vpc";
+}
