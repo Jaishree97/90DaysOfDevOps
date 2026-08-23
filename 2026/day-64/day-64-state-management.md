@@ -114,7 +114,7 @@ terraform {
   }
 }
 ```
-**Terraform-file** `[providers.tf](./terraform-aws-state-management/providers.tf)`
+**Terraform-file** [providers.tf](./terraform-aws-state-management/providers.tf)
 
 Migrate the existing local state:
 
@@ -236,8 +236,8 @@ Expected: `No changes. Your infrastructure matches the configuration.`
 
 **Document:** What is the error message? Why is locking critical for team environments?
 
-- **Error:** Terraform reports `Error acquiring the state lock` because another Terraform operation is already holding the state lock.
-- **Why is locking critical?** It prevents multiple users or processes from modifying the same state simultaneously, avoiding conflicting updates and possible state corruption in team environments.
+- **Error:** - Terraform reports `Error acquiring the state lock` because another Terraform operation is already holding the state lock.
+- **Why is locking critical?** - It prevents multiple users or processes from modifying the same state simultaneously, avoiding conflicting updates and possible state corruption in team environments.
 
 > **Key Takeaway:** State locking protects shared Terraform state from **concurrent operations, conflicting changes, and corruption**.
 
@@ -303,7 +303,9 @@ This confirms the imported resource matches the Terraform configuration.
 
 ![Terraform plan after import](./images/15-task-4.5-terraform-plan-after-import-no-changes.png)
 
-**Document** **What is the difference between `terraform import` and creating a resource from scratch?**
+**Document** 
+
+**What is the difference between `terraform import` and creating a resource from scratch?**
 
 - `terraform import` brings an **existing AWS resource** into Terraform state without creating a new resource.
 - Creating a resource from scratch with Terraform means Terraform **provisions the resource** based on the configuration.
@@ -484,3 +486,46 @@ After completing the Day 64 hands-on practice: `terraform destroy` Approve with:
 ![Task 6.6](./images/25-task-6.6-terraform-destroy.png) 
 
 ---
+
+## Documentation
+
+### 1. Local State vs Remote State
+
+![terraform-state-management-local-vs-remote](./images/terraform-state-management-local-vs-remote.png)
+
+- **Local:** `terraform.tfstate` stored on the developer machine.
+- **Remote:** State stored in **S3** with Versioning and native locking.
+- This lab uses `use_lockfile = true`; **DynamoDB is not used**.
+
+### 2. Terraform Import
+
+```bash
+terraform import aws_s3_bucket.imported terraweek-import-test-jaishree-2026
+terraform state list
+terraform plan
+```
+Result: 
+
+```text
+Import successful!
+No changes. Your infrastructure matches the configuration.
+```
+
+### 3. State Drift
+
+1. Changed the EC2 `Name` tag to `ManuallyChanged` in the AWS Console.
+2. Added an S3 `DriftTest=ManualChange` tag using AWS CLI.
+3. `terraform plan` detected the drift.
+4. `terraform apply` restored the desired configuration.
+5. Final `terraform plan` showed **No changes**.
+
+### 4. State Commands
+
+| Command         | Use                                                           |
+| --------------- | ------------------------------------------------------------- |
+| `state mv`      | Rename/move a resource in state                               |
+| `state rm`      | Remove a resource from state without deleting AWS resource   |
+| `import`        | Bring an existing resource under Terraform management         |
+| `force-unlock`  | Remove a stale state lock                                     |
+| `refresh`       | Refresh state from real infrastructure                        |
+
