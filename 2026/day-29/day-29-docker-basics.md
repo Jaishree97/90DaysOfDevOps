@@ -118,7 +118,7 @@ A **Docker Registry** stores Docker Images.
           |                                 |
           ▼                                 ▼
  +-------------------+            +--------------------+
- | Docker Images     |            | Docker Containers  |
+
  +-------------------+            +--------------------+
                            |
                            ▼
