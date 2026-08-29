@@ -70,19 +70,20 @@ I used **Option A: Terraform** to provision the lab environment.
 
 The lab consists of **4 EC2 instances**:
 
-- **Control Node** — runs Ansible
+- **Control Node** — the machine where Ansible runs
 - **Web Server** — managed node
 - **App Server** — managed node
 - **DB Server** — managed node
 
 All instances use **Amazon Linux 2023** and the **t3.micro** instance type.
 
-### 1. Configure AWS Credentials
+### 1. Configure AWS Profile
+
 ```bash
-aws configure
+export AWS_PROFILE=terraform
 aws sts get-caller-identity
 ```
-This confirms that the AWS CLI is using the expected IAM identity.
+This confirms that the AWS CLI is using the expected IAM profile.
 
 ### 2. Generate SSH Key Pair
 
@@ -93,8 +94,8 @@ ssh-keygen -t ed25519 -f ~/.ssh/day68-ansible-key -C "day68-ansible"
 ```
 This creates:
 
-- `~/.ssh/day68-ansible-key — private key`
-- `~/.ssh/day68-ansible-key.pub — public key`
+- `~/.ssh/day68-ansible-key` — private key
+- `~/.ssh/day68-ansible-key.pub` — public key
 
 Verify the generated keys:
 
@@ -120,7 +121,7 @@ The AMI was verified as:
 - Architecture: x86_64
 - State: available
 
-### 4. Initialize Terraform
+### 4. Format, Initialize, and Validate Terraform
 
 Initialize the Terraform working directory:
 
@@ -132,8 +133,13 @@ terraform validate
 ![Task 2.1](./images/01-task-2.1-terraform-init.png) 
 
 ```bash
-terraform plan   # Plan: 7 to add, 0 to change, 0 to destroy.
-```              
+terraform plan   
+``` 
+Terraform planned:
+
+```bash
+Plan: 7 to add, 0 to change, 0 to destroy.
+```
 ![Task 2.2](./images/02-task-2.2-terraform-plan.png) 
 
 ```bash
@@ -190,9 +196,9 @@ SSH connectivity was successfully verified for: `web-server`, `app-server`, `db-
 
 Install Ansible on your **control node**. In this lab, the **control node is an EC2 instance running Amazon Linux 2023**.
 
-Ansible is installed only on the control node because it is the machine responsible for running Ansible commands and playbooks. The managed nodes do not require an Ansible agent.
+Ansible is installed only on the control node because it it runs Ansible commands and playbooks and connects to managed nodes over SSH. The managed nodes do not require an Ansible agent.
 
-### Install Ansible
+### 1. Install Ansible
 
 ```bash
 # Amazon Linux / RHEL
@@ -201,14 +207,14 @@ sudo dnf install ansible -y
 ```
 ![Task 3.1](./images/07-task-3.1-ansible-installation-on-control-node.png) 
 
-### Verify
+### 2. Verify Ansible
 
 ```bash
 ansible --version
 ```
 ![Task 3.2](./images/08-task-3.2-ansible-version-verified-on-control-node.png)
 
-Confirm the output shows the Ansible version, config file path, and Python version.
+The installation completed successfully, and Ansible version `2.15.3` was verified.
 
 - **Ansible:** `core 2.15.3`
 - **Python:** `3.9.25`
@@ -232,47 +238,62 @@ mkdir ansible-practice && cd ansible-practice
 Create a file called `inventory.ini`:
 ```ini
 [web]
-web-server ansible_host=<PUBLIC_IP_1>
+web-server ansible_host=<WEB_SERVER_PUBLIC_IP>
 
 [app]
-app-server ansible_host=<PUBLIC_IP_2>
+app-server ansible_host=<APP_SERVER_PUBLIC_IP>
 
 [db]
-db-server ansible_host=<PUBLIC_IP_3>
+db-server ansible_host=<DB_SERVER_PUBLIC_IP>
 
 [all:vars]
 ansible_user=ec2-user
-ansible_ssh_private_key_file=~/your-key.pem
+ansible_ssh_private_key_file=~/.ssh/day68-ansible-key
+ansible_python_interpreter=/usr/bin/python3.9
 ```
+This inventory groups the managed nodes into `web`, `app`, and `db` and defines the SSH user, private key, and Python interpreter.
+
 ![Task 4.1](./images/09-task-4.1-ansible-inventory-configured.png) 
 
-### Verify the inventory groups:
+### 1. Verify the Inventory Groups
+
+Check the inventory group structure:
 
 ```bash
 ansible-inventory -i inventory.ini --graph
 ```
+This verifies the hosts and their connection variables defined in the inventory.
+
 ![Task 4.2](./images/10-task-4.2-ansible-inventory-groups-verified.png)
 
-### Verify the inventory details:
+### 2. Verify the inventory details:
+
+Display the complete inventory information:
 
 ```bash
 ansible-inventory -i inventory.ini --list
 ```
+This verifies the hosts and their connection variables defined in the inventory.
+
 ![Task 4.3](./images/11-task-4.3-ansible-inventory-list-verified.png) 
 
-### Verify Ansible can reach all hosts:
+### 3. Verify Ansible Can Reach All Hosts
+
+Test connectivity to all managed nodes
 
 ```bash
 ansible all -i inventory.ini -m ping
 ```
+Ansible should return green `SUCCESS` with `"ping": "pong"` for each host.
+
 ![Task 4.4](./images/12-task-4.4-ansible-ping-connectivity-verified.png)
 
 You should see green `SUCCESS` with `"ping": "pong"` for each host.
 
 **Troubleshoot:** If ping fails:
-- Check the SSH key path and permissions (`chmod 400 your-key.pem`)
+- Check the SSH key path and permissions `(chmod 400 ~/.ssh/day68-ansible-key)`
 - Check the security group allows SSH from your IP
-- Check the `ansible_user` matches your AMI (ec2-user for Amazon Linux, ubuntu for Ubuntu)
+- Check the `ansible_user` matches your AMI (`ec2-user` for Amazon Linux, `ubuntu` for Ubuntu)
 
 ---
 
@@ -282,12 +303,16 @@ Ad-hoc commands let you run quick one-off tasks without writing a playbook.
 
 ### 1. Check uptime on all servers
 
+Check the system uptime of all managed nodes:
+
 ```bash
 ansible all -i inventory.ini -m command -a "uptime"
 ```
 ![Task 5.1](./images/13-task-5.1-ansible-uptime.png) 
 
 ### 2. Check free memory on web servers only
+
+Check the available and used memory on the web `group`:
 
 ```bash
 ansible web -i inventory.ini -m command -a "free -h"
@@ -296,12 +321,16 @@ ansible web -i inventory.ini -m command -a "free -h"
 
 ### 3. Check disk space on all servers
 
+Check disk usage on all managed nodes:
+
 ```bash
 ansible all -i inventory.ini -m command -a "df -h"
 ```
 ![Task 5.3](./images/15-task-5.3-ansible-disk-usage.png) 
 
 ### 4. Install a package on the web group
+
+Install Git on the `web` server using the `yum` module with elevated privileges:
 
 ```bash
 ansible web -i inventory.ini -m yum -a "name=git state=present" --become
@@ -312,6 +341,8 @@ ansible web -i inventory.ini -m yum -a "name=git state=present" --become
 
 ### 5. Copy a file to all servers
 
+Create a file on the control node and copy it to all managed nodes:
+
 ```bash
 echo "Hello from Ansible" > hello.txt
 ansible all -i inventory.ini -m copy -a "src=hello.txt dest=/tmp/hello.txt"
@@ -319,6 +350,8 @@ ansible all -i inventory.ini -m copy -a "src=hello.txt dest=/tmp/hello.txt"
 ![Task 5.5](./images/17-task-5.5-ansible-file-copy-to-managed-nodes.png) 
 
 ### 6. Verify the file was copied
+
+Read the copied file from all managed nodes to verify the content:
 
 ```bash
 ansible all -i inventory.ini -m command -a "cat /tmp/hello.txt"
@@ -346,27 +379,39 @@ app
 application
 db
 ```
+This creates higher-level groups so `application` contains the `web` and `app` groups, while `all_servers` contains `application` and `db`.
+
 ![Task 6.1](./images/19-task-6.1-ansible-nested-inventory-groups.png) 
 
 ### 2. Run commands against different groups
+
+Test different inventory groups to understand how group targeting works:
+
 ```bash
 ansible application -i inventory.ini -m ping     # web + app servers
 ansible db -i inventory.ini -m ping               # only db server
 ansible all_servers -i inventory.ini -m ping      # everything
 ```
+The `application` group targets the web and app servers, `db` targets only the DB server, and `all_servers` targets all managed nodes.
+
 ![Task 6.2](./images/20-task-6.2-ansible-inventory-group-ping.png)
 
 ### 3. Use patterns
+
+Use patterns to target multiple groups or exclude specific groups:
 
 ```bash
 ansible 'web:app' -i inventory.ini -m ping        # OR: web or app
 ansible 'all:!db' -i inventory.ini -m ping        # NOT: all except db
 ```
+The `web:app` pattern targets the web or app groups, while `all:!db` targets all hosts except the DB server.
+
 ![Task 6.3](./images/21-task-6.3-ansible-pattern-matching-ping.png) 
 
 ### 4. Create an ansible.cfg
 
 Create an `ansible.cfg` to avoid typing `-i inventory.ini` every time: `vim ansible.cfg`
+
 ```ini
 [defaults]
 inventory = inventory.ini
@@ -374,12 +419,17 @@ host_key_checking = False
 remote_user = ec2-user
 private_key_file = ~/your-key.pem
 ```
+This configuration tells Ansible which inventory and SSH settings to use by default.
+
 ![Task 6.4](./images/22-task-6.4-ansible-configuration-file.png)
 
 Now you can simply run:
+
 ```bash
 ansible all -m ping
 ``` 
+This verifies that Ansible automatically uses the `inventory.ini` specified in `ansible.cfg`.
+
 ![Task 6.5](./images/23-task-6.5-ansible-all-hosts-ping.png) 
 
 **Verify:** Does `ansible all -m ping` work without specifying the inventory file?
@@ -391,6 +441,7 @@ ansible all -m ping
 After completing the Ansible tasks, Exit the Control Node: `exit`, return to the Terraform directory: `cd ~/day68-ansible-lab/terraform`
 
 Check Terraform State : `terraform state list`
+
 Expected resources:
 
 ```text
@@ -402,18 +453,20 @@ aws_instance.ec2_instances["web-server"]
 aws_instance.ec2_instances["app-server"]
 aws_instance.ec2_instances["db-server"]
 ```
+This verifies the Terraform resources created for the lab before destroying them.
+
 Run : `terraform destroy`
+
+This removes the EC2 instances and other AWS resources created for the lab.
 
 ![Task 6.6](./images/24-task-6.6-terraform-destroy.png)
 
 ---
 
+### Key Takeaways
+
 - Ansible uses SSH by default — no agent installation is needed on managed nodes.
-
 - `ansible.cfg` is read from the current directory first, then `~/.ansible.cfg`, then `/etc/ansible/ansible.cfg`.
-
 - `-m` specifies the module, while `-a` specifies the module arguments.
-
 - The `command` module runs simple commands, while the `shell` module supports pipes and redirects.
-
 - Ad-hoc commands are great for quick tasks, but playbooks are better for anything repeatable.
