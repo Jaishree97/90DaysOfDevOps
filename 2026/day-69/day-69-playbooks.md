@@ -93,12 +93,16 @@ Create `install-nginx.yml`:
 
 > **Note:** Use `apt` instead of `yum` if your instances run Ubuntu.
 
-### Syntax Check
+### 1. Syntax Check
+
+First, verify the playbook syntax before executing it.
 
 ```bash
 ansible-playbook install-nginx.yml --syntax-check
 ```
-### Run the Playbook:
+### 2. Run the Playbook:
+
+Run the playbook to configure the web server.
 
 ```bash
 ansible-playbook install-nginx.yml
@@ -113,12 +117,14 @@ Now run it **again**. Notice that tasks show `ok` instead of `changed`. This is 
 
 ![Task 1.2](./images/02-task-1.2-ansible-nginx-playbook-run-success.png)
 
-**Verify:** Curl the web server's public IP. Do you see your custom page?
+### 3. Verify the Deployment
+
+Finally, use `curl` to confirm that the custom HTML page is being served by Nginx.
 
 ```bash
 curl http://<WEB_SERVER_PUBLIC_IP>
 ```
-- yes
+- yes, the custom Ansible page is displayed.
 
 ![Task 1.3](./images/03-task-1.3-ansible-nginx-deployment-verification.png)
 
@@ -126,7 +132,7 @@ curl http://<WEB_SERVER_PUBLIC_IP>
 
 ## Task 2: Understand the Playbook Structure
 
-Open your playbook and annotate each part in your notes:
+Open your playbook and annotate each part to understand how an Ansible playbook is structured:
 
 ```yaml
 ---                                    # YAML document start
@@ -142,7 +148,8 @@ Open your playbook and annotate each part in your notes:
 
 ### Answer:
 
-1. What is the difference between a play and a task?
+### 1. What is the difference between a play and a task?
+
    - A `play` defines:
      - Which hosts to target
      - Which tasks or roles to apply
@@ -151,20 +158,23 @@ Open your playbook and annotate each part in your notes:
      - Uses one Ansible module (such as `yum`, `copy`, or `service`)
      - Performs a specific action on the target hosts
 
-2. Can you have multiple plays in one playbook?
+### 2. Can you have multiple plays in one playbook?
+
    - Yes. A playbook can contain multiple plays.
    - Each play:
      - Targets a specific host group
      - Contains its own tasks
      - Runs independently in sequence
 
-3. What does `become: true` do at the play level vs the task level?
+### 3. What does `become: true` do at the play level vs the task level?
+
    - `play level`:
      - Applies privilege escalation to ALL tasks in that play
    - `task level`:
      - Applies privilege escalation only to that specific task
 
-4. What happens if a task fails — do remaining tasks still run?
+### 4. What happens if a task fails — do remaining tasks still run?
+
    - `Default behavior:`
      - Execution stops for that host
      - Remaining tasks are skipped for that host
@@ -177,7 +187,6 @@ Open your playbook and annotate each part in your notes:
        - name: Task 2
          # won't run on that host
      ```
-
    - Other hosts:
      - Continue executing normally
 
@@ -189,7 +198,7 @@ Practice the essential Ansible modules by creating `essential-modules.yml`.
 
 This playbook runs against **all servers** and demonstrates package management, services, file operations, commands, shell features, and line editing.
 
-Create the `files/` Directory and `app.conf`
+### Create `files/` Directory and `app.conf`
 
 Before creating the playbook, create a `files/` directory and add a sample `app.conf` file for the `copy` task.
 
@@ -197,7 +206,7 @@ Before creating the playbook, create a `files/` directory and add a sample `app.
 mkdir -p files
 vim files/app.conf
 ```
-Create `essential-modules.yml`
+### Create `essential-modules.yml`
 
 1. **`yum`/`apt`** -- Install and remove packages:
 ```yaml
@@ -205,11 +214,13 @@ Create `essential-modules.yml`
   yum:
     name:
       - git
-      - curl
+      #- curl
       - wget
       - tree
+      - nginx
     state: present
 ```
+> **Note:** `curl` was already installed on the Amazon Linux 2023 instances, so it was commented out to demonstrate installing a package that was not already present. `nginx` was added instead.
 
 2. **`service`** -- Manage services:
 ```yaml
@@ -272,16 +283,16 @@ Create `essential-modules.yml`
     create: true
 ```
 
-### Syntax Check
+### 1. Syntax Check
 
-Before running the playbook, validate the YAML syntax:
+Validate the playbook before executing it:
 
 ```bash
 ansible-playbook essential-modules.yml --syntax-check
 ```
-### Run the Playbook
+### 2. Run the Playbook
 
-Run the playbook against all servers.
+Run it against all managed nodes:
 
 ```bash
 ansible-playbook essential-modules.yml
@@ -292,21 +303,21 @@ The output confirms that the tasks are executed across `app-server`, `web-server
 
 > **What this verifies:** The essential modules completed successfully across all three managed nodes. 
 
-### Verify Disk Space
+### 3. Verify Disk Space
 
 The `command` module runs `df -h` and registers the output. The `debug` task then displays the disk-space information.
 
 ![Task 3.2](./images/05-task-3.2-ansible-disk-space-check.png) 
 
-### Verify Processes 
+### 4. Verify Processes and Timezone
 
 The shell module demonstrates shell features such as the pipe (|) while lineinfile ensures the timezone entry exists.
 
 ![Task 3.3](./images/06-task-3.3-ansible-process-count-timezone-check.png) 
 
-### Verify Files and Directories
+### 5. Verify Files, Directories, Nginx, and Timezone
 
-The copy and file modules created /etc/app.conf and /opt/myapp on all managed nodes.
+The `copy` and `file` modules created `/etc/app.conf` and `/opt/myapp` on all managed nodes.
 
 ```bash
 ansible all -b -m shell -a "ls -l /etc/app.conf && ls -ld /opt/myapp"
@@ -314,7 +325,7 @@ ansible all -b -m shell -a "systemctl is-active nginx && grep 'TZ=Asia/Kolkata' 
 ```
 ![Task 3.4](./images/07-task-3.4-ansible-multi-node-config-timezone-verification.png)
 
-> **What this verifies:** The configuration file and application directory were created with the expected ownership and permissions.
+> **What this verifies:** The configuration file, application directory, Nginx service, and timezone configuration are present across the managed nodes.
 
 **Document:** What is the difference between `command` and `shell`? When should you use each?
 
@@ -334,9 +345,10 @@ ansible all -b -m shell -a "systemctl is-active nginx && grep 'TZ=Asia/Kolkata' 
 
 ## Task 4: Handlers -- Restart Services Only When Needed
 
-Handlers are tasks that run only when triggered by a `notify`. This avoids unnecessary service restarts.
+Handlers run only when triggered by a `notify`. This helps avoid unnecessary service restarts.
 
-Create `nginx-config.yml`:
+### Create `nginx-config.yml`
+
 ```yaml
 ---
 - name: Configure Nginx with a custom config
@@ -377,31 +389,47 @@ Create `nginx-config.yml`:
 
 Create `files/nginx.conf` with a basic Nginx config.
 
-### First Run
+### 1. Syntax Check
 
-Run the playbook for the first time: `ansible-playbook nginx-config.yml`
+Validate the playbook before running it:
 
+```bash
+ansible-playbook nginx-config.yml --syntax-check
+```
+### 2. First Run
+
+Run the playbook for the first time: 
+
+```bash
+ansible-playbook nginx-config.yml
+```
 Because `files/nginx.conf` is new or has changed, the `Deploy Nginx config` task reports `changed` and triggers the `Restart Nginx` handler.
 
 ![Task 4.1](./images/08-task-4.1-ansible-nginx-config-idempotency-success.png) 
 
-> **What this verifies:** The configuration was changed and the Restart Nginx handler ran automatically.
+> **What this verifies:** The configuration was changed and the `Restart Nginx` handler ran automatically.
 
-### Second Run
+### 3. Second Run
 
-Run the same playbook again: `ansible-playbook nginx-config.yml`
+Run the same playbook again:
 
+```bash
+ansible-playbook nginx-config.yml
+```
 This time, the configuration is already up to date, so the `Deploy Nginx config` task reports `ok` and the handler does not run.
 
 > **What this verifies:** The handler runs only when the task that notifies it reports a change.
 
-### Verify the Web Server
+### 4. Verify the Web Server
 
-Check the deployed page using the web server's public IP: `curl http://<WEB_SERVER_PUBLIC_IP>`
+Check the deployed page using the web server's public IP:
 
+```bash
+curl http://<WEB_SERVER_PUBLIC_IP>
+```
 ![Task 4.2](./images/09-task-4.2-ansible-nginx-web-verification.png)
 
-### Verify Handler Behavior
+### 5. Verify Handler Behavior
 
 Compare the two playbook runs:
 
@@ -423,20 +451,20 @@ The `--check` option performs a **dry run**. It shows what would change without 
 ```bash
 ansible-playbook install-nginx.yml --check
 ```
-> **What this verifies:** Ansible checks the current state and reports potential changes without modifying the web server.
-
 ![Task 5.1](./images/10-task-5.1-ansible-nginx-check.png) 
 
-### 2. Diff Mode (--diff)
+> **What this verifies:** Ansible checks the current state and reports potential changes without modifying the web server.
 
-The --diff option shows the actual before-and-after differences for files that Ansible would modify. Combining it with --check lets you preview file changes without applying them.
+### 2. Diff Mode (`--diff`)
+
+The `--diff` option shows the actual before-and-after differences for files that Ansible would modify. Combining it with `--check` lets you preview file changes without applying them.
 
 ```bash
 ansible-playbook nginx-config.yml --check --diff
 ```
-> **What this verifies:** You can see exactly what content would change in the Nginx configuration before applying it.
-
 ![Task 5.2](./images/11-task-5.2-ansible-nginx-config-diff.png) 
+
+> **What this verifies:** You can see exactly what content would change in the Nginx configuration before applying it.
 
 ### 3. Verbosity
 
@@ -447,6 +475,10 @@ ansible-playbook install-nginx.yml -v       # verbose
 ansible-playbook install-nginx.yml -vv      # more verbose
 ansible-playbook install-nginx.yml -vvv     # connection debugging
 ```
+- `v` → Verbose output
+- `vv` → More detailed output
+- `vvv` → Connection and SSH debugging
+
 ![Task 5.3](./images/12-task-5.3-ansible-nginx-verbose-output.png) 
 
 ![Task 5.4](./images/13-task-5.4-ansible-nginx-vv.png) 
@@ -455,14 +487,14 @@ ansible-playbook install-nginx.yml -vvv     # connection debugging
 
 ### 4. Limit to Specific Hosts
 
-The --limit option restricts the playbook execution to a specific host.
+The `--limit` option restricts the playbook execution to a specific host.
 
 ```bash
 ansible-playbook install-nginx.yml --limit web-server
 ```
-> **What this verifies:** Only web-server is targeted, even though the playbook uses the `web` group.
-
 ![Task 5.6](./images/15-task-5.6-ansible-limit-web-server.png) 
+
+> **What this verifies:** Only web-server is targeted, even though the playbook uses the `web` group.
 
 ### 5. List Affected Hosts and Tasks
 
@@ -476,11 +508,11 @@ Use `--list-tasks` to see which tasks are defined in the playbook without execut
 ```bash
 ansible-playbook install-nginx.yml --list-tasks
 ```
-> **What this verifies:** You can review the target hosts and tasks before making any changes.
-
 ![Task 5.7](./images/16-task-5.7-ansible-playbook-hosts-tasks.png)
 
-### Document: Why is `--check --diff` Important for Production?
+> **What this verifies:** You can review the target hosts and tasks before making any changes.
+
+**Document:** Why is `--check --diff` Important for Production?
 
 `--check --diff` is useful in production because it allows you to **preview changes before applying them**.
 
@@ -496,7 +528,7 @@ ansible-playbook install-nginx.yml --list-tasks
 
 A single playbook can contain multiple plays. Each play targets a specific inventory group, allowing different configurations for web, app, and database servers.
 
-Write `multi-play.yml` with separate plays for each server group:
+### Write `multi-play.yml` with separate plays for each server group:
 
 ```yaml
 ---
@@ -534,9 +566,9 @@ Write `multi-play.yml` with separate plays for each server group:
   hosts: db
   become: true
   tasks:
-    - name: Install MySQL client
+    - name: Install MySQL-compatible client utilities
       yum:
-        name: mysql
+        name: mariadb1011-client-utils
         state: present
     - name: Create data directory
       file:
@@ -544,18 +576,26 @@ Write `multi-play.yml` with separate plays for each server group:
         state: directory
         mode: '0700'
 ```
-> **Note:** The original task uses mysql, but on Amazon Linux 2023 the mysql package may not be available. mariadb1011-client-utils provides MySQL-compatible client utilities and was used successfully in this lab.
+> **Note:** The original task uses `mysql`, but on Amazon Linux 2023 the `mysql` package may not be available. `mariadb1011-client-utils` provides MySQL-compatible client utilities and was used successfully in this lab.
 
-### Run the Playbook
+### 1. Syntax Check
+
+Validate the playbook before running it:
+
+```bash
+ansible-playbook multi-play.yml --syntax-check
+```
+
+### 2. Run the Playbook
 
 ```bash
 ansible-playbook multi-play.yml
 ```
-> **What this verifies:** Each play runs only against its corresponding inventory group — `web`, `app`, or `db`.
-
 ![Task 6.1](./images/17-task-6.1-ansible-multi-play-success.png) 
 
-### Verify Each Server Group
+> **What this verifies:** Each play runs only against its corresponding inventory group — `web`, `app`, or `db`.
+
+### 3. Verify Each Server Group
 
 Check that Nginx is installed on the web server:
 
@@ -579,9 +619,9 @@ ansible db -b -m shell -a "ls -ld /var/lib/appdata"
 ```
 ![Task 6.2](./images/18-task-6.2-ansible-multi-node-command-check.png)
 
-Watch the output -- each play targets a different group, and tasks run only on the relevant hosts.
+> **What this verifies:** Each play targets a different server group, and tasks run only on the relevant hosts.
 
-**Verify:** Is Nginx only installed on web servers? Is MySQL only on db servers?
+**Verify:** Is Nginx only installed on web servers? Is the MySQL-compatible client only installed on db servers?
 
 - **Web server:** Nginx is installed and running.
 - **App server:** `gcc` and `make` are installed and `/opt/app` exists.
@@ -591,31 +631,30 @@ Watch the output -- each play targets a different group, and tasks run only on t
 
 ---
 
-- first playbook with annotations explaining each section
+## First playbook with annotations explaining each section
 
-```bash
----                                                                # YAML document start
-- name: Install and start Nginx on web servers                     # PLAY name
-  hosts: web                                                       # Target Inventory Group: Executes on all hosts in the 'web' group
-  become: true                                                     # Privilege Escalation: Executes tasks as root using sudo
+```yaml
+---
+- name: Install and start Nginx on web servers                 # PLAY name
+  hosts: web                                                    # Target inventory group: Executes on hosts in the 'web' group
+  become: true                                                  # Privilege escalation: Executes tasks with elevated privileges
+  tasks:                                                       # List of tasks
 
-  tasks:                                                           # list of Tasks
+    - name: Install Nginx                                       # Task 1: Ensure Nginx is installed
+      yum:                                                      # Module: yum
+        name: nginx                                             # Package to install
+        state: present                                           # Desired state: Package must be installed (idempotent)
 
-    - name: Install Nginx                                          # Task 1: Ensure Nginx is installed
-      yum:                                                         # Module: yum 
-        name: nginx                                                # Name of the package to install
-        state: present                                             # Desired State: Package must be installed (idempotent)
+    - name: Start and Enable Nginx                             # Task 2: Ensure Nginx is running and enabled on boot
+      service:                                                  # Module: service (manages system services)
+        name: nginx                                             # Service to manage
+        state: started                                           # Desired state: Service must be running
+        enabled: true                                            # Boot behavior: Service starts automatically on boot
 
-    - name: Start and Enable Nginx                                 # Task 2: Ensure Nginx service is running and enabled on boot
-      service:                                                     # Module: service (manages system services)
-        name: nginx                                                # Service to manage
-        state: started                                             # Desired State: Service must be running
-        enabled: true                                              # Boot Behavior: Service enabled to start on system boot
-
-    - name: Create a custom index page                             # Task 3: Create a custom HTML page
-      copy:                                                        # Module: copy (copies files or content to remote hosts)
-        content: "<h1>Deploy by Ansible - TerraWeek Server</h1>"   # Inline content for index.html
-        dest: /usr/share/nginx/html/index.html                     # Destination path on remote host(web)th
+    - name: Create a custom index page                         # Task 3: Create a custom HTML page
+      copy:                                                     # Module: copy (copies files or content to remote hosts)
+        content: "<h1>Deployed by Ansible - TerraWeek Server</h1>" # Inline content for index.html
+        dest: /usr/share/nginx/html/index.html                  # Destination path on the remote web server
 ```
 ---
 
