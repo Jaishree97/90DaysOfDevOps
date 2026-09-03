@@ -1,0 +1,48 @@
+---
+# tasks file for roles/webserver
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Deploy Nginx main configuration
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Nginx
+
+- name: Deploy vhost configuration
+  ansible.builtin.template:
+    src: vhost.conf.j2
+    dest: "/etc/nginx/conf.d/{{ app_name }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Nginx
+
+- name: Create web root
+  ansible.builtin.file:
+    path: "/var/www/{{ app_name }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: Deploy index page
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "/var/www/{{ app_name }}/index.html"
+    owner: www-data
+    group: www-data
+    mode: "0644"
+
+- name: Start and enable Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true

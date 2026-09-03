@@ -1,0 +1,9 @@
+---
+- name: Configure database
+  hosts: db
+  become: true
+
+  tasks:
+    - name: Show DB password status
+      ansible.builtin.debug:
+        msg: "DB password is set: {{ vault_db_password | length > 0 }}"
