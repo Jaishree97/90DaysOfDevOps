@@ -1,0 +1,7 @@
+---
+- name: Test Nginx role
+  hosts: web
+  become: true
+
+  roles:
+    - nginx

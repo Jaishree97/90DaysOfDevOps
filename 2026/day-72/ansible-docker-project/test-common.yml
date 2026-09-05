@@ -1,0 +1,7 @@
+---
+- name: Test common role
+  hosts: all_servers
+  become: true
+
+  roles:
+    - common

@@ -1,0 +1,13 @@
+---
+# handlers file for roles/nginx
+- name: Reload Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+  when: not ansible_check_mode
+
+- name: Restart Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+  when: not ansible_check_mode

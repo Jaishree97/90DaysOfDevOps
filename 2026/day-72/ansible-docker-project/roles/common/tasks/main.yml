@@ -1,0 +1,30 @@
+---
+# tasks file for roles/common
+- name: Update package cache
+  ansible.builtin.dnf:
+    update_cache: true
+  tags: common
+
+- name: Install common packages
+  ansible.builtin.dnf:
+    name: "{{ common_packages }}"
+    state: present
+  tags: common
+
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+  tags: common
+
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ timezone }}"
+  tags: common
+
+- name: Create deploy user
+  ansible.builtin.user:
+    name: deploy
+    groups: wheel
+    shell: /bin/bash
+    state: present
+  tags: common

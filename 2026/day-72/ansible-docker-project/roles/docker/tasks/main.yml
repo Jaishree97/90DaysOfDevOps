@@ -1,0 +1,105 @@
+---
+# 1. Install Docker dependencies
+- name: Install Docker dependencies
+  ansible.builtin.dnf:
+    name:
+      - dnf-plugins-core
+      - device-mapper-persistent-data
+      - lvm2
+      - python3-docker
+    state: present
+  tags:
+    - docker
+
+# 2. Install Docker
+- name: Install Docker
+  ansible.builtin.dnf:
+    name: docker
+    state: present
+  notify:
+    - Restart Docker
+  tags:
+    - docker
+
+# 3. Start and enable Docker
+- name: Start and enable Docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  when: not ansible_check_mode
+  tags:
+    - docker
+
+# 4. Add deploy user to docker group
+- name: Add deploy user to docker group
+  ansible.builtin.user:
+    name: deploy
+    groups: docker
+    append: true
+  when: not ansible_check_mode
+  tags:
+    - docker
+
+# 5. Install Docker Compose
+- name: Download Docker Compose
+  ansible.builtin.get_url:
+    url: https://github.com/docker/compose/releases/download/v5.1.2/docker-compose-linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: "0755"
+  tags:
+    - docker
+
+# 6. Log in to Docker Hub
+- name: Log in to Docker Hub
+  community.docker.docker_login:
+    username: "{{ vault_docker_username }}"
+    password: "{{ vault_docker_password }}"
+  become_user: deploy
+  when: vault_docker_username is defined
+  tags:
+    - docker
+
+# 7. Pull application image
+- name: Pull application image
+  community.docker.docker_image:
+    name: "{{ docker_app_image }}"
+    tag: "{{ docker_app_tag }}"
+    source: pull
+  tags:
+    - docker
+
+# 8. Remove previous application container when switching apps
+- name: Remove previous application container
+  community.docker.docker_container:
+    name: myapp
+    state: absent
+  when: docker_app_name != 'myapp'
+  tags:
+    - docker
+
+
+# 9. Run application container
+- name: Run application container
+  community.docker.docker_container:
+    name: "{{ docker_app_name }}"
+    image: "{{ docker_app_image }}:{{ docker_app_tag }}"
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ docker_app_port }}:{{ docker_container_port }}"
+  tags:
+    - docker
+
+# 10. Wait for container to be healthy
+- name: Wait for container to be healthy
+  ansible.builtin.uri:
+    url: "http://localhost:{{ docker_app_port }}"
+    status_code: 200
+  retries: 5
+  delay: 3
+  register: health_check
+  until: health_check.status == 200
+  when: not ansible_check_mode
+  tags:
+    - docker

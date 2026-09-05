@@ -1,0 +1,18 @@
+---
+timezone: Asia/Kolkata
+project_name: devops-app
+app_env: development
+
+common_packages:
+  - vim
+  #- curl
+  - wget
+  - git
+  - htop
+  - tree
+  - jq
+  - unzip
+
+docker_app_image: httpd
+docker_app_tag: latest
+docker_app_name: apache-app
