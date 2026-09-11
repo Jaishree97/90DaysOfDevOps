@@ -545,3 +545,11 @@ For browser-based validation, I configured the required inbound ports in the EC2
 - `22` — SSH
 
 ![Security Group](./images/security-groups.png)
+
+---
+
+## Architecture Overview
+
+The final architecture shows how all 8 services work together across the metrics, logs, and traces pipelines.
+
+![Architecture diagram](./images/architecture-diagram.png)
