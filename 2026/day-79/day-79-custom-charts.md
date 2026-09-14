@@ -851,7 +851,7 @@ Test the AI Assistant from the dashboard to confirm that BankApp can communicate
 
 **Compare: 12 raw YAML files vs 1 Helm command.** Same result, but now configurable, versionable, and easier to upgrade and manage.
 
-The application now has a reusable Helm-based deployment with configurable values, conditional components, versioned releases, upgrades, application testing, and clean removal.
+- The application now has a reusable Helm-based deployment with configurable values, conditional components, versioned releases, upgrades, application testing, and clean removal.
 
 **Step 10 - Clean up the Helm release**
 
@@ -866,3 +866,280 @@ The Helm release is removed from the `bankapp` namespace.
 > **The original Kubernetes manifests were converted into a reusable Helm chart and validated through linting, rendering, value overrides, dry runs, deployment, upgrade, application testing, and cleanup.**
 
 ---
+
+## Key Concepts and Comparisons
+
+### Raw Kubernetes Manifests vs Helm Templates
+
+The original AI-BankApp used multiple static Kubernetes YAML files with hardcoded names, namespaces, ports, images, replicas, and configuration.
+
+Helm converts these static manifests into reusable templates that can be configured through `values.yaml`.
+
+| Raw Kubernetes | Helm |
+|---|---|
+| Hardcoded resource names | `{{ include "bankapp.fullname" . }}` |
+| Hardcoded namespace | `{{ .Release.Namespace }}` |
+| Fixed configuration | `{{ .Values.* }}` |
+| Fixed components | Conditional `{{ if }}` |
+| Manual Base64 encoding | `{{ b64enc }}` |
+| Separate YAML management | One reusable Helm chart |
+| Manual changes per environment | `--set` / values files |
+| `kubectl apply` workflow | Helm install / upgrade / uninstall |
+
+### Example: Service
+
+**Raw Kubernetes Manifest**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: bankapp
+spec:
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service
+  namespace: bankapp
+spec:
+  selector:
+    app: ollama
+  ports:
+    - port: 11434
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bankapp-service
+  namespace: bankapp
+spec:
+  type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
+  selector:
+    app: bankapp
+  ports:
+    - port: 8080
+      targetPort: 8080
+```
+- Defines **fixed Services** for:
+  - `mysql-service` — port `3306`
+  - `ollama-service` — port `11434`
+  - `bankapp-service` — port `8080`
+
+- Everything is **hardcoded**:
+  - Names
+  - Namespace (`bankapp`)
+  - Selectors (`app: mysql`, `app: ollama`, `app: bankapp`)
+
+> **Key difference:** The Kubernetes manifest is `fixed`, while the Helm template generates the same resource dynamically from the release and `values.yaml`.
+
+---
+
+**Helm Template**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bankapp.fullname" . }}-mysql
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: {{ include "bankapp.fullname" . }}-mysql
+  ports:
+    - port: 3306
+---
+{{- if .Values.ollama.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bankapp.fullname" . }}-ollama
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: {{ include "bankapp.fullname" . }}-ollama
+  ports:
+    - port: 11434
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bankapp.fullname" . }}-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.bankapp.service.type }}
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
+  selector:
+    app: {{ include "bankapp.fullname" . }}
+  ports:
+    - port: {{ .Values.bankapp.service.port }}
+      targetPort: 8080
+```
+Defines the **same Services**, but in a **parameterized and reusable** way.
+
+- Uses Helm placeholders such as:
+  - `{{ .Release.Namespace }}`
+  - `{{ include "bankapp.fullname" . }}`
+  - `{{ .Values.* }}`
+- Ollama is conditionally created using `{{ if .Values.ollama.enabled }}`.
+- Service configuration can be changed through `values.yaml`.
+  - Service type (`ClusterIP`, etc.)
+  - Port numbers
+  - Naming conventions
+
+---
+
+### Helm Values Used in AI-BankApp
+
+`values.yaml` centralizes the configuration used by the chart:
+
+```yaml
+# BankApp configuration
+bankapp: # Root key for application settings
+  replicaCount: 4  # Number of application pods
+  image:
+    repository: trainwithshubham/ai-bankapp-eks  # Docker image repository
+    tag: "latest"  # Image tag/version
+    pullPolicy: Always  # Always pull image on deploy
+  resources:
+    requests:
+      memory: "256Mi"  # Minimum memory required
+      cpu: "250m"      # Minimum CPU required
+    limits:
+      memory: "512Mi"  # Maximum memory allowed
+      cpu: "500m"      # Maximum CPU allowed
+  service:
+    type: ClusterIP  # Internal Kubernetes service
+    port: 8080       # Service port
+  autoscaling:
+    enabled: true  # Enable Horizontal Pod Autoscaler
+    minReplicas: 2  # Minimum number of pods
+    maxReplicas: 4  # Maximum number of pods
+    targetCPUUtilization: 70  # CPU % threshold for scaling
+
+# MySQL configuration
+mysql:
+  enabled: true  # Deploy MySQL or not
+  image:
+    repository: mysql  # MySQL image
+    tag: "8.0"         # MySQL version
+  resources:
+    requests:
+      memory: "256Mi"  # Minimum memory
+      cpu: "250m"      # Minimum CPU
+    limits:
+      memory: "512Mi"  # Maximum memory
+      cpu: "500m"      # Maximum CPU
+  persistence:
+    size: 5Gi  # Persistent volume size
+    storageClass: gp3  # Storage class name
+
+# Ollama AI configuration
+ollama:
+  enabled: true  # Enable Ollama deployment
+  image:
+    repository: ollama/ollama  # Ollama image
+    tag: "latest"  # Image version
+  model: tinyllama  # Ollama model used by the application
+  resources:
+    requests:
+      memory: "2Gi"  # Minimum memory
+      cpu: "900m"  # Minimum CPU
+    limits:
+      memory: "2.5Gi"  # Maximum memory
+      cpu: "1500m"  # Maximum CPU
+  persistence:
+    size: 10Gi  # Storage for models/data
+    storageClass: gp3  # Storage class
+  autoPullModel: false  # Disable automatic model download
+  requireModel: false  # Use Ollama HTTP health check
+
+# Shared configuration
+config:
+  mysqlDatabase: bankappdb  # Database name used by app
+  ollamaUrl: ""  # Auto-generated from service name if empty
+
+# Secrets
+secrets:
+  mysqlRootPassword: Test@123  # Root password
+  mysqlUser: root  # Application DB user
+  mysqlPassword: Test@123  # Application DB password
+  
+# StorageClass configuration
+storageClass:
+  create: true  # Whether to create storage class
+  name: gp3  # Storage class name
+  provisioner: ebs.csi.aws.com  # AWS EBS CSI provisioner
+
+# Gateway (optional -- for EKS with Envoy Gateway)
+gateway:
+  enabled: false  # Enable ingress/gateway
+  hostname: ""  # DNS hostname (e.g bankapp.example.com)
+  tls:
+    enabled: false  # Enable/Disable HTTPS/TLS
+```
+> **Why:** Centralizing configuration makes the chart reusable across environments without changing the Kubernetes templates.
+
+---
+
+### Go Template Syntax Used
+
+| Syntax | Purpose | Example |
+|---|---|---|
+| `.Values` | Reads values from `values.yaml` | `{{ .Values.ollama.model }}` |
+| `if` | Conditionally renders resources | `{{ if .Values.ollama.enabled }}` |
+| `with` | Works with a specific object | `{{ with .Values.bankapp.resources }}` |
+| `include` | Reuses named helper templates | `{{ include "bankapp.fullname" . }}` |
+| `toYaml` | Converts structured values to YAML | `{{ toYaml .Values.bankapp.resources }}` |
+| `nindent` | Adds indentation to rendered YAML | `{{ toYaml .Values.bankapp.resources \| nindent 10 }}` |
+| `b64enc` | Base64-encodes Secret values | `{{ .Values.secrets.mysqlPassword \| b64enc }}` |
+| `default` | Provides a fallback value | `{{ default "value" .Values.config.ollamaUrl }}` |
+
+> These functions were used throughout the chart to replace hardcoded configuration with reusable Helm logic.
+
+---
+
+### Conditional Components
+
+Ollama was made optional using:
+
+```yaml
+{{- if .Values.ollama.enabled }}
+```
+With the default configuration:
+
+```yaml
+ollama:
+  enabled: true
+```
+the chart renders the Ollama Deployment, Service, and PVC.
+
+Disable it with:
+
+```bash
+helm template my-bankapp bankapp/ \
+  --set ollama.enabled=false
+```
+
+The conditional blocks prevent Ollama-related resources from being rendered, including:
+
+- Ollama Deployment
+- Ollama Service
+- Ollama PVC
+- BankApp `wait-for-ollama` init container
+- `OLLAMA_URL` configuration
+
+> **Key takeaway:** One Helm value can control an entire optional component without modifying the templates.
