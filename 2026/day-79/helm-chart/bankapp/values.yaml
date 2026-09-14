@@ -1,0 +1,87 @@
+# BankApp configuration
+bankapp: # Root key for application settings
+  replicaCount: 4  # Number of application pods
+  image:
+    repository: trainwithshubham/ai-bankapp-eks  # Docker image repository
+    tag: "latest"  # Image tag/version
+    pullPolicy: Always  # Always pull image on deploy
+  resources:
+    requests:
+      memory: "256Mi"  # Minimum memory required
+      cpu: "250m"      # Minimum CPU required
+    limits:
+      memory: "512Mi"  # Maximum memory allowed
+      cpu: "500m"      # Maximum CPU allowed
+  service:
+    type: ClusterIP  # Internal Kubernetes service
+    port: 8080       # Service port
+  autoscaling:
+    enabled: true  # Enable Horizontal Pod Autoscaler
+    minReplicas: 2  # Minimum number of pods
+    maxReplicas: 4  # Maximum number of pods
+    targetCPUUtilization: 70  # CPU % threshold for scaling
+
+
+
+# MySQL configuration
+mysql:
+  enabled: true  # Deploy MySQL or not
+  image:
+    repository: mysql  # MySQL image
+    tag: "8.0"         # MySQL version
+  resources:
+    requests:
+      memory: "256Mi"  # Minimum memory
+      cpu: "250m"      # Minimum CPU
+    limits:
+      memory: "512Mi"  # Maximum memory
+      cpu: "500m"      # Maximum CPU
+  persistence:
+    size: 5Gi  # Persistent volume size
+    storageClass: gp3  # Storage class name
+
+
+
+# Ollama AI configuration
+ollama:
+  enabled: true  # Enable Ollama deployment
+  autoPullModel: false
+  requireModel: false
+  image:
+    repository: ollama/ollama  # Ollama image
+    tag: "latest"  # Image version
+  model: tinyllama  # Model to load at startup
+  resources:
+    requests:
+      memory: "2Gi"  # Minimum memory
+      cpu: "900m"    # Minimum CPU 
+    limits:
+      memory: "2.5Gi"  # Maximum memory
+      cpu: "1500m"     # Maximum CPU
+  persistence:
+    size: 10Gi  # Storage for models/data
+    storageClass: gp3  # Storage class
+
+# Shared configuration
+config:
+  mysqlDatabase: bankappdb  # Database name used by app
+  ollamaUrl: ""  # Auto-generated from service name if empty
+
+# Secrets
+secrets:
+  mysqlRootPassword: Test@123  # Root password
+  mysqlUser: root  # Application DB user
+  mysqlPassword: Test@123  # Application DB password
+  
+# StorageClass configuration
+storageClass:
+  create: true  # Whether to create storage class
+  name: gp3  # Storage class name
+  provisioner: ebs.csi.aws.com  # AWS EBS CSI provisioner
+
+# Gateway (optional -- for EKS with Envoy Gateway)
+gateway:
+  enabled: false  # Enable ingress/gateway
+  hostname: ""  # DNS hostname (e.g bankapp.example.com)
+  tls:
+    enabled: false  # Enable/Disable HTTPS/TLS

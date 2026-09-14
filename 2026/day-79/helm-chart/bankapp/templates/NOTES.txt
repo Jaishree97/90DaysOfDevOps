@@ -1,0 +1,41 @@
+1. Get the application URL by running these commands:
+
+{{- if contains "NodePort" .Values.bankapp.service.type }}
+
+export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} \
+  -o jsonpath="{.spec.ports[0].nodePort}" \
+  services {{ include "bankapp.fullname" . }}-service)
+
+export NODE_IP=$(kubectl get nodes \
+  -o jsonpath="{.items[0].status.addresses[0].address}")
+
+echo http://$NODE_IP:$NODE_PORT
+
+{{- else if contains "LoadBalancer" .Values.bankapp.service.type }}
+
+NOTE: It may take a few minutes for the LoadBalancer IP to become available.
+
+kubectl get svc -n {{ .Release.Namespace }} -w {{ include "bankapp.fullname" . }}-service
+
+export SERVICE_IP=$(kubectl get svc \
+  --namespace {{ .Release.Namespace }} \
+  {{ include "bankapp.fullname" . }}-service \
+  -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+
+echo http://$SERVICE_IP:{{ .Values.bankapp.service.port }}
+
+{{- else }}
+
+export POD_NAME=$(kubectl get pods \
+  --namespace {{ .Release.Namespace }} \
+  -l "app={{ include "bankapp.fullname" . }}" \
+  -o jsonpath="{.items[0].metadata.name}")
+
+export CONTAINER_PORT=8080
+
+echo "Visit http://127.0.0.1:8080 to use your application"
+
+kubectl --namespace {{ .Release.Namespace }} \
+  port-forward svc/{{ include "bankapp.fullname" . }}-service 8080:{{ .Values.bankapp.service.port }}
+
+{{- end }}
