@@ -1,0 +1,44 @@
+apiVersion: v1
+entries:
+  bankapp:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2026-09-15T11:32:18.911263901Z"
+    description: AI-BankApp -- Spring Boot banking application with MySQL and Ollama
+      AI chatbot
+    digest: 344e6b6ad354cc338b4a2245fa3cc13038d5affedb0b2ccf661af4ce156360e1
+    keywords:
+    - bankapp
+    - spring-boot
+    - mysql
+    - ollama
+    - ai
+    maintainers:
+    - name: TrainWithShubham
+      url: https://github.com/TrainWithShubham
+    name: bankapp
+    type: application
+    urls:
+    - https://jaishree97.github.io/helm-charts/bankapp-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-09-15T11:32:18.910219062Z"
+    description: AI-BankApp -- Spring Boot banking application with MySQL and Ollama
+      AI chatbot
+    digest: 38d3043d64f200afc41d6f6b87a4a8d0d0488bd122790690c3c9f9ff8bff964a
+    keywords:
+    - bankapp
+    - spring-boot
+    - mysql
+    - ollama
+    - ai
+    maintainers:
+    - name: TrainWithShubham
+      url: https://github.com/TrainWithShubham
+    name: bankapp
+    type: application
+    urls:
+    - https://jaishree97.github.io/helm-charts/bankapp-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-09-15T11:32:18.908439662Z"
