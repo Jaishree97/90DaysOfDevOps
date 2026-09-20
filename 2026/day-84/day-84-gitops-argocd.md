@@ -58,6 +58,7 @@ ArgoCD was installed by Terraform on Day 81 (via `terraform/argocd.tf`). Verify 
 ```bash
 kubectl get pods -n argocd
 ```
+![Task 2.1](./images/01-task-2.1-argocd-services.png) 
 
 You should see pods for: `argocd-server`, `argocd-repo-server`, `argocd-application-controller`, `argocd-applicationset-controller`, `argocd-redis`, and `argocd-dex-server`.
 
@@ -66,6 +67,7 @@ You should see pods for: `argocd-server`, `argocd-repo-server`, `argocd-applicat
 kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d && echo
 ```
+![Task 2.2](./images/02-task-2.2-argocd-url.png) 
 
 **Access the ArgoCD UI:**
 
@@ -75,6 +77,7 @@ export ARGOCD_URL=$(kubectl get svc argocd-server -n argocd \
   -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 echo "ArgoCD URL: http://$ARGOCD_URL"
 ```
+![Task 2.3](./images/03-task-2.3-argocd-dashboard.png) 
 
 Option B -- via port-forward:
 ```bash
@@ -98,6 +101,7 @@ sudo mv argocd /usr/local/bin/
 # Verify
 argocd version --client
 ```
+![Task 2.4](./images/04-task-2.4-argocd-version.png)
 
 Log in via CLI:
 ```bash
@@ -105,11 +109,21 @@ argocd login $ARGOCD_URL --username admin --password <your-password> --insecure
 # or for port-forward:
 argocd login localhost:8443 --username admin --password <your-password> --insecure
 ```
+![Task 2.5](./images/05-task-2.5-argocd-login.png)
 
 **Explore the ArgoCD UI:**
+
 - **Applications** -- shows all managed applications (empty for now)
+
+![Task 2.6](./images/argocd-apps-empty.png) 
+
 - **Settings > Repositories** -- Git repos ArgoCD can access
+
+![Task 2.7](./images/argocd-clusters.png) 
+
 - **Settings > Clusters** -- Kubernetes clusters ArgoCD manages (your EKS cluster is the default `in-cluster`)
+ 
+![Task 2.8](./images/argocd-repositories.png)
 
 ---
 
