@@ -202,7 +202,7 @@ echo "ArgoCD URL: http://$ARGOCD_URL"
 
 Open the displayed URL in a browser and log in using:
 - Username: admin
-- Password: <password retrieved above>
+- Password: `<password retrieved above>`
 
 **Install the ArgoCD CLI:**
 
@@ -338,7 +338,7 @@ The `feat/gitops` branch in your GitHub fork should now contain the updated Kube
 
 ## Task 3: Study the AI-BankApp's ArgoCD Application Manifest
 
-Open `argocd/application.yml` from the AI-BankApp repo:
+Open `argocd/application.yml` to study the ArgoCD Application configuration:
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
