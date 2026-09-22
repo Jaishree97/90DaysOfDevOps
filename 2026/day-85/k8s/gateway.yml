@@ -1,0 +1,118 @@
+# Requires: Gateway API CRDs + Envoy Gateway installed on the cluster
+# On EKS, Envoy Gateway creates an AWS NLB for external access.
+# Install steps: terraform/README.md
+#
+# NOTE: HTTPS + cert-manager configuration is commented out.
+# Current lab uses HTTP only, so cert-manager is NOT required.
+# Uncomment HTTPS section later if TLS/Let's Encrypt is needed.
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy-gateway
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: bankapp-gateway
+  namespace: bankapp
+
+  # Optional: enable cert-manager for HTTPS/TLS
+  # annotations:
+  #   cert-manager.io/cluster-issuer: letsencrypt-prod
+
+spec:
+  gatewayClassName: envoy-gateway
+
+  listeners:
+
+    # Active HTTP listener
+    - name: http
+      protocol: HTTP
+      port: 80
+      # hostname: 54.148.150.139.nip.io
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    # Optional HTTPS listener — currently disabled
+    # Requires cert-manager + TLS Secret (bankapp-tls)
+    # - name: https
+    #   protocol: HTTPS
+    #   port: 443
+    #   # hostname: 54.148.150.139.nip.io
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - group: ""
+    #         kind: Secret
+    #         name: bankapp-tls
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Same
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bankapp-route
+  namespace: bankapp
+
+spec:
+  # Optional hostname
+  # hostnames:
+  #   - 54.148.150.139.nip.io
+
+  parentRefs:
+
+    # HTTPS parent — currently disabled
+    # - group: gateway.networking.k8s.io
+    #   kind: Gateway
+    #   name: bankapp-gateway
+    #   sectionName: https
+
+    # Active HTTP parent
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: bankapp-gateway
+      sectionName: http
+
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: bankapp-service
+          port: 8080
+          weight: 1
+
+---
+# Session persistence: cookie-based load balancing keeps
+# a browser pinned to the same BankApp pod.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: bankapp-session
+  namespace: bankapp
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: bankapp-route
+  loadBalancer:
+    type: ConsistentHash
+    consistentHash:
+      type: Cookie
+      cookie:
+        name: BANKAPP_AFFINITY
+        ttl: 3600s
+
+  timeout:
+    http:
+      requestTimeout: 120s
